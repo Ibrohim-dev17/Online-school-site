@@ -4,137 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Course</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins', sans-serif;
         }
 
-        body {
-            background: #0f172a;
-            color: white;
+        body{
+            background:#0f172a;
+            color:white;
+            text-align:center;
         }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px 50px;
-            background: rgba(255,255,255,0.05);
+        header{
+            padding:20px;
+            background:rgba(255,255,255,0.05);
         }
 
-        header h1 {
-            color: #38bdf8;
+        header h1{
+            color:#38bdf8;
         }
 
-        nav a {
-            margin-left: 20px;
-            text-decoration: none;
-            color: white;
-            transition: 0.3s;
+        .hero{
+            padding:80px 20px 40px;
         }
 
-        nav a:hover {
-            color: #38bdf8;
+        .hero h2{
+            font-size:42px;
+            margin-bottom:15px;
         }
 
-        .hero {
-            height: 90vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex-direction: column;
+        .hero p{
+            opacity:0.8;
+            margin-bottom:25px;
         }
 
-        .hero h2 {
-            font-size: 48px;
-            margin-bottom: 20px;
+        .btn{
+            display:inline-block;
+            padding:15px 35px;
+            background:#38bdf8;
+            color:black;
+            font-weight:600;
+            border-radius:10px;
+            text-decoration:none;
+            transition:0.3s;
         }
 
-        .hero p {
-            max-width: 600px;
-            margin-bottom: 30px;
-            opacity: 0.8;
+        .btn:hover{
+            background:#0ea5e9;
         }
 
-        .btn {
-            padding: 15px 30px;
-            background: #38bdf8;
-            color: black;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
+        /* BO‘LIMLAR */
+        .sections{
+            margin-top:50px;
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+            gap:20px;
+            padding:0 30px 60px;
         }
 
-        .btn:hover {
-            background: #0ea5e9;
+        .card{
+            background:rgba(255,255,255,0.05);
+            padding:25px;
+            border-radius:15px;
+            transition:0.3s;
         }
 
-        .sections {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 50px;
+        .card:hover{
+            transform:translateY(-8px);
+            background:rgba(56,189,248,0.15);
         }
 
-        .card {
-            background: rgba(255,255,255,0.05);
-            padding: 30px;
-            border-radius: 15px;
-            transition: 0.3s;
+        .card a{
+            display:block;
+            margin-top:10px;
+            color:#38bdf8;
+            text-decoration:none;
+            font-weight:500;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(56,189,248,0.1);
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            opacity: 0.6;
+        footer{
+            padding:20px;
+            opacity:0.6;
         }
     </style>
 </head>
+
 <body>
 
 <header>
-    <h1>EnglishCourse</h1>
-    <nav>
-    <a href="index.html">Home</a>
-    <a href="lessons.html">Lessons</a>
-    <a href="grammar.html">Grammar</a>
-    <a href="speaking.html">Speaking</a>
-    </nav>
+    <h1>EnglishCourse 🚀</h1>
 </header>
 
+<!-- HERO -->
 <section class="hero">
-    <h2>Learn English Easily 🚀</h2>
-    <p>Grammatika, speaking va testlar orqali ingliz tilini tez va oson o‘rganing.</p>
-    <a href="#" class="btn">Boshlash</a>
+    <h2>Ingliz tilini oson o‘rganing</h2>
+    <p>Grammar, Speaking, Vocabulary va Testlar orqali tez o‘rganing</p>
+
+    <!-- BOSHLASH -->
+    <a href="lessons.html" class="btn">Boshlash</a>
 </section>
 
+<!-- BO‘LIMLAR -->
 <section class="sections">
+
     <div class="card">
         <h3>📖 Lessons</h3>
-        <p>Turli darajadagi darsliklar</p>
+        <p>Darsliklar bo‘limi</p>
+        <a href="lessons.html">Kirish</a>
     </div>
+
     <div class="card">
         <h3>🧠 Grammar</h3>
-        <p>To‘liq grammatika tushuntirishlar</p>
+        <p>Grammatika qoidalari</p>
+        <a href="grammar.html">Kirish</a>
     </div>
+
     <div class="card">
         <h3>🗣 Speaking</h3>
-        <p>Amaliy gapirish mashqlari</p>
+        <p>Gapirish mashqlari</p>
+        <a href="speaking.html">Kirish</a>
     </div>
+
     <div class="card">
         <h3>📝 Tests</h3>
-        <p>Bilimingizni sinab ko‘ring</p>
+        <p>Bilimni tekshirish</p>
+        <a href="#">Kirish</a>
     </div>
+
 </section>
 
 <footer>
