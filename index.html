@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Course</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: white;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 50px;
+            background: rgba(255,255,255,0.05);
+        }
+
+        header h1 {
+            color: #38bdf8;
+        }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .hero {
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: #38bdf8;
+            color: black;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #0ea5e9;
+        }
+
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 50px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.05);
+            padding: 30px;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(56,189,248,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>EnglishCourse</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Lessons</a>
+        <a href="#">Grammar</a>
+        <a href="#">Speaking</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h2>Learn English Easily 🚀</h2>
+    <p>Grammatika, speaking va testlar orqali ingliz tilini tez va oson o‘rganing.</p>
+    <a href="#" class="btn">Boshlash</a>
+</section>
+
+<section class="sections">
+    <div class="card">
+        <h3>📖 Lessons</h3>
+        <p>Turli darajadagi darsliklar</p>
+    </div>
+    <div class="card">
+        <h3>🧠 Grammar</h3>
+        <p>To‘liq grammatika tushuntirishlar</p>
+    </div>
+    <div class="card">
+        <h3>🗣 Speaking</h3>
+        <p>Amaliy gapirish mashqlari</p>
+    </div>
+    <div class="card">
+        <h3>📝 Tests</h3>
+        <p>Bilimingizni sinab ko‘ring</p>
+    </div>
+</section>
+
+<footer>
+    © 2026 English Course
+</footer>
+
+</body>
+</html>
