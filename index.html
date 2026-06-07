@@ -3,83 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HypeNet Social Shop</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>Social Stream</title>
     <style>
-        :root { --bg: #0f1621; --card: #17212b; --accent: #2f8cc5; --text: #ffffff; }
-        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; }
+        :root {
+            --bg: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --accent: #ff3e3e; /* Instagram rangidan farqli (qizil emas, balki neon) */
+            --text: #f0f0f0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding-bottom: 80px; 
+        }
+
+        /* Kartochkalar uslubi (Instagramdan farqli) */
+        .feed-container { padding: 20px; }
+        .card { 
+            background: var(--glass); 
+            backdrop-filter: blur(15px);
+            border-radius: 25px; 
+            margin-bottom: 30px; 
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
         
-        /* Sahifalar */
-        .page { display: none; padding: 15px; }
-        .page.active { display: block; }
+        .video-box { height: 400px; background: #1a1a1a; display: flex; align-items: center; justify-content: center; }
+        
+        .card-footer { padding: 15px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn-action { 
+            background: none; border: none; color: white; font-size: 20px; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-action:active { transform: scale(1.3); }
 
-        /* Feed */
-        .video-card { background: var(--card); border-radius: 15px; margin-bottom: 20px; padding: 10px; }
-        .video-placeholder { width: 100%; height: 300px; background: #000; border-radius: 10px; }
-
-        /* Pastki menyu */
-        .navbar { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--card); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #2b394a; }
-        .nav-btn { background: none; border: none; color: #798b9b; cursor: pointer; }
-        .nav-btn.active { color: var(--accent); }
-
-        /* Shop va Profil */
-        .profile-header { text-align: center; padding: 20px; }
-        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .product-card { background: var(--card); padding: 10px; border-radius: 10px; }
+        /* Navbar (Futuristik) */
+        .navbar { 
+            position: fixed; bottom: 20px; left: 20px; right: 20px; 
+            background: rgba(20, 20, 20, 0.8); 
+            backdrop-filter: blur(20px);
+            border-radius: 30px; padding: 15px;
+            display: flex; justify-content: space-around;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
 
-<!-- 1. FEED (Instagram kabi) -->
-<div id="feed" class="page active">
-    <div class="video-card">
-        <div class="video-placeholder"></div>
-        <p>Ajoyib kadr! 🔥</p>
-        <button>❤️ Like</button> <button>💬 Comment</button>
+<div class="feed-container">
+    <!-- Post -->
+    <div class="card">
+        <div class="video-box">Video joyi</div>
+        <div class="card-footer">
+            <div>
+                <b style="display:block">username</b>
+                <small style="opacity: 0.6;">Tavsif matni...</small>
+            </div>
+            <div>
+                <button class="btn-action">🤍</button>
+                <button class="btn-action">💬</button>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- 2. SEARCH (Barchani qidirish) -->
-<div id="search" class="page">
-    <input type="text" placeholder="Foydalanuvchilarni qidirish..." style="width:100%; padding:10px; border-radius:10px;">
-    <div id="search-results" style="margin-top:20px;"></div>
-</div>
-
-<!-- 3. POST QO'YISH -->
-<div id="post" class="page">
-    <h3>Yangi post joylash</h3>
-    <input type="file" accept="video/*">
-    <button onclick="alert('Post yuklandi!')">Joylash</button>
-</div>
-
-<!-- 4. PROFILE / SHOP (Har kimning profili va do'koni) -->
-<div id="profile" class="page">
-    <div class="profile-header">
-        <div style="width:80px; height:80px; background:#444; border-radius:50%; margin:0 auto;"></div>
-        <h2>Ism Familiya</h2>
-    </div>
-    <h3>Do'koni:</h3>
-    <div class="shop-grid">
-        <div class="product-card">Rasm</div>
-        <div class="product-card">Rasm</div>
-    </div>
-</div>
-
-<!-- NAVBAR -->
 <div class="navbar">
-    <button class="nav-btn active" onclick="show('feed')">🏠</button>
-    <button class="nav-btn" onclick="show('search')">🔍</button>
-    <button class="nav-btn" onclick="show('post')">➕</button>
-    <button class="nav-btn" onclick="show('profile')">👤</button>
+    <button class="btn-action">🏠</button>
+    <button class="btn-action">🔍</button>
+    <button class="btn-action">➕</button>
+    <button class="btn-action">👤</button>
 </div>
 
-<script>
-    function show(id) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        event.target.classList.add('active');
-    }
-</script>
 </body>
 </html>
