@@ -1,29 +1,58 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>Ingliz tili playlistlari</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f9f9f9; margin:0; padding:20px; }
-    h2 { text-align:center; color:#333; }
-    .playlist { margin:20px auto; max-width:560px; text-align:center; }
-    iframe { width:100%; height:315px; border:none; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h2>Faqat mening ingliz tili playlistlarim 🎓</h2>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto">
+        <h1 class="text-2xl font-bold mb-4 text-center">Kunlik Reja</h1>
+        
+        <div class="flex gap-2 mb-4">
+            <input id="taskInput" type="text" placeholder="Yangi vazifa..." class="flex-1 p-2 border rounded">
+            <button onclick="addTask()" class="bg-blue-500 text-white px-4 py-2 rounded">Qo'shish</button>
+        </div>
 
-  <!-- Playlist 1 -->
-  <div class="playlist">
-    <h3>Study Plan Beginner</h3>
-    <iframe src="https://www.youtube.com/embed/videoseries?list=PLWzNzAbF7DK3kWfSAzvouvuilossZEWyf" allowfullscreen></iframe>
-  </div>
+        <ul id="taskList" class="space-y-2"></ul>
+    </div>
 
-  <!-- Playlist 2 -->
-  <div class="playlist">
-    <h3>Study Plan Advanced</h3>
-    <iframe src="https://www.youtube.com/embed/videoseries?list=PLWzNzAbF7DK1Hl-ZY8dNUhfPbmvup_paH" allowfullscreen></iframe>
-  </div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            tasks.forEach((task, index) => {
+                list.innerHTML += `
+                    <li class="bg-white p-3 rounded shadow flex justify-between">
+                        <span>${task}</span>
+                        <button onclick="deleteTask(${index})" class="text-red-500">O'chirish</button>
+                    </li>`;
+            });
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            if (input.value) {
+                tasks.push(input.value);
+                input.value = '';
+                renderTasks();
+            }
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        renderTasks();
+    </script>
 </body>
 </html>
