@@ -3,158 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRUE MAFIYA - Kirish</title>
+    <title>Stars Trading App</title>
+    <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js grafiklar uchun (yoki TradingView yields ishlatsa bo'ladi) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Space+Grotesk:wght@400;600&display=swap');
-        .mafia-title { font-family: 'Cinzel', serif; }
-        .cyber-font { font-family: 'Space Grotesk', sans-serif; }
-        
-        /* Haqiqiy Kiberpank Atmosfera Foni (Rasmsiz, Sof Neon Atrof-muhit) */
         body {
-            background: radial-gradient(circle at 10% 20%, rgba(20, 0, 0, 0.95) 0%, rgba(0, 0, 0, 1) 90%),
-                        radial-gradient(circle at 90% 80%, rgba(0, 10, 30, 0.7) 0%, rgba(0, 0, 0, 1) 100%);
-            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #131722;
+            color: #ffffff;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
         }
-
-        .neon-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); border-color: #3b82f6; }
-        .neon-red { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); border-color: #dc2626; }
-        .neon-text-red { text-shadow: 0 0 15px rgba(220, 38, 38, 0.8); }
-        
-        /* Inputlar uchun maxsus ramka */
-        .cyber-input {
-            background: rgba(10, 10, 10, 0.8);
-            border: 2px solid #27272a;
-            transition: all 0.3s;
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e222d;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
         }
-        .cyber-input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        .balance {
+            font-size: 18px;
+            font-weight: bold;
+            color: #f1b90c; /* Stars oltin rangi */
         }
-        
-        /* Parol katakchalari */
-        .pin-box {
-            background: rgba(15, 5, 5, 0.85);
-            border: 2px solid #3f3f46;
-            transition: all 0.2s;
+        .price-display {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #00e676;
         }
-        .pin-box:focus {
-            border-color: #dc2626;
-            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
-            transform: scale(1.05);
+        .chart-container {
+            background: #1e222d;
+            border-radius: 10px;
+            padding: 10px;
+            height: 220px;
+            margin-bottom: 20px;
         }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-deposit { background-color: #f1b90c; color: #000; width: 100%; margin-bottom: 15px;}
+        .btn-buy { background-color: #00c853; color: white; }
+        .btn-sell { background-color: #ff3d00; color: white; }
+        button:active { transform: scale(0.98); }
     </style>
 </head>
-<body class="text-white cyber-font min-h-screen flex flex-col justify-between p-4">
+<body>
 
-    <header class="text-center py-6 border-b border-zinc-900/40">
-        <h1 class="text-4xl font-extrabold tracking-widest text-red-600 mafia-title neon-text-red">TRUE MAFIYA</h1>
-        <p class="text-[10px] text-zinc-500 uppercase tracking-widest mt-1">Isyon • Sir • Sukunat</p>
-    </header>
-
-    <main class="flex-1 flex flex-col items-center justify-center gap-4 w-full max-w-sm mx-auto">
-        <button onclick="openModal('createModal')" class="w-full bg-zinc-950/90 text-blue-400 font-bold py-4 rounded-2xl border border-blue-500/30 neon-blue transition duration-300 flex items-center justify-center gap-3 text-base">
-            <span>➕</span> YANGI O'YIN YARATISH
-        </button>
-
-        <button onclick="openModal('joinModal')" class="w-full bg-zinc-950/90 text-red-500 font-bold py-4 rounded-2xl border border-red-500/30 neon-red transition duration-300 flex items-center justify-center gap-3 text-base">
-            <span>🚪</span> O'YINGA QO'SHILISH
-        </button>
-    </main>
-
-    <div id="createModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-zinc-950 border border-blue-500 rounded-3xl w-full max-w-xs p-6 relative neon-blue">
-            <button onclick="closeModal('createModal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
-            <h2 class="text-base font-bold text-blue-400 mb-5 text-center tracking-wide uppercase">Xona yaratish</h2>
-            
-            <div class="space-y-4">
-                <div>
-                    <label class="text-[11px] text-zinc-400 block mb-1 uppercase tracking-wider">Xona Nomi</label>
-                    <input id="roomName" type="text" placeholder="Masalan: Omerta" class="w-full cyber-input p-3 rounded-xl outline-none text-white text-sm font-semibold">
-                </div>
-                
-                <div>
-                    <label class="text-[11px] text-zinc-400 block mb-2 uppercase tracking-wider text-center">4-talik Raqamli Parol</label>
-                    <div class="flex justify-between gap-2" id="pinContainer">
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
-                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
-                    </div>
-                </div>
-                
-                <button onclick="createRoomAction()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition text-xs uppercase tracking-widest mt-2">Tasdiqlash</button>
-            </div>
-        </div>
+    <!-- Header: Balans va Foydalanuvchi -->
+    <div class="header">
+        <span id="username">Foydalanuvchi</span>
+        <span class="balance">⭐ <span id="stars-balance">0</span> Stars</span>
     </div>
 
-    <div id="joinModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
-        <div class="bg-zinc-950 border border-red-600 rounded-3xl w-full max-w-xs p-6 relative neon-red">
-            <button onclick="closeModal('joinModal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
-            <h2 class="text-base font-bold text-red-500 mb-4 text-center tracking-wide uppercase">Ochiq xonalar</h2>
-            
-            <div class="space-y-2 max-h-60 overflow-y-auto">
-                <div onclick="joinRoomAction('Omerta Club')" class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-red-500 transition">
-                    <div>
-                        <div class="font-bold text-sm">Omerta Club 🔒</div>
-                        <div class="text-[10px] text-zinc-500">O'yinchilar: 5/15</div>
-                    </div>
-                    <span class="text-xs text-red-400 font-semibold">Kirish</span>
-                </div>
-            </div>
-        </div>
+    <!-- Depozit tugmasi -->
+    <button class="btn-deposit" onclick="makeDeposit()">➕ Stars Depozit Qilish</button>
+
+    <!-- Aktiv va Joriy Narx -->
+    <div id="asset-name">TON / USDT</div>
+    <div class="price-display" id="current-price">$7.350</div>
+
+    <!-- Grafik -->
+    <div class="chart-container">
+        <canvas id="tradingChart"></canvas>
     </div>
 
-    <footer class="text-center text-[9px] text-zinc-700 py-2">
-        TRUE MAFIYA ENGINE © 2026
-    </footer>
+    <!-- Savdo Tugmalari -->
+    <div class="btn-group">
+        <button class="btn-buy" onclick="openOrder('BUY')">📈 LONG (BUY)</button>
+        <button class="btn-sell" onclick="openOrder('SELL')">📉 SHORT (SELL)</button>
+    </div>
 
     <script>
+        // Telegram Web App-ni ishga tushiramiz
         const tg = window.Telegram.WebApp;
-        tg.expand();
+        tg.expand(); // Oynani to'liq ochish
 
-        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-
-        // Parol kiritilganda avtomatik keyingi katakka o'tish va raqamli klaviatura tekshiruvi
-        const pinInputs = document.querySelectorAll('#pinContainer input');
-        pinInputs.forEach((input, index) => {
-            input.addEventListener('input', (e) => {
-                // Faqat raqam qoldirish
-                input.value = input.value.replace(/[^0-9]/g, '');
-                
-                if (input.value.length === 1 && index < pinInputs.length - 1) {
-                    pinInputs[index + 1].focus();
-                }
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
-                    pinInputs[index - 1].focus();
-                }
-            });
-        });
-
-        function createRoomAction() {
-            const name = document.getElementById('roomName').value || "Yangi Xona";
-            
-            // To'rtta katakchadagi parollarni birlashtirish
-            let finalPass = "";
-            pinInputs.forEach(input => finalPass += input.value);
-            
-            if(finalPass.length < 4) {
-                alert("Iltimos, 4 xonali raqamli parolni to'liq kiriting!");
-                return;
-            }
-            
-            localStorage.setItem('currentRoomName', name);
-            localStorage.setItem('isAdmin', 'true');
-            window.location.href = 'room.html';
+        // Foydalanuvchi nomini o'rnatish
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
         }
 
-        function joinRoomAction(name) {
-            window.location.href = 'room.html';
+        // Demo ma'lumotlar
+        let balance = 500;
+        let currentPrice = 7.35;
+        document.getElementById('stars-balance').innerText = balance;
+
+        // Chart.js grafik sozlamalari
+        const ctx = document.getElementById('tradingChart').getContext('2d');
+        const priceData = [7.31, 7.33, 7.32, 7.36, 7.34, 7.35];
+        const labels = ['', '', '', '', '', ''];
+
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: priceData,
+                    borderColor: '#00e676',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    fill: false,
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { display: false }, y: { grid: { color: '#2a2e39' } } }
+            }
+        });
+
+        // Narxni simulyatsiya qilib o'zgartirib turish (Real vaqtda API bo'ladi)
+        setInterval(() => {
+            let change = (Math.random() - 0.5) * 0.04;
+            currentPrice = (currentPrice + change).toFixed(3);
+            document.getElementById('current-price').innerText = '$' + currentPrice;
+
+            // Grafikni yangilash
+            priceData.push(currentPrice);
+            labels.push('');
+            if(priceData.length > 15) { priceData.shift(); labels.shift(); }
+            
+            // Narx rangini o'zgartirish
+            document.getElementById('current-price').style.color = change >= 0 ? '#00c853' : '#ff3d00';
+            chart.data.datasets[0].borderColor = change >= 0 ? '#00c853' : '#ff3d00';
+            chart.update();
+        }, 2000);
+
+        // Depozit funksiyasi (Telegram Stars Invoice chaqiradi)
+        function makeDeposit() {
+            tg.showPopup({
+                title: 'Depozit',
+                message: 'Backend orqali Telegram Stars hisob-fakturasi yuklanadi.',
+                buttons: [{type: 'ok'}]
+            });
+            // Bu yerda backendga so'rov yuboriladi va tg.openInvoice(url) chaqiriladi
+        }
+
+        // Savdo ochish funksiyasi
+        function openOrder(type) {
+            tg.showPopup({
+                title: 'Savdo ochildi',
+                message: `Siz ${currentPrice} narxida ${type} orderini ochdingiz!`,
+                buttons: [{type: 'close'}]
+            });
         }
     </script>
 </body>
