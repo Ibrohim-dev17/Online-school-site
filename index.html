@@ -3,403 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HypeNet — Premium Dark</title>
+    <title>HypeNet Social Shop</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        :root {
-            --bg-main: #0e1621;
-            --bg-card: #17212b;
-            --bg-input: #24303f;
-            --text-main: #ffffff;
-            --text-hint: #798b9b;
-            --accent-blue: #2f8cc5;
-            --hype-fire: #ff5252;
-            --hype-gold: #ffca28;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-main);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-            padding-bottom: 75px;
-            user-select: none;
-        }
-
-        /* Header */
-        .app-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--bg-card);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .app-logo {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            background: linear-gradient(45deg, var(--hype-fire), var(--hype-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .premium-badge {
-            background: rgba(255, 202, 40, 0.15);
-            color: var(--hype-gold);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid rgba(255, 202, 40, 0.3);
-        }
-
-        /* Pages */
-        .page {
-            display: none;
-            padding: 15px;
-            animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
+        :root { --bg: #0f1621; --card: #17212b; --accent: #2f8cc5; --text: #ffffff; }
+        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 70px; }
+        
+        /* Sahifalar */
+        .page { display: none; padding: 15px; }
         .page.active { display: block; }
 
-        /* Modern Post Card */
-        .post-card {
-            background: var(--bg-card);
-            border-radius: 18px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.03);
-        }
+        /* Feed */
+        .video-card { background: var(--card); border-radius: 15px; margin-bottom: 20px; padding: 10px; }
+        .video-placeholder { width: 100%; height: 300px; background: #000; border-radius: 10px; }
 
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-        }
+        /* Pastki menyu */
+        .navbar { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--card); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #2b394a; }
+        .nav-btn { background: none; border: none; color: #798b9b; cursor: pointer; }
+        .nav-btn.active { color: var(--accent); }
 
-        .author-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .author-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent-blue), #54a9eb);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 2px 8px rgba(47, 140, 197, 0.4);
-        }
-
-        .media-container {
-            position: relative;
-            width: 100%;
-            background: #000;
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .media-container img, .media-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Secret Post Overlay */
-        .secret-blur {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(14, 22, 33, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            box-sizing: border-box;
-        }
-
-        /* Actions Bar */
-        .post-actions {
-            display: flex;
-            gap: 15px;
-            padding: 15px;
-        }
-
-        .action-btn {
-            background: var(--bg-input);
-            border: none;
-            color: var(--text-main);
-            padding: 10px 16px;
-            border-radius: 25px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .action-btn:active { background: rgba(255,255,255,0.1); }
-        .btn-hype-active { background: rgba(255, 82, 82, 0.15); color: var(--hype-fire); }
-
-        .post-caption {
-            padding: 0 15px 15px 15px;
-            font-size: 14px;
-            line-height: 1.5;
-            color: #e4e6eb;
-        }
-
-        /* Modern Inputs (Galereya) */
-        .upload-zone {
-            border: 2px dashed rgba(255,255,255,0.1);
-            background: var(--bg-card);
-            border-radius: 18px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .upload-zone:active { border-color: var(--accent-blue); }
-
-        .preview-box {
-            width: 100%;
-            max-height: 200px;
-            border-radius: 12px;
-            object-fit: cover;
-            margin-top: 15px;
-            display: none;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 14px;
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px;
-            color: white;
-            box-sizing: border-box;
-            font-size: 15px;
-            margin-bottom: 15px;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-        }
-
-        .btn-premium {
-            background: linear-gradient(135deg, var(--accent-blue), #2481cc);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 14px;
-            width: 100%;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(36, 129, 204, 0.3);
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0; left: 0; width: 100%;
-            height: 65px;
-            background: var(--bg-card);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
-            z-index: 100;
-        }
-
-        .nav-item {
-            background: transparent;
-            border: none;
-            color: var(--text-hint);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 60px;
-        }
-
-        .nav-item.active { color: var(--accent-blue); }
-        .nav-item svg { width: 24px; height: 24px; fill: currentColor; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Shop va Profil */
+        .profile-header { text-align: center; padding: 20px; }
+        .shop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .product-card { background: var(--card); padding: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="app-header">
-        <div class="app-logo">HypeNet</div>
-        <div class="premium-badge" id="user-status">⭐ Free Member</div>
+<!-- 1. FEED (Instagram kabi) -->
+<div id="feed" class="page active">
+    <div class="video-card">
+        <div class="video-placeholder"></div>
+        <p>Ajoyib kadr! 🔥</p>
+        <button>❤️ Like</button> <button>💬 Comment</button>
     </div>
+</div>
 
-    <div id="page-feed" class="page active">
-        <div class="post-card">
-            <div class="post-header">
-                <div class="author-info">
-                    <div class="author-avatar">FC</div>
-                    <div><b>Farrux Xon</b></div>
-                </div>
-                <div style="color: var(--hype-gold); font-weight: 600; font-size: 14px;">⚡ 1.2k Hype</div>
-            </div>
-            <div class="media-container">
-                <img src="https://picsum.photos/600/450" alt="Feed Media">
-            </div>
-            <div class="post-actions">
-                <button class="action-btn btn-hype-active" onclick="toggleHype(this)">
-                    <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M12 23a7.5 7.5 0 0 1-7.5-7.5c0-2.3 1-4.2 2.7-5.4l1.3-1V11a4.5 4.5 0 0 0 4.5 4.5h.5V23zm1-20.6c.4.3.7.8.8 1.3C15.2 7.7 17 10 17 13.5a5 5 0 0 1-5 5v-2c1.7 0 3-1.3 3-3 0-2.4-1.2-4.1-2.5-5.5l-1.5-1.5v3.1c0 1.4-1.1 2.5-2.5 2.5H8A2.5 2.5 0 0 1 5.5 10c0-2.7 2-5.4 5-6.3v-.3c0-.4.3-.7.7-.8z"/></svg>
-                    <span>Hype</span>
-                </button>
-                <button class="action-btn" onclick="openChat()">
-                    <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-                    <span>Chat (8)</span>
-                </button>
-            </div>
-            <div class="post-caption">Bugun tog' bag'ridan ajoyib kadr! 🌄</div>
-        </div>
+<!-- 2. SEARCH (Barchani qidirish) -->
+<div id="search" class="page">
+    <input type="text" placeholder="Foydalanuvchilarni qidirish..." style="width:100%; padding:10px; border-radius:10px;">
+    <div id="search-results" style="margin-top:20px;"></div>
+</div>
+
+<!-- 3. POST QO'YISH -->
+<div id="post" class="page">
+    <h3>Yangi post joylash</h3>
+    <input type="file" accept="video/*">
+    <button onclick="alert('Post yuklandi!')">Joylash</button>
+</div>
+
+<!-- 4. PROFILE / SHOP (Har kimning profili va do'koni) -->
+<div id="profile" class="page">
+    <div class="profile-header">
+        <div style="width:80px; height:80px; background:#444; border-radius:50%; margin:0 auto;"></div>
+        <h2>Ism Familiya</h2>
     </div>
-
-    <div id="page-create" class="page">
-        <h3 style="margin-top: 0; margin-bottom: 20px;">Yangi Kontent Yuklash</h3>
-        
-        <div class="upload-zone" onclick="document.getElementById('file-input').click()">
-            <svg style="width: 40px; height: 40px; color: var(--text-hint); margin-bottom: 10px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
-            <p style="margin: 0; font-size: 15px; font-weight: 600;">Galereyadan Video yoki Rasm tanlang</p>
-            <p style="margin: 5px 0 0 0; font-size: 12px; color: var(--text-hint);">Maksimal hajm: 50MB</p>
-            <input type="file" id="file-input" accept="image/*,video/*" style="display: none;" onchange="previewFile(this)">
-            <img id="upload-preview" class="preview-box" alt="Preview">
-        </div>
-
-        <textarea class="input-field" rows="3" placeholder="Post uchun qiziqarli tavsif yozing..."></textarea>
-        
-        <select class="input-field" onchange="toggleSecret(this)">
-            <option value="public">🌍 Hamma uchun ochiq</option>
-            <option value="secret">🔒 Secret Post (Faqat Starsga)</option>
-        </select>
-
-        <div id="stars-price-container" style="display: none;">
-            <input type="number" class="input-field" placeholder="Ochish narxi (Stars)" value="15" min="1">
-        </div>
-
-        <button class="btn-premium" onclick="uploadPost()">🚀 Tizimga yuklash</button>
+    <h3>Do'koni:</h3>
+    <div class="shop-grid">
+        <div class="product-card">Rasm</div>
+        <div class="product-card">Rasm</div>
     </div>
+</div>
 
-    <div id="page-profile" class="page">
-        <div style="text-align: center; margin-bottom: 25px;">
-            <div class="author-avatar" style="width: 80px; height: 80px; margin: 0 auto 12px auto; font-size: 24px;" id="p-avatar">U</div>
-            <h3 id="p-name" style="margin: 0;">Foydalanuvchi</h3>
-            <p id="p-username" style="color: var(--text-hint); margin: 5px 0 0 0;">@username</p>
-        </div>
+<!-- NAVBAR -->
+<div class="navbar">
+    <button class="nav-btn active" onclick="show('feed')">🏠</button>
+    <button class="nav-btn" onclick="show('search')">🔍</button>
+    <button class="nav-btn" onclick="show('post')">➕</button>
+    <button class="nav-btn" onclick="show('profile')">👤</button>
+</div>
 
-        <div style="background: var(--bg-card); border-radius: 16px; padding: 18px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 15px;">
-                <span style="color: var(--text-hint);">Sizning reytingingiz:</span>
-                <span style="color: var(--hype-fire); font-weight: 700;">🔥 340 Hype</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 15px;">
-                <span style="color: var(--text-hint);">Premium Obuna:</span>
-                <span style="color: #4caf50; font-weight: 700;">Faol emas</span>
-            </div>
-        </div>
-
-        <button class="btn-premium" style="background: linear-gradient(135deg, var(--hype-gold), #ffa000); color: #000;" onclick="buyPremium()">
-            🌟 Klubga a'zo bo'lish (100 Stars / oy)
-        </button>
-    </div>
-
-    <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchPage('feed', this)">
-            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span>Feed</span>
-        </button>
-        <button class="nav-item" onclick="switchPage('create', this)">
-            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            <span>Yaratish</span>
-        </button>
-        <button class="nav-item" onclick="switchPage('profile', this)">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            <span>Profil</span>
-        </button>
-    </div>
-
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // Profil ma'lumotlarini yuklash
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const u = tg.initDataUnsafe.user;
-            document.getElementById('p-name').innerText = u.first_name;
-            document.getElementById('p-username').innerText = u.username ? '@' + u.username : '';
-            document.getElementById('p-avatar').innerText = u.first_name.substring(0,2).toUpperCase();
-        }
-
-        function switchPage(pId, btn) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            document.getElementById('page-' + pId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        // Galereyadan tanlangan faylni ekranda ko'rsatish (Preview)
-        function previewFile(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('upload-preview');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function toggleSecret(select) {
-            document.getElementById('stars-price-container').style.display = select.value === 'secret' ? 'block' : 'none';
-        }
-
-        function toggleHype(btn) {
-            btn.classList.toggle('btn-hype-active');
-            tg.HapticFeedback.impactOccurred('medium');
-        }
-
-        function uploadPost() {
-            tg.showProgress(); // Telegram yuklash aylanachasini chiqaradi
-            // Bu yerda Supabase Storage-ga faylni yuklash kodi bo'ladi
-            setTimeout(() => { tg.hideProgress(); tg.showAlert('Post yuklandi!'); }, 2000);
-        }
-    </script>
+<script>
+    function show(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+    }
+</script>
 </body>
 </html>
