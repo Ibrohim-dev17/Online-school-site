@@ -3,169 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stars Trading App</title>
+    <title>HypeNet — Telegram Social Network</title>
     <!-- Telegram Web App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Chart.js grafiklar uchun (yoki TradingView yields ishlatsa bo'ladi) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #131722;
-            color: #ffffff;
-            margin: 0;
-            padding: 15px;
-            text-align: center;
+        :root {
+            --tg-theme-bg-color: #17212b;
+            --tg-theme-text-color: #f5f5f5;
+            --tg-theme-hint-color: #708499;
+            --tg-theme-button-color: #2481cc;
+            --hype-gold: #f1b90c;
+            --hype-fire: #ff5722;
         }
-        .header {
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color);
+            color: var(--tg-theme-text-color);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 70px; /* Menyu uchun joy */
+            overflow-x: hidden;
+        }
+
+        /* Yuqori qism (Header) */
+        .app-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #1e222d;
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .balance {
-            font-size: 18px;
-            font-weight: bold;
-            color: #f1b90c; /* Stars oltin rangi */
-        }
-        .price-display {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
-            color: #00e676;
-        }
-        .chart-container {
-            background: #1e222d;
-            border-radius: 10px;
-            padding: 10px;
-            height: 220px;
-            margin-bottom: 20px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        button {
-            flex: 1;
             padding: 15px;
+            background: #202b36;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #101921;
+        }
+
+        .app-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--hype-gold);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #f1b90c, #ff5722);
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        /* Sahifalar boshqaruvi */
+        .page {
+            display: none;
+            padding: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Post kartochkalari (Instagram/YTdan farqli - Grid/Card dizayn) */
+        .post-card {
+            background: #202b36;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #2b394a;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 35px;
+            height: 35px;
+            background: #2e3d4c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .media-container {
+            position: relative;
+            width: 100%;
+            background: #0f171e;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-container video, .media-container img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        /* Secret Post banti */
+        .secret-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 30, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            border-top: 1px solid #2b394a;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--tg-theme-text-color);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .btn-hype {
+            color: var(--hype-fire);
+            font-weight: bold;
+        }
+
+        .post-caption {
+            padding: 0 12px 12px 12px;
+            font-size: 14px;
+            color: #d1d7dd;
+            text-align: left;
+        }
+
+        /* Pastki menyu (Bottom Nav) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%;
+            height: 60px;
+            background: #202b36;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #101921;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            color: var(--tg-theme-hint-color);
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--tg-theme-button-color);
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* Inputlar va Umumiy Tugmalar */
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--tg-theme-hint-color);
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: #202b36;
+            border: 1px solid #2b394a;
+            border-radius: 8px;
+            color: white;
+            box-sizing: border-box;
+        }
+
+        .btn-main {
+            background: var(--tg-theme-button-color);
+            color: white;
+            padding: 12px;
             border: none;
             border-radius: 8px;
-            font-size: 16px;
+            width: 100%;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
         }
-        .btn-deposit { background-color: #f1b90c; color: #000; width: 100%; margin-bottom: 15px;}
-        .btn-buy { background-color: #00c853; color: white; }
-        .btn-sell { background-color: #ff3d00; color: white; }
-        button:active { transform: scale(0.98); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Header: Balans va Foydalanuvchi -->
-    <div class="header">
-        <span id="username">Foydalanuvchi</span>
-        <span class="balance">⭐ <span id="stars-balance">0</span> Stars</span>
+    <!-- Yuqori qism -->
+    <div class="app-header">
+        <div class="app-logo">🔥 HypeNet</div>
+        <div class="premium-badge" id="user-status">Obuna bo'linmagan</div>
     </div>
 
-    <!-- Depozit tugmasi -->
-    <button class="btn-deposit" onclick="makeDeposit()">➕ Stars Depozit Qilish</button>
+    <!-- 1-SAHIFA: TRENDLAR (FEED) -->
+    <div id="page-feed" class="page active">
+        <!-- Oddiy Ochiq Post -->
+        <div class="post-card">
+            <div class="post-header">
+                <div class="author-info">
+                    <div class="author-avatar">AK</div>
+                    <div><b>Asror Komilov</b></div>
+                </div>
+                <div style="color: var(--hype-gold); font-size: 13px;">⚡ 2.4k Hype</div>
+            </div>
+            <div class="media-container">
+                <!-- Namuna rasm, sizda video bo'ladi -->
+                <img src="https://picsum.photos/500/300" alt="Post">
+            </div>
+            <div class="post-actions">
+                <button class="action-btn btn-hype" onclick="addHype(this)">🔥 Hype berish</button>
+                <button class="action-btn" onclick="openChat()">💬 Jonli Chat (14)</button>
+            </div>
+            <div class="post-caption">
+                Telegramda yangi loyihani boshladim! Qanday chiqyapti?
+            </div>
+        </div>
 
-    <!-- Aktiv va Joriy Narx -->
-    <div id="asset-name">TON / USDT</div>
-    <div class="price-display" id="current-price">$7.350</div>
-
-    <!-- Grafik -->
-    <div class="chart-container">
-        <canvas id="tradingChart"></canvas>
+        <!-- Secret (Yopiq) Post namunasi -->
+        <div class="post-card">
+            <div class="post-header">
+                <div class="author-info">
+                    <div class="author-avatar">TM</div>
+                    <div><b>Tech Master</b></div>
+                </div>
+            </div>
+            <div class="media-container">
+                <div class="secret-overlay">
+                    <span style="font-size: 30px;">🔒</span>
+                    <h3>Eksklyuziv Kontent</h3>
+                    <p style="color: var(--tg-theme-hint-color); font-size: 13px;">Ushbu maxfiy videoni ochish uchun muallifga Stars to'lang.</p>
+                    <button class="btn-main" style="background: var(--hype-gold); color: black; width: auto; padding: 10px 20px;" onclick="unlockPost()">⭐ 15 Stars bilan ochish</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Savdo Tugmalari -->
-    <div class="btn-group">
-        <button class="btn-buy" onclick="openOrder('BUY')">📈 LONG (BUY)</button>
-        <button class="btn-sell" onclick="openOrder('SELL')">📉 SHORT (SELL)</button>
+    <!-- 2-SAHIFA: POST YARATISH -->
+    <div id="page-create" class="page">
+        <h2>Yangi Trend Yuklash</h2>
+        <div class="form-group">
+            <label>Video yoki Rasm Linki</label>
+            <input type="text" placeholder="https://...">
+        </div>
+        <div class="form-group">
+            <label>Tavsif (Caption)</label>
+            <textarea rows="4" placeholder="Post haqida nimadir yozing..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Post turi</label>
+            <select onchange="toggleSecretOptions(this)">
+                <option value="public">Hamma uchun ochiq</option>
+                <option value="secret">Yopiq (Secret Post)</option>
+            </select>
+        </div>
+        <div id="secret-price-group" class="form-group" style="display: none;">
+            <label>Ochish narxi (Starsda)</label>
+            <input type="number" value="10" min="1">
+        </div>
+        <button class="btn-main">🚀 Platformaga joylash</button>
+    </div>
+
+    <!-- 3-SAHIFA: PROFIL -->
+    <div id="page-profile" class="page">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <div class="author-avatar" style="width: 70px; height: 70px; margin: 0 auto 10px auto; font-size: 24px;" id="prof-avatar">U</div>
+            <h3 id="prof-name">Foydalanuvchi</h3>
+            <p style="color: var(--tg-theme-hint-color);" id="prof-username">@username</p>
+        </div>
+        
+        <div style="background: #202b36; border-radius: 12px; padding: 15px; margin-bottom: 15px; text-align: left;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Sizning Reytingingiz:</span>
+                <span style="color: var(--hype-fire); font-weight: bold;">🔥 0 Hype</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>Obuna muddati:</span>
+                <span id="sub-date" style="color: var(--tg-theme-hint-color);">Faol emas</span>
+            </div>
+        </div>
+
+        <button class="btn-main" style="background: linear-gradient(135deg, #2481cc, #00c853);" onclick="buySubscription()">🌟 Oylik obunani faollashtirish (100 Stars)</button>
+    </div>
+
+    <!-- Pastki Navigatsiya -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchPage('feed', this)">
+            <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            Feed
+        </button>
+        <button class="nav-item" onclick="switchPage('create', this)">
+            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Yaratish
+        </button>
+        <button class="nav-item" onclick="switchPage('profile', this)">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            Profil
+        </button>
     </div>
 
     <script>
-        // Telegram Web App-ni ishga tushiramiz
+        // Telegram Web App init
         const tg = window.Telegram.WebApp;
-        tg.expand(); // Oynani to'liq ochish
+        tg.expand();
 
-        // Foydalanuvchi nomini o'rnatish
+        // Foydalanuvchi ma'lumotlarini Telegramdan olish
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            document.getElementById('username').innerText = tg.initDataUnsafe.user.first_name;
+            const user = tg.initDataUnsafe.user;
+            document.getElementById('prof-name').innerText = user.first_name;
+            document.getElementById('prof-username').innerText = user.username ? '@' + user.username : '';
+            document.getElementById('prof-avatar').innerText = user.first_name.substring(0, 2).toUpperCase();
         }
 
-        // Demo ma'lumotlar
-        let balance = 500;
-        let currentPrice = 7.35;
-        document.getElementById('stars-balance').innerText = balance;
-
-        // Chart.js grafik sozlamalari
-        const ctx = document.getElementById('tradingChart').getContext('2d');
-        const priceData = [7.31, 7.33, 7.32, 7.36, 7.34, 7.35];
-        const labels = ['', '', '', '', '', ''];
-
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    data: priceData,
-                    borderColor: '#00e676',
-                    borderWidth: 2,
-                    pointRadius: 0,
-                    fill: false,
-                    tension: 0.2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: { x: { display: false }, y: { grid: { color: '#2a2e39' } } }
-            }
-        });
-
-        // Narxni simulyatsiya qilib o'zgartirib turish (Real vaqtda API bo'ladi)
-        setInterval(() => {
-            let change = (Math.random() - 0.5) * 0.04;
-            currentPrice = (currentPrice + change).toFixed(3);
-            document.getElementById('current-price').innerText = '$' + currentPrice;
-
-            // Grafikni yangilash
-            priceData.push(currentPrice);
-            labels.push('');
-            if(priceData.length > 15) { priceData.shift(); labels.shift(); }
+        // Sahifalarni almashtirish funksiyasi
+        function switchPage(pageId, button) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
             
-            // Narx rangini o'zgartirish
-            document.getElementById('current-price').style.color = change >= 0 ? '#00c853' : '#ff3d00';
-            chart.data.datasets[0].borderColor = change >= 0 ? '#00c853' : '#ff3d00';
-            chart.update();
-        }, 2000);
-
-        // Depozit funksiyasi (Telegram Stars Invoice chaqiradi)
-        function makeDeposit() {
-            tg.showPopup({
-                title: 'Depozit',
-                message: 'Backend orqali Telegram Stars hisob-fakturasi yuklanadi.',
-                buttons: [{type: 'ok'}]
-            });
-            // Bu yerda backendga so'rov yuboriladi va tg.openInvoice(url) chaqiriladi
+            document.getElementById('page-' + pageId).classList.add('active');
+            button.classList.add('active');
         }
 
-        // Savdo ochish funksiyasi
-        function openOrder(type) {
-            tg.showPopup({
-                title: 'Savdo ochildi',
-                message: `Siz ${currentPrice} narxida ${type} orderini ochdingiz!`,
-                buttons: [{type: 'close'}]
-            });
+        // Secret post opsiyalarini ochish/yopish
+        function toggleSecretOptions(select) {
+            const priceGroup = document.getElementById('secret-price-group');
+            priceGroup.style.display = select.value === 'secret' ? 'block' : 'none';
+        }
+
+        // Hype berish simulyatsiyasi
+        function addHype(btn) {
+            btn.innerHTML = "🔥 Hype berildi!";
+            btn.disabled = true;
+            tg.HapticFeedback.notificationOccurred('success'); // Telefonni titratish
+        }
+
+        // Satib olish oynalari funksiyalari (Kelgusida backend ulanadi)
+        function unlockPost() {
+            tg.showPopup({ title: 'Secret Post', message: 'Ushbu postni ochish uchun Stars Invoice chaqiriladi.', buttons: [{type: 'close'}] });
+        }
+
+        function buySubscription() {
+            tg.showPopup({ title: 'Obuna', message: 'Oylik kirish huquqi uchun 100 Stars to\'lov oynasi yuklanadi.', buttons: [{type: 'close'}] });
+        }
+
+        function openChat() {
+            tg.showPopup({ title: 'Jonli Chat', message: 'Ushbu video ostidagi jonli chat tez orada ishga tushadi!', buttons: [{type: 'ok'}] });
         }
     </script>
 </body>
