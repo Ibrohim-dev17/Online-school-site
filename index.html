@@ -10,67 +10,104 @@
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Space+Grotesk:wght@400;600&display=swap');
         .mafia-title { font-family: 'Cinzel', serif; }
         .cyber-font { font-family: 'Space Grotesk', sans-serif; }
-        .neon-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); border-color: rgb(59, 130, 246); }
-        .neon-red { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); border-color: rgb(220, 38, 38); }
+        
+        /* Haqiqiy Kiberpank Atmosfera Foni (Rasmsiz, Sof Neon Atrof-muhit) */
+        body {
+            background: radial-gradient(circle at 10% 20%, rgba(20, 0, 0, 0.95) 0%, rgba(0, 0, 0, 1) 90%),
+                        radial-gradient(circle at 90% 80%, rgba(0, 10, 30, 0.7) 0%, rgba(0, 0, 0, 1) 100%);
+            background-color: #000;
+        }
+
+        .neon-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); border-color: #3b82f6; }
+        .neon-red { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); border-color: #dc2626; }
         .neon-text-red { text-shadow: 0 0 15px rgba(220, 38, 38, 0.8); }
+        
+        /* Inputlar uchun maxsus ramka */
+        .cyber-input {
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid #27272a;
+            transition: all 0.3s;
+        }
+        .cyber-input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Parol katakchalari */
+        .pin-box {
+            background: rgba(15, 5, 5, 0.85);
+            border: 2px solid #3f3f46;
+            transition: all 0.2s;
+        }
+        .pin-box:focus {
+            border-color: #dc2626;
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.5);
+            transform: scale(1.05);
+        }
     </style>
 </head>
-<body class="bg-black text-white cyber-font min-h-screen flex flex-col justify-between p-4"
-      style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(5,5,5,0.98)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600'); background-size: cover; background-position: center;">
+<body class="text-white cyber-font min-h-screen flex flex-col justify-between p-4">
 
-    <header class="text-center py-6 border-b border-zinc-900">
+    <header class="text-center py-6 border-b border-zinc-900/40">
         <h1 class="text-4xl font-extrabold tracking-widest text-red-600 mafia-title neon-text-red">TRUE MAFIYA</h1>
         <p class="text-[10px] text-zinc-500 uppercase tracking-widest mt-1">Isyon • Sir • Sukunat</p>
     </header>
 
     <main class="flex-1 flex flex-col items-center justify-center gap-4 w-full max-w-sm mx-auto">
-        <button onclick="openModal('createModal')" class="w-full bg-zinc-950/80 hover:bg-zinc-900 text-blue-400 font-bold py-4 rounded-2xl border border-blue-500/30 neon-blue transition duration-300 flex items-center justify-center gap-3 text-base">
+        <button onclick="openModal('createModal')" class="w-full bg-zinc-950/90 text-blue-400 font-bold py-4 rounded-2xl border border-blue-500/30 neon-blue transition duration-300 flex items-center justify-center gap-3 text-base">
             <span>➕</span> YANGI O'YIN YARATISH
         </button>
 
-        <button onclick="openModal('joinModal')" class="w-full bg-zinc-950/80 hover:bg-zinc-900 text-red-500 font-bold py-4 rounded-2xl border border-red-500/30 neon-red transition duration-300 flex items-center justify-center gap-3 text-base">
+        <button onclick="openModal('joinModal')" class="w-full bg-zinc-950/90 text-red-500 font-bold py-4 rounded-2xl border border-red-500/30 neon-red transition duration-300 flex items-center justify-center gap-3 text-base">
             <span>🚪</span> O'YINGA QO'SHILISH
         </button>
     </main>
 
-    <div id="createModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div id="createModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-zinc-950 border border-blue-500 rounded-3xl w-full max-w-xs p-6 relative neon-blue">
             <button onclick="closeModal('createModal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
-            <h2 class="text-lg font-bold text-blue-400 mb-4 text-center tracking-wide">XONA SOZLAMALARI</h2>
+            <h2 class="text-base font-bold text-blue-400 mb-5 text-center tracking-wide uppercase">Xona yaratish</h2>
             
             <div class="space-y-4">
                 <div>
-                    <label class="text-xs text-zinc-400 block mb-1">Xona Nomi</label>
-                    <input id="roomName" type="text" placeholder="Masalan: Tashkent" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl focus:border-blue-500 outline-none text-white text-sm">
+                    <label class="text-[11px] text-zinc-400 block mb-1 uppercase tracking-wider">Xona Nomi</label>
+                    <input id="roomName" type="text" placeholder="Masalan: Omerta" class="w-full cyber-input p-3 rounded-xl outline-none text-white text-sm font-semibold">
                 </div>
+                
                 <div>
-                    <label class="text-xs text-zinc-400 block mb-1">4-talik Maxfiy Parol</label>
-                    <input id="roomPass" type="password" maxlength="4" placeholder="••••" class="w-full bg-zinc-900 border border-zinc-800 p-3 rounded-xl text-center text-xl font-bold tracking-widest focus:border-blue-500 outline-none text-white">
+                    <label class="text-[11px] text-zinc-400 block mb-2 uppercase tracking-wider text-center">4-talik Raqamli Parol</label>
+                    <div class="flex justify-between gap-2" id="pinContainer">
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
+                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="pin-box w-12 h-14 text-center text-2xl font-bold rounded-xl outline-none text-red-500">
+                    </div>
                 </div>
-                <button onclick="createRoomAction()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition text-sm">XONANI YARATISH</button>
+                
+                <button onclick="createRoomAction()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3.5 rounded-xl transition text-xs uppercase tracking-widest mt-2">Tasdiqlash</button>
             </div>
         </div>
     </div>
 
-    <div id="joinModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div id="joinModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 z-50">
         <div class="bg-zinc-950 border border-red-600 rounded-3xl w-full max-w-xs p-6 relative neon-red">
             <button onclick="closeModal('joinModal')" class="absolute top-4 right-4 text-zinc-500 hover:text-white">✕</button>
-            <h2 class="text-lg font-bold text-red-500 mb-4 text-center tracking-wide">OCHIQ XONALAR</h2>
+            <h2 class="text-base font-bold text-red-500 mb-4 text-center tracking-wide uppercase">Ochiq xonalar</h2>
             
             <div class="space-y-2 max-h-60 overflow-y-auto">
-                <div onclick="joinRoomAction('Omerta Club')" class="bg-zinc-900 p-3 rounded-xl border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-red-500 transition">
+                <div onclick="joinRoomAction('Omerta Club')" class="bg-zinc-900/60 p-3 rounded-xl border border-zinc-800 flex justify-between items-center cursor-pointer hover:border-red-500 transition">
                     <div>
                         <div class="font-bold text-sm">Omerta Club 🔒</div>
                         <div class="text-[10px] text-zinc-500">O'yinchilar: 5/15</div>
                     </div>
-                    <span class="text-xs text-red-400">Kirish</span>
+                    <span class="text-xs text-red-400 font-semibold">Kirish</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="text-center text-[10px] text-zinc-700 py-2 border-t border-zinc-950">
-        TRUE MAFIYA ENGINE v1.0
+    <footer class="text-center text-[9px] text-zinc-700 py-2">
+        TRUE MAFIYA ENGINE © 2026
     </footer>
 
     <script>
@@ -80,25 +117,44 @@
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
+        // Parol kiritilganda avtomatik keyingi katakka o'tish va raqamli klaviatura tekshiruvi
+        const pinInputs = document.querySelectorAll('#pinContainer input');
+        pinInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                // Faqat raqam qoldirish
+                input.value = input.value.replace(/[^0-9]/g, '');
+                
+                if (input.value.length === 1 && index < pinInputs.length - 1) {
+                    pinInputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
+                    pinInputs[index - 1].focus();
+                }
+            });
+        });
+
         function createRoomAction() {
             const name = document.getElementById('roomName').value || "Yangi Xona";
-            const pass = document.getElementById('roomPass').value || "0000";
             
-            // Sahifalararo ma'lumot uzatish (Localstorage orqali)
+            // To'rtta katakchadagi parollarni birlashtirish
+            let finalPass = "";
+            pinInputs.forEach(input => finalPass += input.value);
+            
+            if(finalPass.length < 4) {
+                alert("Iltimos, 4 xonali raqamli parolni to'liq kiriting!");
+                return;
+            }
+            
             localStorage.setItem('currentRoomName', name);
             localStorage.setItem('isAdmin', 'true');
-            
-            // Haqiqiy room.html sahifasiga o'tish
             window.location.href = 'room.html';
         }
 
         function joinRoomAction(name) {
-            const pass = prompt("Xona parolini kiriting (4 talik):");
-            if(pass) {
-                localStorage.setItem('currentRoomName', name);
-                localStorage.setItem('isAdmin', 'false');
-                window.location.href = 'room.html';
-            }
+            window.location.href = 'room.html';
         }
     </script>
 </body>
