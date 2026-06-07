@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUE MAFIYA - O'yin Maydoni</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Space+Grotesk:wght@400;600&display=swap');
+        .mafia-title { font-family: 'Cinzel', serif; }
+        .cyber-font { font-family: 'Space Grotesk', sans-serif; }
+        
+        body {
+            background: #050505;
+            transition: all 1s ease-in-out;
+        }
+        .day-mode {
+            background: radial-gradient(circle at 50% 30%, rgba(120, 40, 0, 0.4) 0%, rgba(0, 0, 0, 1) 90%);
+        }
+        .night-mode {
+            background: radial-gradient(circle at 50% 30%, rgba(150, 0, 0, 0.5) 0%, rgba(0, 0, 0, 1) 90%);
+        }
+        .panel-glow {
+            background: rgba(10, 10, 10, 0.9);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+    </style>
+</head>
+<body id="gameBody" class="text-white cyber-font min-h-screen flex flex-col justify-between p-4 day-mode">
+
+    <header class="panel-glow p-3 rounded-2xl flex justify-between items-center border-b-2 border-b-red-600">
+        <div>
+            <span id="phaseTitle" class="text-xs font-bold text-orange-500 tracking-widest uppercase">KUN FAZASI</span>
+            <h2 id="phaseTimer" class="text-lg font-bold">01:00</h2>
+        </div>
+        <div class="text-right">
+            <span class="text-[10px] text-zinc-500 block uppercase">Sizning Rolingiz:</span>
+            <span id="myRoleBadge" class="text-xs font-bold text-red-500 tracking-wider">Yuklanmoqda...</span>
+        </div>
+    </header>
+
+    <div id="roleDisplaySection" class="my-3 text-center">
+        <div class="inline-block panel-glow p-4 rounded-2xl w-full max-w-xs text-center border-zinc-800">
+            <p class="text-[10px] text-zinc-500 uppercase tracking-widest mb-1">Sizga berilgan maxfiy vazifa</p>
+            <h3 id="roleName" class="text-lg font-extrabold text-red-600 mafia-title tracking-wider">-</h3>
+            <p id="roleTask" class="text-xs text-zinc-400 mt-1 px-2 leading-relaxed">-</p>
+        </div>
+    </div>
+
+    <main class="flex-1 overflow-y-auto panel-glow p-3 rounded-2xl border-zinc-900 mb-3">
+        <p class="text-[10px] text-zinc-500 uppercase font-bold mb-2 tracking-wider">Tizimda tirik qolgan o'yinchilar:</p>
+        <div class="grid grid-cols-2 gap-2" id="gamePlayersGrid">
+            </div>
+    </main>
+
+    <div class="panel-glow p-3 rounded-xl h-24 overflow-y-auto text-[11px] text-zinc-400 space-y-1 border-zinc-900 mb-2" id="gameLogs">
+        <p class="text-orange-400 font-semibold">📢 [TIZIM]: O'yin boshlandi! Hamma o'z rolining kartasini oldi.</p>
+        <p class="text-zinc-500">📢 [TIZIM]: Kunduzgi muhokama boshlandi. Kimdan gumon qilasiz?</p>
+    </div>
+
+    <div>
+        <button onclick="switchPhase()" id="phaseControlBtn" class="w-full bg-red-700 hover:bg-red-600 text-white font-bold py-3.5 rounded-2xl text-xs tracking-widest uppercase transition">
+            TUNNI BOSHLASH (ADMIN)
+        </button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        let isDay = true;
+
+        // Siz aytgan barcha 11 ta personajning dasturlash mantig'i (vazifalari)
+        const rolesData = {
+            "DON": { desc: "Mafiya yetakchisi. Tunda kimni uyg'onmasligini hal qilasiz, ya'ni o'ldirasiz.", side: "mafia" },
+            "MAFIYA": { desc: "Vazifangiz - tunda Don bilan birga maqsadni yo'q qilish.", side: "mafia" },
+            "ADVOKAT": { desc: "Tunda kimni himoya qilishni tanlang. Uni Komissar tekshirganda Tinch aholi bo'lib ko'rinadi.", side: "mafia" },
+            "KOMISSAR KATTANI": { desc: "Shaharning asosiy himoyachisi. Tunda mafiyani fosh qilasiz. Birinchi tundan otish taqiqlanadi.", side: "civilian" },
+            "SERJANT": { desc: "Komissar Kattaniga yordam berasiz. Agar Komissar vafot etsa, uning o'rnini egallaysiz.", side: "civilian" },
+            "DOKTOR": { desc: "Tunda bir kishini davolaysiz. O'zingizni faqat bir marta davolash huquqingiz bor.", side: "civilian" },
+            "KEZUVCHI MA'SHUQA": { desc: "Tunda bitta o'yinchini o'z mahoratingiz bilan uxlatasiz. Komissar bilan bo'lish taqiqlanadi.", side: "civilian" },
+            "DAYDI": { desc: "Tunda shisha butilka uchun o'yinchi oldiga borib, qotillikka guvoh bo'lishga harakat qilasiz.", side: "civilian" },
+            "AFSUNGAR": { desc: "Juda xavfli. Agar sizni tunda o'ldirishsa, o'zingiz bilan birga qotilni ham jahannamga olib ketasiz.", side: "civilian" },
+            "TINCH AHOLI": { desc: "Vazifangiz - kunduzi shahar yig'ilishida mafiyani topib, ovoz berish orqali osish.", side: "civilian" },
+            "QOTIL": { desc: "Atrofdagilarni ayovsiz o'ldirish. Faqat o'zingiz tirik qolsangizgina g'olib bo'lasiz.", side: "solo" },
+            "BO'RI": { desc: "Ikki tomonlama kuch. Sizni mafiya otsa mafiaga, Komissar otsa Serjantga aylanasiz.", side: "solo" }
+        };
+
+        // O'yindagi simulyatsiya qilingan foydalanuvchilar va ularning rollari
+        let playersList = [
+            { id: 1, name: "Siz (Admin)", role: "KOMISSAR KATTANI", alive: true, votes: 0 },
+            { id: 2, name: "Anvar", role: "DON", alive: true, votes: 0 },
+            { id: 3, name: "Jasur", role: "QOTIL", alive: true, votes: 0 },
+            { id: 4, name: "Malika", role: "DOKTOR", alive: true, votes: 0 },
+            { id: 5, name: "Kamola", role: "KEZUVCHI MA'SHUQA", alive: true, votes: 0 },
+            { id: 6, name: "Rustam", role: "BO'RI", alive: true, votes: 0 }
+        ];
+
+        // 1. Foydalanuvchiga tasodifiy yoki belgilangan rolni yuklash
+        const myData = playersList[0];
+        document.getElementById('myRoleBadge').innerText = myData.role;
+        document.getElementById('roleName').innerText = myData.role;
+        document.getElementById('roleTask').innerText = rolesData[myData.role].desc;
+
+        // O'yinchilarni ekranga chizish funksiyasi
+        function renderPlayers() {
+            const grid = document.getElementById('gamePlayersGrid');
+            grid.innerHTML = '';
+            
+            playersList.forEach(p => {
+                if(!p.alive) return;
+                
+                grid.innerHTML += `
+                    <div onclick="playerActionClick(${p.id})" class="bg-zinc-950 p-3 rounded-xl border border-zinc-900 hover:border-red-600 transition cursor-pointer relative">
+                        <div class="font-bold text-xs truncate text-zinc-200">${p.name}</div>
+                        <div class="text-[9px] text-zinc-500 uppercase mt-1">Holat: Tirik</div>
+                        <span id="vote-badge-${p.id}" class="absolute top-2 right-2 bg-red-600/20 border border-red-600 text-red-500 text-[9px] font-bold px-1.5 py-0.5 rounded-md ${p.votes === 0 ? 'hidden' : ''}">
+                            ❤️ ${p.votes}
+                        </span>
+                    </div>`;
+            });
+        }
+
+        // Kun va tun fazasini almashtirish logikasi (Siz aytgan muhitni vizual o'zgartiradi)
+        function switchPhase() {
+            const body = document.getElementById('gameBody');
+            const title = document.getElementById('phaseTitle');
+            const btn = document.getElementById('phaseControlBtn');
+            const logs = document.getElementById('gameLogs');
+
+            isDay = !isDay;
+
+            if (!isDay) {
+                // TUN FAZASI BOSHLANGANDA
+                body.className = "text-white cyber-font min-h-screen flex flex-col justify-between p-4 night-mode";
+                title.innerText = "TUN FAZASI 🌃";
+                title.className = "text-xs font-bold text-red-500 tracking-widest uppercase animate-pulse";
+                btn.innerText = "KUNDUZNI BOSHLASH (ADMIN)";
+                btn.className = "w-full bg-orange-700 hover:bg-orange-600 text-white font-bold py-3.5 rounded-2xl text-xs tracking-widest uppercase transition";
+                
+                logs.innerHTML += `<p class="text-red-500 font-semibold">🔴 [TIZIM]: Shahar uzra tun cho'kdi. Maxfiy rollar o'z vazifasini bajarishni boshlasin!</p>`;
+            } else {
+                // KUN FAZASI BOSHLANGANDA
+                body.className = "text-white cyber-font min-h-screen flex flex-col justify-between p-4 day-mode";
+                title.innerText = "KUN FAZASI ☀️";
+                title.className = "text-xs font-bold text-orange-500 tracking-widest uppercase";
+                btn.innerText = "TUNNY BOSHLASH (ADMIN)";
+                btn.className = "w-full bg-red-700 hover:bg-red-600 text-white font-bold py-3.5 rounded-2xl text-xs tracking-widest uppercase transition";
+                
+                logs.innerHTML += `<p class="text-orange-400 font-semibold">☀️ [TIZIM]: Tong otdi! Shahar yig'ilishi ochildi. Ovoz berish jarayoni faollashdi.</p>`;
+                
+                // Ovozlarni nolga tushirish
+                playersList.forEach(p => p.votes = 0);
+            }
+            renderPlayers();
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        // O'yinchilar kartasi bosilganda (Kun yoki Tun vazifasini bajarish)
+        function playerActionClick(targetId) {
+            const clickedPlayer = playersList.find(p => p.id === targetId);
+            const logs = document.getElementById('gameLogs');
+
+            if (isDay) {
+                // KUNDUZI OVOZ BERISH VAZIFASI
+                clickedPlayer.votes += 1;
+                logs.innerHTML += `<p class="text-zinc-400">👤 Siz [${clickedPlayer.name}] ga qarshi ovoz berdingiz.</p>`;
+                renderPlayers();
+            } else {
+                // TUNDA KOMISSAR KATTANI VAZIFASI (Sizning rolingiz Komissar bo'lgani uchun)
+                if (clickedPlayer.role === "DON" || clickedPlayer.role === "MAFIYA") {
+                    alert(`🔍 Tekshiruv Natijasi: ${clickedPlayer.name} - MAFIYA guruhiga tegishli!`);
+                    logs.innerHTML += `<p class="text-blue-400">🕵️‍♂️ [KOMISSAR]: ${clickedPlayer.name} tekshirildi. Guruh: Mafiya!</p>`;
+                } else {
+                    alert(`🔍 Tekshiruv Natijasi: ${clickedPlayer.name} - Begunoh Tinch Aholi.`);
+                    logs.innerHTML += `<p class="text-blue-400">🕵️‍♂️ [KOMISSAR]: ${clickedPlayer.name} tekshirildi. Guruh: Tinch Aholi.</p>`;
+                }
+            }
+            logs.scrollTop = logs.scrollHeight;
+        }
+
+        // Ilk yuklanish
+        renderPlayers();
+    </script>
+</body>
+</html>
