@@ -3,79 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Planner</title>
+    <title>Elite Mafia - Lobby</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@400;600&display=swap');
+        .mafia-font { font-family: 'Cinzel', serif; }
+        .body-font { font-family: 'Poppins', sans-serif; }
+        
+        /* Karta aylanish animatsiyasi */
+        .card-flip {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+        .flipped {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
 </head>
-<body class="bg-gray-950 text-white p-4">
-    <div class="max-w-md mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-blue-400">Kunlik Rejam</h1>
-            <button onclick="clearTasks()" class="text-xs bg-red-900/30 text-red-400 px-3 py-1 rounded-lg">Tozalash</button>
+<body class="bg-gray-950 text-gray-100 body-font min-h-screen p-4 flex flex-col justify-between">
+
+    <header class="text-center py-4 border-b border-red-900/30">
+        <h1 class="text-3xl font-bold tracking-widest text-red-600 mafia-font">ELITE MAFIA</h1>
+        <p id="player-name" class="text-xs text-gray-400 mt-1">Lobbyga xush kelibsiz</p>
+    </header>
+
+    <main class="flex-1 flex flex-col items-center justify-center my-6">
+        
+        <div class="card-flip w-64 h-96 cursor-pointer" onclick="revealRole()">
+            <div id="mafiaCard" class="card-inner w-full h-full relative">
+                
+                <div class="card-front absolute w-full h-full bg-gradient-to-br from-red-950 to-black border-2 border-red-700 rounded-3xl shadow-2xl flex flex-col items-center justify-center p-6 text-center">
+                    <div class="w-20 h-20 bg-red-600/10 rounded-full flex items-center justify-center border border-red-600/30 mb-4 animate-pulse">
+                        <span class="text-red-500 text-4xl font-bold">?</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-red-500 mafia-font tracking-wide">Sizning Rolingiz</h3>
+                    <p class="text-xs text-gray-400 mt-2">Kartani ochish uchun ustiga bosing</p>
+                </div>
+
+                <div id="cardBackView" class="card-back absolute w-full h-full border-2 rounded-3xl shadow-2xl flex flex-col items-center justify-between p-6 text-center">
+                    <span id="roleBadge" class="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-red-600 text-white mt-2">Mafia</span>
+                    
+                    <div id="roleIcon" class="text-7xl my-4">🕵️‍♂️</div>
+                    
+                    <div class="mb-4">
+                        <h2 id="roleTitle" class="text-2xl font-bold mafia-font text-white">MAFIYA</h2>
+                        <p id="roleDesc" class="text-xs text-gray-300 mt-1 px-2">Tunda shaharni yo'q qiling, kunduzi esa o'zingizni yashiring.</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="flex gap-2 mb-6">
-            <input id="taskInput" type="text" placeholder="Yangi vazifani kiriting..." 
-                class="flex-1 bg-gray-900 border border-gray-700 p-4 rounded-2xl outline-none focus:border-blue-500">
-        </div>
+    </main>
 
-        <ul id="taskList" class="space-y-3"></ul>
-    </div>
+    <footer class="bg-gray-900/50 border border-gray-800 p-4 rounded-2xl backdrop-blur-md">
+        <div class="flex justify-between items-center mb-3">
+            <span class="text-sm font-semibold text-gray-400">Xonadagi o'yinchilar:</span>
+            <span class="bg-blue-600/20 text-blue-400 text-xs px-2 py-0.5 rounded-md font-bold">Stol #124</span>
+        </div>
+        
+        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+            <div class="bg-gray-800/80 p-2 rounded-xl border border-green-500/30">
+                <div class="font-bold text-green-400">Siz</div>
+                <div class="text-[10px] text-gray-400">Tayyor</div>
+            </div>
+            <div class="bg-gray-800/40 p-2 rounded-xl border border-gray-700">
+                <div class="font-bold">Anvar</div>
+                <div class="text-[10px] text-yellow-500">Kutmoqda</div>
+            </div>
+            <div class="bg-gray-800/40 p-2 rounded-xl border border-gray-700">
+                <div class="font-bold">Malika</div>
+                <div class="text-[10px] text-yellow-500">Kutmoqda</div>
+            </div>
+            <div class="bg-gray-800/40 p-2 rounded-xl border border-gray-700">
+                <div class="font-bold">Jasur</div>
+                <div class="text-[10px] text-yellow-500">Kutmoqda</div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        tg.enableClosingConfirmation(); // Chiqishdan oldin so'rash
+        tg.headerColor = '#030712'; // App qorong'u fonga moslashadi
 
-        let tasks = JSON.parse(localStorage.getItem('eliteTasks')) || [];
+        // Telegram foydalanuvchi ismini olish
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            document.getElementById('player-name').innerText = `O'yinchi: ${tg.initDataUnsafe.user.first_name}`;
+        }
 
-        // Enter tugmasini eshitish
-        document.getElementById('taskInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') addTask();
-        });
+        // Rollar ma'lumotlar bazasi (Front-end uchun)
+        const roles = [
+            {
+                title: "MAFIYA",
+                badge: "Mafia",
+                icon: "🥷",
+                desc: "Tunda sheriklaringiz bilan birga shaharni yo'q qiling, kunduzi gumonlarni boshqalarga buring.",
+                bg: "from-red-950 via-gray-900 to-black",
+                border: "border-red-600",
+                badgeBg: "bg-red-600"
+            },
+            {
+                title: "KOMISSAR",
+                badge: "Civil",
+                icon: "🕵️‍♂️",
+                desc: "Har tunda bir marta o'yinchilarning roylini tekshiring va haqiqiy mafiyalarni fosh qiling.",
+                bg: "from-blue-950 via-gray-900 to-black",
+                border: "border-blue-600",
+                badgeBg: "bg-blue-600"
+            },
+            {
+                title: "DOKTOR",
+                badge: "Civil",
+                icon: "👨‍⚕️",
+                desc: "Har tunda bir kishini (yoki o'zingizni) mafiya o'qidan qutqarib qolish huquqiga egasiz.",
+                bg: "from-green-950 via-gray-900 to-black",
+                border: "border-green-600",
+                badgeBg: "bg-green-600"
+            },
+            {
+                title: "TINCH AHOLI",
+                badge: "Civil",
+                icon: "👨‍adh",
+                desc: "Kunduzi ovoz berish orqali barcha mafiyalarni toping va shaharni ozod qiling.",
+                bg: "from-slate-800 via-gray-900 to-black",
+                border: "border-slate-500",
+                badgeBg: "bg-slate-600"
+            }
+        ];
 
-        function addTask() {
-            const input = document.getElementById('taskInput');
-            if (!input.value.trim()) return;
+        let isFlipped = false;
+
+        function revealRole() {
+            const card = document.getElementById('mafiaCard');
+            const cardBackView = document.getElementById('cardBackView');
             
-            tg.HapticFeedback.impactOccurred('medium'); // Tugmani bosganda vibratsiya
-            tasks.unshift({ text: input.value, completed: false });
-            input.value = '';
-            updateUI();
-        }
+            if (!isFlipped) {
+                // Tasodifiy rol tanlash
+                const randomRole = roles[Math.floor(Math.random() * roles.length)];
+                
+                // Kartani dizaynini tanlangan rolga qarab o'zgartirish
+                cardBackView.className = `card-back absolute w-full h-full border-2 rounded-3xl shadow-2xl flex flex-col items-center justify-between p-6 text-center bg-gradient-to-br ${randomRole.bg} ${randomRole.border}`;
+                
+                document.getElementById('roleBadge').innerText = randomRole.badge;
+                document.getElementById('roleBadge').className = `text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full text-white mt-2 ${randomRole.badgeBg}`;
+                document.getElementById('roleIcon').innerText = randomRole.icon;
+                document.getElementById('roleTitle').innerText = randomRole.title;
+                document.getElementById('roleDesc').innerText = randomRole.desc;
 
-        function toggleTask(index) {
-            tg.HapticFeedback.selectionChanged(); // Tanlovda vibratsiya
-            tasks[index].completed = !tasks[index].completed;
-            updateUI();
-        }
+                // Telegram Vibratsiya (Haptic Feedback)
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
 
-        function clearTasks() {
-            if(confirm('Barcha rejalarni o\'chirmoqchimisiz?')) {
-                tasks = [];
-                updateUI();
+                card.classList.add('flipped');
+                isFlipped = true;
+            } else {
+                card.classList.remove('flipped');
+                isFlipped = false;
             }
         }
-
-        function updateUI() {
-            const list = document.getElementById('taskList');
-            list.innerHTML = '';
-            
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.className = `bg-gray-900 p-4 rounded-2xl flex items-center justify-between border border-gray-800 ${task.completed ? 'opacity-50' : ''}`;
-                li.innerHTML = `
-                    <div class="flex items-center gap-3 w-full" onclick="toggleTask(${index})">
-                        <div class="w-6 h-6 rounded-full border-2 border-blue-500 flex-shrink-0 ${task.completed ? 'bg-blue-500' : ''}"></div>
-                        <span class="text-lg ${task.completed ? 'line-through' : ''}">${task.text}</span>
-                    </div>
-                `;
-                list.appendChild(li);
-            });
-            localStorage.setItem('eliteTasks', JSON.stringify(tasks));
-        }
-
-        updateUI();
     </script>
 </body>
 </html>
