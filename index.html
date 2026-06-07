@@ -3,56 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Routine</title>
+    <title>Elite Planner</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-4">
+<body class="bg-gray-950 text-white p-4">
     <div class="max-w-md mx-auto">
-        <h1 class="text-2xl font-bold mb-4 text-center">Kunlik Reja</h1>
-        
-        <div class="flex gap-2 mb-4">
-            <input id="taskInput" type="text" placeholder="Yangi vazifa..." class="flex-1 p-2 border rounded">
-            <button onclick="addTask()" class="bg-blue-500 text-white px-4 py-2 rounded">Qo'shish</button>
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-blue-400">Kunlik Rejam</h1>
+            <button onclick="clearTasks()" class="text-xs bg-red-900/30 text-red-400 px-3 py-1 rounded-lg">Tozalash</button>
         </div>
 
-        <ul id="taskList" class="space-y-2"></ul>
+        <div class="flex gap-2 mb-6">
+            <input id="taskInput" type="text" placeholder="Yangi vazifani kiriting..." 
+                class="flex-1 bg-gray-900 border border-gray-700 p-4 rounded-2xl outline-none focus:border-blue-500">
+        </div>
+
+        <ul id="taskList" class="space-y-3"></ul>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
+        tg.enableClosingConfirmation(); // Chiqishdan oldin so'rash
 
-        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let tasks = JSON.parse(localStorage.getItem('eliteTasks')) || [];
 
-        function renderTasks() {
-            const list = document.getElementById('taskList');
-            list.innerHTML = '';
-            tasks.forEach((task, index) => {
-                list.innerHTML += `
-                    <li class="bg-white p-3 rounded shadow flex justify-between">
-                        <span>${task}</span>
-                        <button onclick="deleteTask(${index})" class="text-red-500">O'chirish</button>
-                    </li>`;
-            });
-            localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
+        // Enter tugmasini eshitish
+        document.getElementById('taskInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') addTask();
+        });
 
         function addTask() {
             const input = document.getElementById('taskInput');
-            if (input.value) {
-                tasks.push(input.value);
-                input.value = '';
-                renderTasks();
+            if (!input.value.trim()) return;
+            
+            tg.HapticFeedback.impactOccurred('medium'); // Tugmani bosganda vibratsiya
+            tasks.unshift({ text: input.value, completed: false });
+            input.value = '';
+            updateUI();
+        }
+
+        function toggleTask(index) {
+            tg.HapticFeedback.selectionChanged(); // Tanlovda vibratsiya
+            tasks[index].completed = !tasks[index].completed;
+            updateUI();
+        }
+
+        function clearTasks() {
+            if(confirm('Barcha rejalarni o\'chirmoqchimisiz?')) {
+                tasks = [];
+                updateUI();
             }
         }
 
-        function deleteTask(index) {
-            tasks.splice(index, 1);
-            renderTasks();
+        function updateUI() {
+            const list = document.getElementById('taskList');
+            list.innerHTML = '';
+            
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = `bg-gray-900 p-4 rounded-2xl flex items-center justify-between border border-gray-800 ${task.completed ? 'opacity-50' : ''}`;
+                li.innerHTML = `
+                    <div class="flex items-center gap-3 w-full" onclick="toggleTask(${index})">
+                        <div class="w-6 h-6 rounded-full border-2 border-blue-500 flex-shrink-0 ${task.completed ? 'bg-blue-500' : ''}"></div>
+                        <span class="text-lg ${task.completed ? 'line-through' : ''}">${task.text}</span>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+            localStorage.setItem('eliteTasks', JSON.stringify(tasks));
         }
 
-        renderTasks();
+        updateUI();
     </script>
 </body>
 </html>
