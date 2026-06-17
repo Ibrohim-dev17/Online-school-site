@@ -1,73 +1,267 @@
-<!DOCTYPE html>
-<html lang="en">
+ <!DOCTYPE html>
+<html lang="uz">
 <head>
-  <meta charset="UTF-8">
-  <title>Mini Video Editor</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #111;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamonaviy Video Muharrir</title>
+    
+    <style>
+        /* Umumiy sozlamalar (Reset) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    video {
-      width: 80%;
-      max-width: 600px;
-      margin-top: 20px;
-      border: 2px solid #444;
-      border-radius: 10px;
-    }
+        body {
+            background-color: #121214; /* To'q va zamonaviy fon */
+            color: #e1e1e6;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    input {
-      margin-top: 20px;
-    }
+        /* Asosiy konteyner */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
 
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-  </style>
+        /* Ishchi maydon (Sidebar va Video) */
+        .main-workspace {
+            display: flex;
+            flex: 1; 
+            height: calc(100vh - 200px); /* Timeline uchun joy ajratamiz */
+        }
+
+        /* Chap panel (Sidebar) */
+        .sidebar {
+            width: 240px;
+            background-color: #1a1a1e;
+            border-right: 1px solid #29292e;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8d8d99;
+            margin-bottom: 15px;
+        }
+
+        .tool-btn {
+            background: transparent;
+            border: none;
+            color: #c4c4cc;
+            padding: 12px 15px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .tool-btn:hover {
+            background-color: #29292e;
+            color: #fff;
+        }
+
+        .tool-btn.active {
+            background-color: #00b37e; /* Chiroyli zamonaviy yashil */
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Video ko'rish oynasi */
+        .preview-window {
+            flex: 1;
+            background-color: #09090a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background-color: #121214;
+            border-radius: 12px;
+            border: 2px dashed #29292e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .placeholder {
+            text-align: center;
+        }
+
+        .upload-label {
+            background-color: #29292e;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .upload-label:hover {
+            background-color: #00b37e;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* Pastki qism: Timeline */
+        .timeline-area {
+            height: 200px;
+            background-color: #1a1a1e;
+            border-top: 1px solid #29292e;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #121214;
+            border-bottom: 1px solid #29292e;
+            font-size: 13px;
+            color: #8d8d99;
+        }
+
+        .timeline-controls button {
+            background-color: #29292e;
+            border: none;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .timeline-controls button:hover {
+            background-color: #00b37e;
+        }
+
+        .timeline-track {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            background-color: #16161a;
+            position: relative;
+        }
+
+        /* Timeline ichidagi video bloki */
+        .video-bar {
+            height: 50px;
+            background: linear-gradient(90deg, #00b37e, #00875f);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            width: 60%; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
 
-  <h1>🎬 Mini Video Editor</h1>
+    <div class="app-container">
+        <div class="main-workspace">
+            
+            <aside class="sidebar">
+                <h3>Asboblar</h3>
+                <button class="tool-btn active">📁 Media</button>
+                <button class="tool-btn">✂️ Kesish</button>
+                <button class="tool-btn">🎵 Audio</button>
+                <button class="tool-btn">✍️ Matn</button>
+            </aside>
 
-  <input type="file" id="upload" accept="video/*">
+            <main class="preview-window">
+                <div class="video-container">
+                    <div id="upload-placeholder" class="placeholder">
+                        <label for="video-upload" class="upload-label">
+                            <span>➕ Video yuklash</span>
+                            <input type="file" id="video-upload" accept="video/*" hidden>
+                        </label>
+                    </div>
+                    <video id="main-player" controls style="display: none;"></video>
+                </div>
+            </main>
 
-  <br>
+        </div>
 
-  <video id="video" controls></video>
+        <footer class="timeline-area">
+            <div class="timeline-header">
+                <span>Vaqt shkalasi (Timeline)</span>
+                <div class="timeline-controls">
+                    <button id="btn-play-pause">▶️ Play</button>
+                </div>
+            </div>
+            <div class="timeline-track">
+                <div id="timeline-video-bar" class="video-bar" style="display: none;">
+                    Video yuklandi
+                </div>
+            </div>
+        </footer>
+    </div>
 
-  <br>
+    <script>
+        // Elementlarni DOM orqali tanlab olamiz
+        const videoUpload = document.getElementById('video-upload');
+        const mainPlayer = document.getElementById('main-player');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const timelineVideoBar = document.getElementById('timeline-video-bar');
+        const btnPlayPause = document.getElementById('btn-play-pause');
 
-  <button onclick="playVideo()">▶ Play</button>
-  <button onclick="pauseVideo()">⏸ Pause</button>
+        // Video yuklanganda ishlaydigan hodisa (Event Listener)
+        videoUpload.addEventListener('change', function(event) {
+            const file = event.target.files[0]; // Tanlangan faylni ob'ekt sifatida olish
+            
+            if (file) {
+                const fileURL = URL.createObjectURL(file); // Fayl uchun vaqtinchalik xavfsiz URL yaratish
+                
+                // Video pleerga manbani biriktirish
+                mainPlayer.src = fileURL;
+                
+                // Elementlar interfeysini yangilash
+                uploadPlaceholder.style.display = 'none'; // Yuklash tugmasini yashirish
+                mainPlayer.style.display = 'block'; // Pleerni ochish
+                timelineVideoBar.style.display = 'flex'; // Timelineda blokni ko'rsatish
+                timelineVideoBar.innerText = file.name; // Fayl nomini joylashtirish
+            }
+        });
 
-  <script>
-    const upload = document.getElementById("upload");
-    const video = document.getElementById("video");
-
-    upload.addEventListener("change", function() {
-      const file = this.files[0];
-      if (file) {
-        const url = URL.createObjectURL(file);
-        video.src = url;
-      }
-    });
-
-    function playVideo() {
-      video.play();
-    }
-
-    function pauseVideo() {
-      video.pause();
-    }
-  </script>
-
+        // Play va Pause tugmasi boshqaruvi
+        btnPlayPause.addEventListener('click', function() {
+            if (mainPlayer.paused) {
+                mainPlayer.play();
+                btnPlayPause.innerText = '⏸️ Pause';
+            } else {
+                mainPlayer.pause();
+                btnPlayPause.innerText = '▶️ Play';
+            }
+        });
+    </script>
 </body>
 </html>
