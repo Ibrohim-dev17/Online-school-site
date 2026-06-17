@@ -1,265 +1,474 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zamonaviy Video Muharrir</title>
-    
+    <title>Professional Video Editor</title>
     <style>
-        /* Umumiy sozlamalar (Reset) */
+        /* ==========================================================================
+           1. UMUMIY DIZAYN VA SOZLAMALAR (Minimalist, To'q ranglar palitrasi)
+           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: '-apple-system', BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: #121214; /* To'q va zamonaviy fon */
-            color: #e1e1e6;
+            background-color: #0c0c0e;
+            color: #f1f1f4;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Asosiy konteyner */
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* Ishchi maydon (Sidebar va Video) */
-        .main-workspace {
-            display: flex;
-            flex: 1; 
-            height: calc(100vh - 200px); /* Timeline uchun joy ajratamiz */
-        }
-
-        /* Chap panel (Sidebar) */
-        .sidebar {
-            width: 240px;
-            background-color: #1a1a1e;
-            border-right: 1px solid #29292e;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .sidebar h3 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #8d8d99;
-            margin-bottom: 15px;
-        }
-
-        .tool-btn {
-            background: transparent;
-            border: none;
-            color: #c4c4cc;
-            padding: 12px 15px;
-            text-align: left;
-            border-radius: 8px;
+        button {
             cursor: pointer;
-            font-size: 15px;
+            border: none;
+            outline: none;
             transition: all 0.2s ease;
         }
 
-        .tool-btn:hover {
-            background-color: #29292e;
-            color: #fff;
-        }
-
-        .tool-btn.active {
-            background-color: #00b37e; /* Chiroyli zamonaviy yashil */
-            color: #fff;
-            font-weight: bold;
-        }
-
-        /* Video ko'rish oynasi */
-        .preview-window {
-            flex: 1;
-            background-color: #09090a;
+        /* ==========================================================================
+           2. BOSH SAHIFA (Montajni boshlash tugmasi oynasi)
+           ========================================================================== */
+        .home-screen {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px;
-        }
-
-        .video-container {
+            height: 100vh;
+            background: radial-gradient(circle at center, #1a1a24 0%, #0c0c0e 100%);
+            position: absolute;
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-            background-color: #121214;
-            border-radius: 12px;
-            border: 2px dashed #29292e;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .home-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .start-project-btn {
+            background: linear-gradient(135deg, #00b37e 0%, #00875f 100%);
+            color: white;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0, 179, 126, 0.25);
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
+        }
+
+        .start-project-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 179, 126, 0.4);
+        }
+
+        .start-project-btn:active {
+            transform: translateY(1px);
+        }
+
+        .start-project-btn .icon {
+            font-size: 32px;
+        }
+
+        .home-screen p {
+            margin-top: 15px;
+            color: #696977;
+            font-size: 14px;
+        }
+
+        /* ==========================================================================
+           3. MONTAJ OYNASI (Asosiy Ishchi Maydon)
+           ========================================================================== */
+        .editor-screen {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            visibility: hidden; /* Boshida ko'rinmaydi */
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .editor-screen.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Yuqori qism: Sidebar va Video Pleer */
+        .workspace-top {
+            display: flex;
+            flex: 1;
+            height: calc(100vh - 220px);
+        }
+
+        /* Chap panel: Loyiha medialari */
+        .media-sidebar {
+            width: 280px;
+            background-color: #141418;
+            border-right: 1px solid #222227;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .media-sidebar h3 {
+            font-size: 14px;
+            color: #8d8d99;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tanlangan fayllar ro'yxati mini-kartalari */
+        .selected-media-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            overflow-y: auto;
+        }
+
+        .media-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #222227;
+            border-radius: 6px;
             overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
             position: relative;
         }
 
-        .placeholder {
-            text-align: center;
+        .media-thumb.playing {
+            border-color: #00b37e;
         }
 
-        .upload-label {
-            background-color: #29292e;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
+        .media-thumb video, .media-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .upload-label:hover {
-            background-color: #00b37e;
+        .media-thumb .badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.7);
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
 
-        video {
+        /* Markaziy qism: Video ko'rish oynasi */
+        .preview-pane {
+            flex: 1;
+            background-color: #09090b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .player-wrapper {
+            width: 100%;
+            max-width: 760px;
+            aspect-ratio: 16/9;
+            background-color: #141418;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-wrapper video, .player-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: contain;
         }
 
-        /* Pastki qism: Timeline */
-        .timeline-area {
-            height: 200px;
-            background-color: #1a1a1e;
-            border-top: 1px solid #29292e;
+        /* ==========================================================================
+           4. PASTKI QISM: TIMELINE VA FUNKSIYALAR
+           ========================================================================== */
+        .timeline-container {
+            height: 220px;
+            background-color: #141418;
+            border-top: 1px solid #222227;
             display: flex;
             flex-direction: column;
         }
 
-        .timeline-header {
+        /* Asboblar paneli (Kesish, Musiqa va h.k.) */
+        .toolbar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             padding: 10px 20px;
-            background-color: #121214;
-            border-bottom: 1px solid #29292e;
+            background-color: #1a1a22;
+            border-bottom: 1px solid #222227;
+        }
+
+        .tool-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            background-color: #282833;
+            color: #e1e1e6;
+            padding: 8px 16px;
+            border-radius: 8px;
             font-size: 13px;
-            color: #8d8d99;
-        }
-
-        .timeline-controls button {
-            background-color: #29292e;
-            border: none;
-            color: white;
-            padding: 6px 18px;
-            border-radius: 6px;
-            cursor: pointer;
             font-weight: 500;
-            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .timeline-controls button:hover {
+        .action-btn:hover {
+            background-color: #343444;
+            color: #fff;
+        }
+
+        .action-btn.primary {
             background-color: #00b37e;
+            color: white;
         }
 
-        .timeline-track {
+        .action-btn.primary:hover {
+            background-color: #009e6f;
+        }
+
+        /* Vaqt Shkalasi Chizig'i */
+        .timeline-tracks {
             flex: 1;
             padding: 20px;
+            overflow-x: auto;
             display: flex;
             align-items: center;
-            background-color: #16161a;
-            position: relative;
+            background-color: #0f0f12;
+            gap: 6px; /* Fayllar ketma-ket joylashishi uchun */
         }
 
-        /* Timeline ichidagi video bloki */
-        .video-bar {
-            height: 50px;
-            background: linear-gradient(90deg, #00b37e, #00875f);
-            color: white;
+        /* Ketma-ket tushgan fayllar bloki */
+        .timeline-clip {
+            height: 60px;
+            min-width: 120px;
+            max-width: 200px;
+            background: linear-gradient(90deg, #323244 0%, #242430 100%);
+            border: 1px solid #444455;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            padding-left: 15px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            width: 60%; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 0 12px;
+            font-size: 12px;
+            color: #c4c4cc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        .timeline-clip.active-clip {
+            border-color: #00b37e;
+            background: linear-gradient(90deg, #1b3d33 0%, #142e26 100%);
+            color: #00b37e;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="main-workspace">
+    <div class="home-screen" id="home-screen">
+        <input type="file" id="gallery-picker" accept="video/*, image/*" multiple hidden>
+        
+        <button class="start-project-btn" id="start-project-btn">
+            <span class="icon">➕</span>
+            <span>Montajni boshlash</span>
+        </button>
+        <p>Galereyadan video yoki rasmlarni tanlang</p>
+    </div>
+
+
+    <div class="editor-screen" id="editor-screen">
+        
+        <div class="workspace-top">
             
-            <aside class="sidebar">
-                <h3>Asboblar</h3>
-                <button class="tool-btn active">📁 Media</button>
-                <button class="tool-btn">✂️ Kesish</button>
-                <button class="tool-btn">🎵 Audio</button>
-                <button class="tool-btn">✍️ Matn</button>
+            <aside class="media-sidebar">
+                <h3>Loyhadagi fayllar</h3>
+                <div class="selected-media-list" id="selected-media-list">
+                    </div>
             </aside>
 
-            <main class="preview-window">
-                <div class="video-container">
-                    <div id="upload-placeholder" class="placeholder">
-                        <label for="video-upload" class="upload-label">
-                            <span>➕ Video yuklash</span>
-                            <input type="file" id="video-upload" accept="video/*" hidden>
-                        </label>
-                    </div>
-                    <video id="main-player" controls style="display: none;"></video>
+            <main class="preview-pane">
+                <div class="player-wrapper" id="player-wrapper">
+                    <p style="color: #696977;">Ijro etish uchun fayl tanlanmagan</p>
                 </div>
             </main>
 
         </div>
 
-        <footer class="timeline-area">
-            <div class="timeline-header">
-                <span>Vaqt shkalasi (Timeline)</span>
-                <div class="timeline-controls">
-                    <button id="btn-play-pause">▶️ Play</button>
+        <footer class="timeline-container">
+            
+            <div class="toolbar">
+                <div class="tool-group">
+                    <button class="action-btn" id="tool-play-pause">▶️ Play</button>
+                    <button class="action-btn">✂️ Kesish (Split)</button>
+                    <button class="action-btn">🎵 Musiqa qo'shish</button>
+                    <button class="action-btn">✍️ Matn</button>
+                </div>
+                <div class="tool-group">
+                    <button class="action-btn primary">💾 Eksport</button>
                 </div>
             </div>
-            <div class="timeline-track">
-                <div id="timeline-video-bar" class="video-bar" style="display: none;">
-                    Video yuklandi
+
+            <div class="timeline-tracks" id="timeline-tracks">
                 </div>
-            </div>
+
         </footer>
+
     </div>
 
     <script>
-        // Elementlarni DOM orqali tanlab olamiz
-        const videoUpload = document.getElementById('video-upload');
-        const mainPlayer = document.getElementById('main-player');
-        const uploadPlaceholder = document.getElementById('upload-placeholder');
-        const timelineVideoBar = document.getElementById('timeline-video-bar');
-        const btnPlayPause = document.getElementById('btn-play-pause');
+        // 1. Kerakli elementlarni aniqlab olamiz
+        const homeScreen = document.getElementById('home-screen');
+        const editorScreen = document.getElementById('editor-screen');
+        const startProjectBtn = document.getElementById('start-project-btn');
+        const galleryPicker = document.getElementById('gallery-picker');
+        const selectedMediaList = document.getElementById('selected-media-list');
+        const playerWrapper = document.getElementById('player-wrapper');
+        const timelineTracks = document.getElementById('timeline-tracks');
+        const toolPlayPause = document.getElementById('tool-play-pause');
 
-        // Video yuklanganda ishlaydigan hodisa (Event Listener)
-        videoUpload.addEventListener('change', function(event) {
-            const file = event.target.files[0]; // Tanlangan faylni ob'ekt sifatida olish
-            
-            if (file) {
-                const fileURL = URL.createObjectURL(file); // Fayl uchun vaqtinchalik xavfsiz URL yaratish
-                
-                // Video pleerga manbani biriktirish
-                mainPlayer.src = fileURL;
-                
-                // Elementlar interfeysini yangilash
-                uploadPlaceholder.style.display = 'none'; // Yuklash tugmasini yashirish
-                mainPlayer.style.display = 'block'; // Pleerni ochish
-                timelineVideoBar.style.display = 'flex'; // Timelineda blokni ko'rsatish
-                timelineVideoBar.innerText = file.name; // Fayl nomini joylashtirish
-            }
+        // Biz tanlagan barcha fayllar ro'yxatini saqlash uchun massiv (array)
+        let projectFiles = [];
+        let currentActiveIndex = 0;
+
+        // 2. "Montajni boshlash" tugmasi bosilganda yashirin inputni ishga tushirish
+        startProjectBtn.addEventListener('click', () => {
+            galleryPicker.click();
         });
 
-        // Play va Pause tugmasi boshqaruvi
-        btnPlayPause.addEventListener('click', function() {
-            if (mainPlayer.paused) {
-                mainPlayer.play();
-                btnPlayPause.innerText = '⏸️ Pause';
+        // 3. Foydalanuvchi fayllarni tanlaganidan keyingi jarayon
+        galleryPicker.addEventListener('change', (event) => {
+            const files = Array.from(event.target.files);
+
+            if (files.length === 0) return; // Agar hech narsa tanlanmasa, to'xtatish
+
+            // Fayllarni ketma-ketlik ob'ekti ko'rinishida saqlaymiz
+            projectFiles = files.map((file, index) => {
+                return {
+                    id: index,
+                    name: file.name,
+                    type: file.type.startsWith('video') ? 'video' : 'image',
+                    url: URL.createObjectURL(file) // Vaqtinchalik xavfsiz ekran manzili
+                };
+            });
+
+            // Oynalarni almashtiramiz: Bosh sahifa yo'qoladi, Montaj xonasi ochiladi
+            homeScreen.classList.add('hidden');
+            editorScreen.classList.add('active');
+
+            // Interfeyslarni fayllar bilan to'ldiramiz
+            buildMediaSidebar();
+            buildTimeline();
+            
+            // Birinchi faylni avtomatik ravishda pleerda ko'rsatamiz
+            loadPreview(0);
+        });
+
+        // 4. Chap paneldagi "Loyihadagi fayllar" ro'yxatini shakllantirish
+        function buildMediaSidebar() {
+            selectedMediaList.innerHTML = '';
+            projectFiles.forEach((file, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = `media-thumb ${index === currentActiveIndex ? 'playing' : ''}`;
+                thumb.setAttribute('data-index', index);
+                
+                if (file.type === 'video') {
+                    thumb.innerHTML = `<video src="${file.url}"></video><span class="badge">MP4</span>`;
+                } else {
+                    thumb.innerHTML = `<img src="${file.url}"><span class="badge">IMG</span>`;
+                }
+
+                // Mini-kartaga bosilganda o'sha faylga o'tish
+                thumb.addEventListener('click', () => loadPreview(index));
+                selectedMediaList.appendChild(thumb);
+            });
+        }
+
+        // 5. Pastki qismdagi Timeline ketma-ketligini qurish
+        function buildTimeline() {
+            timelineTracks.innerHTML = '';
+            projectFiles.forEach((file, index) => {
+                const clip = document.createElement('div');
+                clip.className = `timeline-clip ${index === currentActiveIndex ? 'active-clip' : ''}`;
+                clip.setAttribute('data-index', index);
+                
+                // Qaysi turdagi faylligiga qarab belgi qo'yamiz
+                const icon = file.type === 'video' ? '🎬' : '🖼️';
+                clip.innerText = `${icon} ${index + 1}. ${file.name}`;
+
+                // Timelinedagi blok bosilsa ham pleer o'zgaradi
+                clip.addEventListener('click', () => loadPreview(index));
+                timelineTracks.appendChild(clip);
+            });
+        }
+
+        // 6. Tanlangan faylni markaziy pleerga yuklash funksiyasi
+        function loadPreview(index) {
+            currentActiveIndex = index;
+            const file = projectFiles[index];
+            playerWrapper.innerHTML = ''; // Oldingi kontentni tozalash
+
+            if (file.type === 'video') {
+                const videoEl = document.createElement('video');
+                videoEl.src = file.url;
+                videoEl.id = 'active-video-player';
+                videoEl.controls = false; // Biz o'zimizning tugmalar bilan boshqaramiz
+                playerWrapper.appendChild(videoEl);
+                toolPlayPause.style.display = 'inline-block'; // Agar video bo'lsa, Play tugmasi kerak
             } else {
-                mainPlayer.pause();
-                btnPlayPause.innerText = '▶️ Play';
+                const imgEl = document.createElement('img');
+                imgEl.src = file.url;
+                playerWrapper.appendChild(imgEl);
+                toolPlayPause.style.display = 'none'; // Rasm uchun Play tugmasi shart emas
+            }
+
+            // Aktiv elementlarni vizual yangilash
+            document.querySelectorAll('.media-thumb').forEach((el, i) => {
+                el.classList.toggle('playing', i === index);
+            });
+            document.querySelectorAll('.timeline-clip').forEach((el, i) => {
+                el.classList.toggle('active-clip', i === index);
+            });
+
+            // Tugmani holatini tiklash
+            toolPlayPause.innerText = '▶️ Play';
+        }
+
+        // 7. Global Play/Pause boshqaruvi (faqat videolar uchun)
+        toolPlayPause.addEventListener('click', () => {
+            const activeVideo = document.getElementById('active-video-player');
+            if (!activeVideo) return;
+
+            if (activeVideo.paused) {
+                activeVideo.play();
+                toolPlayPause.innerText = '⏸️ Pause';
+            } else {
+                activeVideo.pause();
+                toolPlayPause.innerText = '▶️ Play';
             }
         });
     </script>
