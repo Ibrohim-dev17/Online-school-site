@@ -3,501 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Studio - Video Muharrir</title>
+    <title>Katta Raqamli Soat & Taymer</title>
     <style>
-        /* ==========================================================================
-           1. ZAMONAVIY PREMIUM DIZAYN (Premium Dark UI)
-           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #0b0b0c;
-            color: #e4e4e7;
+            background-color: #000000;
+            color: #ffffff;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
-            user-select: none;
-        }
-
-        /* Yaxshi ko'rinadigan tugmalar uchun umumiy uslub */
-        button {
-            cursor: pointer;
-            border: none;
-            outline: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        button:active {
-            transform: scale(0.96);
-        }
-
-        /* ==========================================================================
-           2. BOSH SAHIFA (Elegant Kirish Oynasi)
-           ========================================================================== */
-        .home-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: radial-gradient(circle at center, #18181c 0%, #0b0b0c 100%);
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-
-        .home-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-30px);
-        }
-
-        .start-project-btn {
-            background: #00b37e;
-            color: white;
-            padding: 24px 48px;
-            font-size: 20px;
-            font-weight: 600;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 179, 126, 0.3);
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .start-project-btn:hover {
-            background: #00ca8f;
-            box-shadow: 0 15px 35px rgba(0, 179, 126, 0.45);
-        }
-
-        .home-screen p {
-            margin-top: 20px;
-            color: #71717a;
-            font-size: 15px;
-        }
-
-        /* ==========================================================================
-           3. ASOSIY ISHCHI MUHIT (Editor Interface)
-           ========================================================================== */
-        .editor-screen {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease;
-        }
-
-        .editor-screen.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Yuqori blok */
-        .workspace-top {
-            display: flex;
-            flex: 1;
-            height: calc(100vh - 240px);
-        }
-
-        /* Chap panel: Fayllar ro'yxati */
-        .media-sidebar {
-            width: 300px;
-            background-color: #121214;
-            border-right: 1px solid #202024;
             padding: 20px;
+        }
+
+        /* Asosiy konteyner: ekran yo'nalishiga qarab o'zgaradi */
+        .container {
             display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .media-sidebar h3 {
-            font-size: 13px;
-            color: #a1a1aa;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .selected-media-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        /* Fayl kartalari */
-        .media-thumb {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #18181c;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #27272a;
-            cursor: pointer;
-        }
-
-        .media-thumb.playing {
-            border-color: #00b37e;
-            background: #142922;
-        }
-
-        .media-thumb-preview {
-            width: 70px;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
-        .media-thumb-preview video, .media-thumb-preview img {
             width: 100%;
+            max-width: 1200px;
             height: 100%;
-            object-fit: cover;
-        }
-
-        .media-info {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .media-info p {
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Markaziy Monitor (Player) */
-        .preview-pane {
-            flex: 1;
-            background-color: #0c0c0e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px;
-            position: relative;
-        }
-
-        .player-wrapper {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16/9;
-            background-color: #121214;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
-            position: relative;
-        }
-
-        .player-wrapper video, .player-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* ==========================================================================
-           4. TIMELINE VA AMALIY TUGMALAR (Pastki qism)
-           ========================================================================== */
-        .timeline-container {
-            height: 240px;
-            background-color: #121214;
-            border-top: 1px solid #202024;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Qulay Instrumentlar paneli */
-        .toolbar {
-            display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 24px;
-            background-color: #18181c;
-            border-bottom: 1px solid #202024;
+            gap: 30px;
         }
 
-        .tool-group {
+        /* Vertikal holat uchun (Ekran kengligi kichik bo'lsa) */
+        @media (max-width: 768px) or (orientation: portrait) {
+            .container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 40px;
+            }
+            .clock-display {
+                font-size: 18vw !important; /* Ekran kengligiga qarab moslashadi */
+            }
+            .sidebar {
+                flex-direction: row !important;
+                flex-wrap: wrap;
+                justify-content: center;
+                width: 100% !important;
+            }
+        }
+
+        /* Soat joylashgan qism */
+        .main-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .clock-display {
+            font-size: 10vw; /* Gorizontalda ulkan hajm */
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .mode-title {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            color: #888;
+        }
+
+        /* Yon paneldagi tugmalar (Gorizontalda tikkasiga, vertikalda yondosh) */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 220px;
+            justify-content: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .btn.active {
+            background: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Boshqaruv tugmalari (Start, Stop, Reset) faqat kerak bo'lganda chiqadi */
+        .controls {
+            margin-top: 20px;
             display: flex;
             gap: 10px;
         }
 
-        .action-btn {
-            background-color: #27272a;
-            color: #e4e4e7;
-            padding: 10px 18px;
-            font-size: 14px;
-        }
-
-        .action-btn:hover {
-            background-color: #3f3f46;
+        .control-btn {
+            background: #222;
             color: #fff;
-        }
-
-        .action-btn.active-tool {
-            background-color: #00b37e;
-            color: white;
-        }
-
-        /* Fon musiqasi uchun holat indikatori */
-        #music-status {
-            font-size: 13px;
-            color: #00b37e;
-            display: none;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* Vaqt treki chizig'i */
-        .timeline-tracks {
-            flex: 1;
-            padding: 20px;
-            overflow-x: auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background-color: #09090b;
-            gap: 12px;
-        }
-
-        .track-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            min-height: 50px;
-            background: #121214;
-            border-radius: 8px;
-            padding: 5px;
-            border: 1px dashed #27272a;
-        }
-
-        /* Videolar joylashadigan blok */
-        .timeline-clip {
-            height: 42px;
-            background: linear-gradient(90deg, #27272a 0%, #1c1c1f 100%);
-            border: 1px solid #3f3f46;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            padding: 0 12px;
-            font-size: 12px;
+            border: 1px solid #444;
+            padding: 8px 16px;
             cursor: pointer;
-            min-width: 150px;
-            transition: all 0.2s;
+            border-radius: 5px;
+            font-size: 0.9rem;
         }
 
-        .timeline-clip.active-clip {
-            border-color: #00b37e;
-            background: #142922;
-            color: #00b37e;
+        .control-btn:hover {
+            background: #333;
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
 
-    <div class="home-screen" id="home-screen">
-        <input type="file" id="gallery-picker" accept="video/*, image/*" multiple hidden>
-        <button class="start-project-btn" id="start-project-btn">
-            <span style="font-size: 28px;">🎬</span>
-            <span>Montajni boshlash</span>
-        </button>
-        <p>Loyihani boshlash uchun video yoki rasmlarni tanlang</p>
-    </div>
-
-    <div class="editor-screen" id="editor-screen">
-        <div class="workspace-top">
-            <aside class="media-sidebar">
-                <h3>Resurslar</h3>
-                <div class="selected-media-list" id="selected-media-list"></div>
-            </aside>
-
-            <main class="preview-pane">
-                <div class="player-wrapper" id="player-wrapper"></div>
-            </main>
+    <div class="container">
+        
+        <div class="main-display">
+            <div id="modeTitle" class="mode-title">Hozirgi Vaqt</div>
+            <div id="clockDisplay" class="clock-display">00:00:00</div>
+            
+            <div id="controlPanel" class="controls hidden">
+                <button class="control-btn" id="startStopBtn" onclick="toggleRun()">Start</button>
+                <button class="control-btn" onclick="resetMode()">Reset</button>
+            </div>
         </div>
 
-        <footer class="timeline-container">
-            <div class="toolbar">
-                <div class="tool-group">
-                    <button class="action-btn" id="tool-play-pause">▶️ Play</button>
-                    <button class="action-btn" id="tool-split">✂️ Kesish (Split)</button>
-                    <button class="action-btn" id="tool-music">🎵 Musiqa qo'yish</button>
-                    <span id="music-status">🎶 Fon musiqasi qo'shildi</span>
-                </div>
-                <div class="tool-group">
-                    <button class="action-btn" style="background: #00b37e; color: white;" onclick="alert('Montaj muvaffaqiyatli saqlandi!')">💾 Eksport</button>
-                </div>
-            </div>
+        <div class="sidebar">
+            <button class="btn active" id="btn-clock" onclick="switchMode('clock')">Soat</button>
+            <button class="btn" id="btn-pomodoro" onclick="switchMode('pomodoro')">Pomodoro</button>
+            <button class="btn" id="btn-stopwatch" onclick="switchMode('stopwatch')">Sekundomer</button>
+            <button class="btn" id="btn-timer" onclick="switchMode('timer')">Taymer (5 m)</button>
+        </div>
 
-            <input type="file" id="music-picker" accept="audio/*" hidden>
-            <audio id="bg-audio" loop></audio>
-
-            <div class="timeline-tracks">
-                <div class="track-row" id="video-track"></div>
-            </div>
-        </footer>
     </div>
 
     <script>
-        const homeScreen = document.getElementById('home-screen');
-        const editorScreen = document.getElementById('editor-screen');
-        const startProjectBtn = document.getElementById('start-project-btn');
-        const galleryPicker = document.getElementById('gallery-picker');
-        const selectedMediaList = document.getElementById('selected-media-list');
-        const playerWrapper = document.getElementById('player-wrapper');
-        const videoTrack = document.getElementById('video-track');
-        const toolPlayPause = document.getElementById('tool-play-pause');
-        const toolSplit = document.getElementById('tool-split');
-        const toolMusic = document.getElementById('tool-music');
-        const musicPicker = document.getElementById('music-picker');
-        const bgAudio = document.getElementById('bg-audio');
-        const musicStatus = document.getElementById('music-status');
+        let currentMode = 'clock'; // clock, pomodoro, stopwatch, timer
+        let timerInterval = null;
+        
+        // Rejim o'zgaruvchilari
+        let timeRemaining = 0; // soniyalarda
+        let stopwatchTime = 0; // millisekundlarda yoki soniyada
+        let isRunning = false;
 
-        let projectFiles = [];
-        let currentIdx = 0;
+        // Har soniyada ekranni yangilab turish
+        setInterval(() => {
+            if (currentMode === 'clock') {
+                updateClock();
+            }
+        }, 1000);
 
-        // Galereyani ochish
-        startProjectBtn.addEventListener('click', () => galleryPicker.click());
-
-        // Fayllar tanlanganda loyihani ishga tushirish
-        galleryPicker.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            if(files.length === 0) return;
-
-            projectFiles = files.map((file, i) => ({
-                id: 'clip-' + Date.now() + '-' + i,
-                name: file.name,
-                type: file.type.startsWith('video') ? 'video' : 'image',
-                url: URL.createObjectURL(file)
-            }));
-
-            homeScreen.classList.add('hidden');
-            editorScreen.classList.add('active');
-
-            renderUI();
-            loadPreview(0);
-        });
-
-        // Interfeysni chizish
-        function renderUI() {
-            selectedMediaList.innerHTML = '';
-            videoTrack.innerHTML = '';
-
-            projectFiles.forEach((file, index) => {
-                // Chap tarafdagi ro'yxat
-                const thumb = document.createElement('div');
-                thumb.className = `media-thumb ${index === currentIdx ? 'playing' : ''}`;
-                thumb.innerHTML = `
-                    <div class="media-thumb-preview">
-                        ${file.type === 'video' ? `<video src="${file.url}"></video>` : `<img src="${file.url}">`}
-                    </div>
-                    <div class="media-info"><p>${file.name}</p></div>
-                `;
-                thumb.addEventListener('click', () => loadPreview(index));
-                selectedMediaList.appendChild(thumb);
-
-                // Pastdagi Timeline treki
-                const clip = document.createElement('div');
-                clip.className = `timeline-clip ${index === currentIdx ? 'active-clip' : ''}`;
-                clip.innerText = `${file.type === 'video' ? '🎬' : '🖼️'} ${file.name}`;
-                clip.addEventListener('click', () => loadPreview(index));
-                videoTrack.appendChild(clip);
-            });
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${hours}:${minutes}:${seconds}`;
         }
 
-        // Monitorda ko'rsatish
-        function loadPreview(index) {
-            if(projectFiles.length === 0) {
-                playerWrapper.innerHTML = `<p style="color:#71717a; text-align:center; width:100%;">Fayllar qolmadi</p>`;
-                return;
-            }
-            currentIdx = index;
-            const file = projectFiles[index];
-            playerWrapper.innerHTML = '';
+        // Dastlabki ishga tushirish
+        updateClock();
 
-            if(file.type === 'video') {
-                const video = document.createElement('video');
-                video.src = file.url;
-                video.id = 'active-editor-video';
-                playerWrapper.appendChild(video);
-                toolPlayPause.style.opacity = '1';
-            } else {
-                const img = document.createElement('img');
-                img.src = file.url;
-                playerWrapper.appendChild(img);
-                toolPlayPause.style.opacity = '0.5'; // Rasm bo'lsa play ishlamaydi
-            }
+        function switchMode(mode) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentMode = mode;
+            
+            // Faol tugmani belgilash
+            document.querySelectorAll('.sidebar .btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${mode}`).classList.add('active');
 
-            // Aktiv elementlarni vizual belgilash
-            document.querySelectorAll('.media-thumb').forEach((el, i) => el.classList.toggle('playing', i === index));
-            document.querySelectorAll('.timeline-clip').forEach((el, i) => el.classList.toggle('active-clip', i === index));
-            toolPlayPause.innerText = '▶️ Play';
+            const controlPanel = document.getElementById('controlPanel');
+            const startStopBtn = document.getElementById('startStopBtn');
+            startStopBtn.innerText = 'Start';
+
+            if (mode === 'clock') {
+                document.getElementById('modeTitle').innerText = 'Hozirgi Vaqt';
+                controlPanel.classList.add('hidden');
+                updateClock();
+            } 
+            else if (mode === 'pomodoro') {
+                document.getElementById('modeTitle').innerText = 'Pomodoro (25 min)';
+                controlPanel.classList.remove('hidden');
+                timeRemaining = 25 * 60;
+                displayLeftTime();
+            } 
+            else if (mode === 'stopwatch') {
+                document.getElementById('modeTitle').innerText = 'Sekundomer';
+                controlPanel.classList.remove('hidden');
+                stopwatchTime = 0;
+                document.getElementById('clockDisplay').innerText = '00:00.00';
+            } 
+            else if (mode === 'timer') {
+                document.getElementById('modeTitle').innerText = 'Taymer';
+                controlPanel.classList.remove('hidden');
+                timeRemaining = 5 * 60; // Standart 5 daqiqa
+                displayLeftTime();
+            }
         }
 
-        // REAL ISHLAYDIGAN FUNKSIYALAR:
-        
-        // 1. Play / Pause
-        toolPlayPause.addEventListener('click', () => {
-            const video = document.getElementById('active-editor-video');
-            if(!video) return;
-
-            if(video.paused) {
-                video.play();
-                if(bgAudio.src) bgAudio.play(); // Musiqa bo'lsa u ham chaladi
-                toolPlayPause.innerText = '⏸️ Pause';
+        function toggleRun() {
+            const startStopBtn = document.getElementById('startStopBtn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startStopBtn.innerText = 'Start';
+                isRunning = false;
             } else {
-                video.pause();
-                bgAudio.pause();
-                toolPlayPause.innerText = '▶️ Play';
+                startStopBtn.innerText = 'Stop';
+                isRunning = true;
+
+                if (currentMode === 'pomodoro' || currentMode === 'timer') {
+                    timerInterval = setInterval(() => {
+                        if (timeRemaining > 0) {
+                            timeRemaining--;
+                            displayLeftTime();
+                        } else {
+                            clearInterval(timerInterval);
+                            alert('Vaqt tugadi!');
+                            resetMode();
+                        }
+                    }, 1000);
+                } else if (currentMode === 'stopwatch') {
+                    let startTime = Date.now() - stopwatchTime;
+                    timerInterval = setInterval(() => {
+                        stopwatchTime = Date.now() - startTime;
+                        displayStopwatch();
+                    }, 10);
+                }
             }
-        });
+        }
 
-        // 2. Real Kesish (Split) funksiyasi
-        toolSplit.addEventListener('click', () => {
-            if(projectFiles.length === 0) return;
-            
-            const currentClip = projectFiles[currentIdx];
-            
-            // Klipni xuddi o'zidek nusxalab, ketma-ketlikka yana bitta qilib qo'shadi (Split effekti)
-            const newClip = {
-                id: 'clip-split-' + Date.now(),
-                name: '[Kesilgan] ' + currentClip.name,
-                type: currentClip.type,
-                url: currentClip.url
-            };
+        function resetMode() {
+            switchMode(currentMode);
+        }
 
-            // Massivning o'sha joyiga yangi kesilgan bo'lakni qo'shish
-            projectFiles.splice(currentIdx + 1, 0, newClip);
-            
-            renderUI();
-            loadPreview(currentIdx + 1);
-        });
+        function displayLeftTime() {
+            const minutes = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
+            const seconds = String(timeRemaining % 60).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${minutes}:${seconds}`;
+        }
 
-        // 3. Real Musiqa Qo'shish funksiyasi
-        toolMusic.addEventListener('click', () => musicPicker.click());
-        
-        musicPicker.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if(file) {
-                bgAudio.src = URL.createObjectURL(file);
-                musicStatus.style.display = 'inline-flex';
-                toolMusic.classList.add('active-tool');
-                alert(`"${file.name}" fon musiqasi sifatida muvaffaqiyatli yuklandi! Video "Play" bo'lganda musiqa ham birga chaladi.`);
-            }
-        });
+        function displayStopwatch() {
+            const totalSeconds = Math.floor(stopwatchTime / 1000);
+            const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            const milliseconds = String(Math.floor((stopwatchTime % 1000) / 10)).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${minutes}:${seconds}.${milliseconds}`;
+        }
     </script>
 </body>
 </html>
