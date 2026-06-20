@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Soat & Taymer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        /* Ekran vertikal bo'lganda */
+        @media (max-width: 768px) or (orientation: portrait) {
+            .container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 30px;
+            }
+            .clock-display {
+                font-size: 22vw !important;
+            }
+            .sidebar {
+                flex-direction: row !important;
+                width: 100% !important;
+            }
+        }
+
+        /* Katta ekran yoki gorizontal holat */
+        .main-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock-display {
+            font-size: 14vw; 
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Ixcham yon panel */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 130px; /* Tugmalar kengligi kichraytirildi */
+            justify-content: center;
+        }
+
+        /* Kichiklashtirilgan tugmalar */
+        .btn {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid #ffffff;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .btn.active {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        /* Start, Stop, Reset va Sozlash tugmalari */
+        .controls {
+            margin-top: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .control-btn {
+            background: #111;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 5px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .control-btn:hover {
+            background: #222;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Asosiy Ekran (Faqat ulkan raqamlar) -->
+        <div class="main-display">
+            <div id="clockDisplay" class="clock-display">00:00:00</div>
+
+            <!-- Boshqaruv elementlari -->
+            <div id="controlPanel" class="controls hidden">
+                <button class="control-btn" id="startStopBtn" onclick="toggleRun()">Start</button>
+                <button class="control-btn" id="setupBtn" onclick="setupTime()">Sozlash</button>
+                <button class="control-btn" onclick="resetMode()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Ixcham Yon Panel -->
+        <div class="sidebar">
+            <button class="btn active" id="btn-clock" onclick="switchMode('clock')">Soat</button>
+            <button class="btn" id="btn-pomodoro" onclick="switchMode('pomodoro')">Pomodoro</button>
+            <button class="btn" id="btn-stopwatch" onclick="switchMode('stopwatch')">Sekundomer</button>
+            <button class="btn" id="btn-timer" onclick="switchMode('timer')">Taymer</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentMode = 'clock'; 
+        let timerInterval = null;
+
+        let pomodoroMinutes = 25; // Standart pomodoro
+        let customTimerMinutes = 5; // Standart taymer
+
+        let timeRemaining = 0; 
+        let stopwatchTime = 0; 
+        let isRunning = false;
+
+        // Soatni yangilab turish
+        setInterval(() => {
+            if (currentMode === 'clock') {
+                updateClock();
+            }
+        }, 1000);
+
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+
+        updateClock();
+
+        function switchMode(mode) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            currentMode = mode;
+
+            // Aktiv tugma dizayni
+            document.querySelectorAll('.sidebar .btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${mode}`).classList.add('active');
+
+            const controlPanel = document.getElementById('controlPanel');
+            const startStopBtn = document.getElementById('startStopBtn');
+            const setupBtn = document.getElementById('setupBtn');
+            startStopBtn.innerText = 'Start';
+
+            if (mode === 'clock') {
+                controlPanel.classList.add('hidden');
+                updateClock();
+            } 
+            else if (mode === 'pomodoro') {
+                controlPanel.classList.remove('hidden');
+                setupBtn.classList.remove('hidden');
+                timeRemaining = pomodoroMinutes * 60;
+                displayLeftTime();
+            } 
+            else if (mode === 'stopwatch') {
+                controlPanel.classList.remove('hidden');
+                setupBtn.classList.add('hidden'); // Sekundomerda sozlash shartmas
+                stopwatchTime = 0;
+                document.getElementById('clockDisplay').innerText = '00:00.00';
+            } 
+            else if (mode === 'timer') {
+                controlPanel.classList.remove('hidden');
+                setupBtn.classList.remove('hidden');
+                timeRemaining = customTimerMinutes * 60;
+                displayLeftTime();
+            }
+        }
+
+        // Vaqtni o'zingizga moslash funksiyasi
+        function setupTime() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById('startStopBtn').innerText = 'Start';
+
+            if (currentMode === 'pomodoro') {
+                let userMinutes = prompt("Pomodoro necha daqiqa bo'lsin?", pomodoroMinutes);
+                if (userMinutes && !isNaN(userMinutes)) {
+                    pomodoroMinutes = parseInt(userMinutes);
+                    timeRemaining = pomodoroMinutes * 60;
+                }
+            } else if (currentMode === 'timer') {
+                let userMinutes = prompt("Taymer necha daqiqa bo'lsin?", customTimerMinutes);
+                if (userMinutes && !isNaN(userMinutes)) {
+                    customTimerMinutes = parseInt(userMinutes);
+                    timeRemaining = customTimerMinutes * 60;
+                }
+            }
+            displayLeftTime();
+        }
+
+        function toggleRun() {
+            const startStopBtn = document.getElementById('startStopBtn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                startStopBtn.innerText = 'Start';
+                isRunning = false;
+            } else {
+                startStopBtn.innerText = 'Stop';
+                isRunning = true;
+
+                if (currentMode === 'pomodoro' || currentMode === 'timer') {
+                    timerInterval = setInterval(() => {
+                        if (timeRemaining > 0) {
+                            timeRemaining--;
+                            displayLeftTime();
+                        } else {
+                            clearInterval(timerInterval);
+                            alert('Vaqt tugadi!');
+                            resetMode();
+                        }
+                    }, 1000);
+                } else if (currentMode === 'stopwatch') {
+                    let startTime = Date.now() - stopwatchTime;
+                    timerInterval = setInterval(() => {
+                        stopwatchTime = Date.now() - startTime;
+                        displayStopwatch();
+                    }, 10);
+                }
+            }
+        }
+
+        function resetMode() {
+            switchMode(currentMode);
+        }
+
+        function displayLeftTime() {
+            const minutes = String(Math.floor(timeRemaining / 60)).padStart(2, '0');
+            const seconds = String(timeRemaining % 60).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${minutes}:${seconds}`;
+        }
+
+        function displayStopwatch() {
+            const totalSeconds = Math.floor(stopwatchTime / 1000);
+            const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            const milliseconds = String(Math.floor((stopwatchTime % 1000) / 10)).padStart(2, '0');
+            document.getElementById('clockDisplay').innerText = `${minutes}:${seconds}.${milliseconds}`;
+        }
+    </script>
+</body>
+</html>
