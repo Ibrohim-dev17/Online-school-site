@@ -37,6 +37,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding-bottom: 80px; /* Pastdagi nav uchun joy */
         }
 
         .app-container {
@@ -47,7 +48,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
             overflow: hidden;
             position: relative;
-            min-height: 680px;
+            min-height: 640px;
             display: flex;
             flex-direction: column;
             padding: 24px 20px;
@@ -100,7 +101,7 @@
         h1 { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; margin-bottom: 4px; }
         p.subtitle { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
 
-        /* 3 taasosiy panel (Darslar, So'zlar, Testlar) */
+        /* Main Menu Grid */
         .main-menu-grid {
             display: flex;
             flex-direction: column;
@@ -121,10 +122,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
 
-        .menu-panel-card:active {
-            transform: scale(0.96);
-        }
-
+        .menu-panel-card:active { transform: scale(0.96); }
         .menu-panel-card:hover {
             border-color: var(--accent);
             background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
@@ -149,28 +147,15 @@
             font-size: 20px;
         }
 
-        .panel-title {
-            font-size: 16px;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
+        .panel-title { font-size: 16px; font-weight: 800; color: var(--text-primary); }
+        .panel-desc { font-size: 12px; color: var(--text-secondary); font-weight: 500; margin-top: 2px; }
 
-        .panel-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        /* Content Sections (Darslar, So'zlar, Testlar ichki qismlari) */
+        /* Content Sections */
         .content-section {
             display: none;
             animation: fadeIn 0.3s ease forwards;
         }
-
-        .content-section.active {
-            display: block;
-        }
+        .content-section.active { display: block; }
 
         .section-header {
             display: flex;
@@ -178,11 +163,7 @@
             justify-content: space-between;
             margin-bottom: 16px;
         }
-
-        .section-header h2 {
-            font-size: 18px;
-            font-weight: 800;
-        }
+        .section-header h2 { font-size: 18px; font-weight: 800; }
 
         .back-btn {
             background: #f1f5f9;
@@ -194,7 +175,6 @@
             cursor: pointer;
             color: var(--text-secondary);
         }
-        .back-btn:hover { background: #e2e8f0; }
 
         /* Items Grid for Vocabulary */
         .items-grid {
@@ -219,7 +199,6 @@
         .item-card .word { font-size: 14px; font-weight: 800; }
         .item-card .translation { font-size: 11px; color: var(--text-secondary); }
 
-        /* Lesson & Quiz list items */
         .list-item-card {
             background: #f8fafc;
             border: 2px solid #edf2f7;
@@ -235,34 +214,52 @@
         }
         .list-item-card:hover { border-color: var(--accent); background: #f0fdf4; }
 
-        /* Primary Action Button */
-        .primary-btn {
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
+        /* FIXED BOTTOM NAVIGATION BAR */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            padding: 14px;
-            border-radius: 16px;
-            font-size: 15px;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #edf2f7;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 16px 0;
+            z-index: 100;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.03);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 11px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
-            transition: transform 0.15s ease;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: color 0.2s ease;
         }
-        .primary-btn:active { transform: scale(0.96); }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--accent);
+        }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- Top Navigation & Stats -->
+        <!-- Top Stats -->
         <div class="header-top">
-            <a href="kidspanel.html" class="back-nav" onclick="hapticClick()"><i class="fa-solid fa-arrow-left"></i> Orqaga</a>
+            <a href="kidspanel.html" class="back-nav" onclick="hapticClick()"><i class="fa-solid fa-arrow-left"></i> Darajalar</a>
             <div class="stat-badge"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
         </div>
 
@@ -274,7 +271,6 @@
             </div>
 
             <div class="main-menu-grid">
-                <!-- Darslar -->
                 <div class="menu-panel-card" onclick="switchSection('lessonsSection')">
                     <div class="panel-info">
                         <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
@@ -286,7 +282,6 @@
                     <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
                 </div>
 
-                <!-- So'zlar -->
                 <div class="menu-panel-card" onclick="switchSection('wordsSection')">
                     <div class="panel-info">
                         <div class="icon-box"><i class="fa-solid fa-icons"></i></div>
@@ -298,7 +293,6 @@
                     <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
                 </div>
 
-                <!-- Testlar -->
                 <div class="menu-panel-card" onclick="switchSection('quizSection')">
                     <div class="panel-info">
                         <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
@@ -316,7 +310,7 @@
         <div id="lessonsSection" class="content-section">
             <div class="section-header">
                 <h2>📚 Darslar</h2>
-                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
+                <button class="back-btn" onclick="switchSection('mainMenu')">Asosiy</button>
             </div>
             <div class="list-item-card" onclick="alert('📖 1-Dars: Ingliz alifbosi va harflar tovushi')">
                 <span>1-Dars: Alifbo bilan tanishuv</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
@@ -324,16 +318,13 @@
             <div class="list-item-card" onclick="alert('📖 2-Dars: Salomlashish va tanishuv so\'zlari')">
                 <span>2-Dars: Hello & Goodbye</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
             </div>
-            <div class="list-item-card" onclick="alert('📖 3-Dars: Ranglar va raqamlar')">
-                <span>3-Dars: Ranglar va Raqamlar</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
-            </div>
         </div>
 
         <!-- SO'ZLAR BO'LIMI -->
         <div id="wordsSection" class="content-section">
             <div class="section-header">
                 <h2>🦁 So'zlar</h2>
-                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
+                <button class="back-btn" onclick="switchSection('mainMenu')">Asosiy</button>
             </div>
             <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">So'zga bosing, ovozini eshiting:</p>
             <div class="items-grid">
@@ -364,16 +355,49 @@
         <div id="quizSection" class="content-section">
             <div class="section-header">
                 <h2>🧠 Testlar</h2>
-                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
+                <button class="back-btn" onclick="switchSection('mainMenu')">Asosiy</button>
             </div>
             <div class="list-item-card" onclick="completeQuiz()">
                 <span>🎯 So'zlarni topish testi</span> <span style="color: #d97706;">+30 XP</span>
             </div>
-            <div class="list-item-card" onclick="completeQuiz()">
-                <span>🧩 Eshitib topish o'yini</span> <span style="color: #d97706;">+50 XP</span>
+        </div>
+
+        <!-- PROFIL BO'LIMI -->
+        <div id="profileSection" class="content-section">
+            <div class="section-header">
+                <h2>👤 Profil</h2>
+                <button class="back-btn" onclick="switchSection('mainMenu')">Asosiy</button>
+            </div>
+            <div style="text-align: center; padding: 20px 0;">
+                <div style="font-size: 50px; margin-bottom: 10px;">👑</div>
+                <div style="font-weight: 800; font-size: 16px; margin-bottom: 4px;">Kids O'quvchisi</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">Beginner Kids 1 Darajasi</div>
+                <div style="background: #f0fdf4; border: 2px solid #10b981; border-radius: 16px; padding: 14px; font-weight: 700; color: var(--accent);">
+                    Umumiy XP: <span id="profileXp">0</span> ⭐
+                </div>
             </div>
         </div>
 
+    </div>
+
+    <!-- DOIMIY PASTKI NAVIGATSIYA PANELI -->
+    <div class="bottom-nav">
+        <a href="kidspanel.html" class="nav-item" onclick="hapticClick()">
+            <i class="fa-solid fa-house"></i>
+            <span>Darajalar</span>
+        </a>
+        <div class="nav-item active" onclick="switchSection('mainMenu'); hapticClick();">
+            <i class="fa-solid fa-compass"></i>
+            <span>Asosiy</span>
+        </div>
+        <div class="nav-item" onclick="switchSection('lessonsSection'); hapticClick();">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Darslar</span>
+        </div>
+        <div class="nav-item" onclick="switchSection('profileSection'); updateProfileXp(); hapticClick();">
+            <i class="fa-solid fa-user"></i>
+            <span>Profil</span>
+        </div>
     </div>
 
     <script>
@@ -417,6 +441,10 @@
             localStorage.setItem('kids_xp', userXP);
             document.getElementById('xpCount').innerText = userXP;
             alert("Ajoyib! Test muvaffaqiyatli bajarildi! 🎉 +30 XP qo'shildi.");
+        }
+
+        function updateProfileXp() {
+            document.getElementById('profileXp').innerText = localStorage.getItem('kids_xp') || 0;
         }
     </script>
 </body>
