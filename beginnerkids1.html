@@ -95,42 +95,51 @@
         /* Header Titles */
         .header-title-box {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         h1 { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; margin-bottom: 4px; }
         p.subtitle { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
 
-        /* Sub Menu Grid Cards */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        /* 3 taasosiy panel (Darslar, So'zlar, Testlar) */
+        .main-menu-grid {
+            display: flex;
+            flex-direction: column;
             gap: 12px;
             margin-bottom: 20px;
         }
 
-        .menu-card {
+        .menu-panel-card {
             background: #ffffff;
             border: 2px solid #edf2f7;
             border-radius: 18px;
-            padding: 18px 12px;
-            text-align: center;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             cursor: pointer;
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
 
-        .menu-card:active {
-            transform: scale(0.95);
+        .menu-panel-card:active {
+            transform: scale(0.96);
         }
 
-        .menu-card:hover {
+        .menu-panel-card:hover {
             border-color: var(--accent);
+            background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
             box-shadow: var(--shadow);
         }
 
-        .menu-card .icon-box {
-            width: 44px;
-            height: 44px;
+        .panel-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
             border-radius: 14px;
             background: #ecfdf5;
             color: var(--accent);
@@ -138,67 +147,93 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            margin: 0 auto 10px auto;
         }
 
-        .menu-card span {
-            font-weight: 700;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        /* Vocabulary Section */
-        .section-title {
+        .panel-title {
             font-size: 16px;
             font-weight: 800;
-            margin-bottom: 12px;
             color: var(--text-primary);
         }
 
+        .panel-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Content Sections (Darslar, So'zlar, Testlar ichki qismlari) */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .back-btn {
+            background: #f1f5f9;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .back-btn:hover { background: #e2e8f0; }
+
+        /* Items Grid for Vocabulary */
         .items-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .item-card {
             background: #f8fafc;
             border: 2px solid #edf2f7;
             border-radius: 18px;
-            padding: 16px 10px;
+            padding: 14px 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.2s ease;
         }
+        .item-card:active { transform: scale(0.95); }
+        .item-card:hover { border-color: var(--accent); background: #f0fdf4; }
+        .item-card .emoji { font-size: 30px; margin-bottom: 4px; display: block; }
+        .item-card .word { font-size: 14px; font-weight: 800; }
+        .item-card .translation { font-size: 11px; color: var(--text-secondary); }
 
-        .item-card:active {
-            transform: scale(0.95);
+        /* Lesson & Quiz list items */
+        .list-item-card {
+            background: #f8fafc;
+            border: 2px solid #edf2f7;
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
         }
-
-        .item-card:hover {
-            border-color: var(--accent);
-            background: #f0fdf4;
-        }
-
-        .item-card .emoji {
-            font-size: 34px;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        .item-card .word {
-            font-size: 15px;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .item-card .translation {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 2px;
-        }
+        .list-item-card:hover { border-color: var(--accent); background: #f0fdf4; }
 
         /* Primary Action Button */
         .primary-btn {
@@ -206,23 +241,20 @@
             color: white;
             border: none;
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border-radius: 16px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
             transition: transform 0.15s ease;
-            margin-top: auto;
+            margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-
-        .primary-btn:active {
-            transform: scale(0.96);
-        }
+        .primary-btn:active { transform: scale(0.96); }
     </style>
 </head>
 <body>
@@ -234,56 +266,114 @@
             <div class="stat-badge"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
         </div>
 
-        <div class="header-title-box">
-            <h1>Beginner Kids 1 🌟</h1>
-            <p class="subtitle">Asosiy so'zlar va interaktiv bo'limlar</p>
+        <!-- ASOSIY MENYU -->
+        <div id="mainMenu" class="content-section active">
+            <div class="header-title-box">
+                <h1>Beginner Kids 1 🌟</h1>
+                <p class="subtitle">Bo'limni tanlang va o'rganishni boshlang</p>
+            </div>
+
+            <div class="main-menu-grid">
+                <!-- Darslar -->
+                <div class="menu-panel-card" onclick="switchSection('lessonsSection')">
+                    <div class="panel-info">
+                        <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
+                        <div>
+                            <div class="panel-title">Darslar</div>
+                            <div class="panel-desc">Alifbo va mavzuli darslar</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
+                </div>
+
+                <!-- So'zlar -->
+                <div class="menu-panel-card" onclick="switchSection('wordsSection')">
+                    <div class="panel-info">
+                        <div class="icon-box"><i class="fa-solid fa-icons"></i></div>
+                        <div>
+                            <div class="panel-title">So'zlar</div>
+                            <div class="panel-desc">Kartochkalar va talaffuz</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
+                </div>
+
+                <!-- Testlar -->
+                <div class="menu-panel-card" onclick="switchSection('quizSection')">
+                    <div class="panel-info">
+                        <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+                        <div>
+                            <div class="panel-title">Testlar</div>
+                            <div class="panel-desc">Bilimni sinash va XP yig'ish</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
+                </div>
+            </div>
         </div>
 
-        <!-- Ichki Panellar Grid -->
-        <div class="menu-grid">
-            <div class="menu-card" onclick="alert('📚 1-Dars: Alifbo va tovushlar tanishuvi!')">
-                <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
-                <span>Darslar</span>
+        <!-- DARSLAR BO'LIMI -->
+        <div id="lessonsSection" class="content-section">
+            <div class="section-header">
+                <h2>📚 Darslar</h2>
+                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
             </div>
-            <div class="menu-card" onclick="alert('✍️ Test bo‘limi tez kunda ishga tushadi!')">
-                <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
-                <span>Testlar</span>
+            <div class="list-item-card" onclick="alert('📖 1-Dars: Ingliz alifbosi va harflar tovushi')">
+                <span>1-Dars: Alifbo bilan tanishuv</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
             </div>
-        </div>
-
-        <div class="section-title">So'zlar va Kartochkalar 🦁</div>
-
-        <!-- So'zlar Grid -->
-        <div class="items-grid">
-            <div class="item-card" onclick="playWord('Cat')">
-                <span class="emoji">🐱</span>
-                <div class="word">Cat</div>
-                <div class="translation">Mushuk</div>
+            <div class="list-item-card" onclick="alert('📖 2-Dars: Salomlashish va tanishuv so\'zlari')">
+                <span>2-Dars: Hello & Goodbye</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
             </div>
-
-            <div class="item-card" onclick="playWord('Dog')">
-                <span class="emoji">🐶</span>
-                <div class="word">Dog</div>
-                <div class="translation">Kuchuk</div>
-            </div>
-
-            <div class="item-card" onclick="playWord('Apple')">
-                <span class="emoji">🍎</span>
-                <div class="word">Apple</div>
-                <div class="translation">Olma</div>
-            </div>
-
-            <div class="item-card" onclick="playWord('Sun')">
-                <span class="emoji">☀️</span>
-                <div class="word">Sun</div>
-                <div class="translation">Quyosh</div>
+            <div class="list-item-card" onclick="alert('📖 3-Dars: Ranglar va raqamlar')">
+                <span>3-Dars: Ranglar va Raqamlar</span> <i class="fa-solid fa-play" style="color: var(--accent);"></i>
             </div>
         </div>
 
-        <!-- Yakunlash tugmasi -->
-        <button class="primary-btn" onclick="completeStep()">
-            <i class="fa-solid fa-circle-check"></i> Bosqichni Yakunlash (+50 XP)
-        </button>
+        <!-- SO'ZLAR BO'LIMI -->
+        <div id="wordsSection" class="content-section">
+            <div class="section-header">
+                <h2>🦁 So'zlar</h2>
+                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
+            </div>
+            <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 12px;">So'zga bosing, ovozini eshiting:</p>
+            <div class="items-grid">
+                <div class="item-card" onclick="playWord('Cat')">
+                    <span class="emoji">🐱</span>
+                    <div class="word">Cat</div>
+                    <div class="translation">Mushuk</div>
+                </div>
+                <div class="item-card" onclick="playWord('Dog')">
+                    <span class="emoji">🐶</span>
+                    <div class="word">Dog</div>
+                    <div class="translation">Kuchuk</div>
+                </div>
+                <div class="item-card" onclick="playWord('Apple')">
+                    <span class="emoji">🍎</span>
+                    <div class="word">Apple</div>
+                    <div class="translation">Olma</div>
+                </div>
+                <div class="item-card" onclick="playWord('Sun')">
+                    <span class="emoji">☀️</span>
+                    <div class="word">Sun</div>
+                    <div class="translation">Quyosh</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESTLAR BO'LIMI -->
+        <div id="quizSection" class="content-section">
+            <div class="section-header">
+                <h2>🧠 Testlar</h2>
+                <button class="back-btn" onclick="switchSection('mainMenu')"><i class="fa-solid fa-xmark"></i> Yopish</button>
+            </div>
+            <div class="list-item-card" onclick="completeQuiz()">
+                <span>🎯 So'zlarni topish testi</span> <span style="color: #d97706;">+30 XP</span>
+            </div>
+            <div class="list-item-card" onclick="completeQuiz()">
+                <span>🧩 Eshitib topish o'yini</span> <span style="color: #d97706;">+50 XP</span>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -299,11 +389,18 @@
             }
         }
 
+        function switchSection(sectionId) {
+            hapticClick();
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
         function playWord(text) {
             if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.impactOccurred('light');
             }
-
             if ('speechSynthesis' in window) {
                 let utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'en-US';
@@ -312,14 +409,14 @@
             }
         }
 
-        function completeStep() {
+        function completeQuiz() {
             if (tg && tg.HapticFeedback) {
                 tg.HapticFeedback.notificationOccurred('success');
             }
-            userXP += 50;
+            userXP += 30;
             localStorage.setItem('kids_xp', userXP);
             document.getElementById('xpCount').innerText = userXP;
-            alert("Tabriklaymiz! Beginner Kids 1 bosqichini tugatdingiz! 🎉 +50 XP");
+            alert("Ajoyib! Test muvaffaqiyatli bajarildi! 🎉 +30 XP qo'shildi.");
         }
     </script>
 </body>
