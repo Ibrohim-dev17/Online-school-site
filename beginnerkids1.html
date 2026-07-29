@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Beginner Kids 1</title>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #10b981;
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --radius: 22px;
+            --shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            position: relative;
+            min-height: 680px;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 20px;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Top Header & Stats */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .back-nav:hover { color: var(--accent); }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #fef3c7;
+            color: #d97706;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        /* Header Titles */
+        .header-title-box {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 22px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; margin-bottom: 4px; }
+        p.subtitle { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+
+        /* Sub Menu Grid Cards */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border: 2px solid #edf2f7;
+            border-radius: 18px;
+            padding: 18px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .menu-card:active {
+            transform: scale(0.95);
+        }
+
+        .menu-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow);
+        }
+
+        .menu-card .icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: #ecfdf5;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin: 0 auto 10px auto;
+        }
+
+        .menu-card span {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Vocabulary Section */
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .item-card {
+            background: #f8fafc;
+            border: 2px solid #edf2f7;
+            border-radius: 18px;
+            padding: 16px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .item-card:active {
+            transform: scale(0.95);
+        }
+
+        .item-card:hover {
+            border-color: var(--accent);
+            background: #f0fdf4;
+        }
+
+        .item-card .emoji {
+            font-size: 34px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .item-card .word {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .item-card .translation {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* Primary Action Button */
+        .primary-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
+            transition: transform 0.15s ease;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .primary-btn:active {
+            transform: scale(0.96);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Top Navigation & Stats -->
+        <div class="header-top">
+            <a href="kidspanel.html" class="back-nav" onclick="hapticClick()"><i class="fa-solid fa-arrow-left"></i> Orqaga</a>
+            <div class="stat-badge"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
+        </div>
+
+        <div class="header-title-box">
+            <h1>Beginner Kids 1 🌟</h1>
+            <p class="subtitle">Asosiy so'zlar va interaktiv bo'limlar</p>
+        </div>
+
+        <!-- Ichki Panellar Grid -->
+        <div class="menu-grid">
+            <div class="menu-card" onclick="alert('📚 1-Dars: Alifbo va tovushlar tanishuvi!')">
+                <div class="icon-box"><i class="fa-solid fa-book-open"></i></div>
+                <span>Darslar</span>
+            </div>
+            <div class="menu-card" onclick="alert('✍️ Test bo‘limi tez kunda ishga tushadi!')">
+                <div class="icon-box"><i class="fa-solid fa-brain"></i></div>
+                <span>Testlar</span>
+            </div>
+        </div>
+
+        <div class="section-title">So'zlar va Kartochkalar 🦁</div>
+
+        <!-- So'zlar Grid -->
+        <div class="items-grid">
+            <div class="item-card" onclick="playWord('Cat')">
+                <span class="emoji">🐱</span>
+                <div class="word">Cat</div>
+                <div class="translation">Mushuk</div>
+            </div>
+
+            <div class="item-card" onclick="playWord('Dog')">
+                <span class="emoji">🐶</span>
+                <div class="word">Dog</div>
+                <div class="translation">Kuchuk</div>
+            </div>
+
+            <div class="item-card" onclick="playWord('Apple')">
+                <span class="emoji">🍎</span>
+                <div class="word">Apple</div>
+                <div class="translation">Olma</div>
+            </div>
+
+            <div class="item-card" onclick="playWord('Sun')">
+                <span class="emoji">☀️</span>
+                <div class="word">Sun</div>
+                <div class="translation">Quyosh</div>
+            </div>
+        </div>
+
+        <!-- Yakunlash tugmasi -->
+        <button class="primary-btn" onclick="completeStep()">
+            <i class="fa-solid fa-circle-check"></i> Bosqichni Yakunlash (+50 XP)
+        </button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let userXP = parseInt(localStorage.getItem('kids_xp')) || 0;
+        document.getElementById('xpCount').innerText = userXP;
+
+        function hapticClick() {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+        }
+
+        function playWord(text) {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function completeStep() {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+            userXP += 50;
+            localStorage.setItem('kids_xp', userXP);
+            document.getElementById('xpCount').innerText = userXP;
+            alert("Tabriklaymiz! Beginner Kids 1 bosqichini tugatdingiz! 🎉 +50 XP");
+        }
+    </script>
+</body>
+</html>
