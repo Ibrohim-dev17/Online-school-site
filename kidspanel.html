@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kids English Panel</title>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #f0fdf4;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent: #10b981;
+            --accent-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --radius: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+            overflow: hidden;
+            position: relative;
+            min-height: 650px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .stat-badge.xp { color: #d97706; background: #fef3c7; }
+
+        .content-area {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .back-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 16px;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .back-nav:hover { color: var(--accent); }
+
+        h1 { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 6px; color: var(--text-primary); }
+        p.subtitle { color: var(--text-secondary); font-size: 13px; text-align: center; margin-bottom: 20px; }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .item-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .item-card:active {
+            transform: scale(0.92);
+        }
+
+        .item-card .emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .item-card .word {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .item-card .translation {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .primary-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+            transition: transform 0.1s ease;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .primary-btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Top Stats -->
+        <div class="header-stats">
+            <div class="stat-badge"><i class="fa-solid fa-child-reaching"></i> Kids 1-Bosqich</div>
+            <div class="stat-badge xp"><i class="fa-solid fa-star"></i> <span id="xpCount">0</span> XP</div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-area">
+            <!-- Orqaga qaytish tugmasi -->
+            <a href="index.html" class="back-nav"><i class="fa-solid fa-arrow-left"></i> Asosiy menyu</a>
+
+            <h1>Hayvonlar va So'zlar 🦁</h1>
+            <p class="subtitle">So'zni bosing: talaffuzini eshiting va ball yig'ing!</p>
+
+            <div class="items-grid">
+                <div class="item-card" onclick="playWord('Cat')">
+                    <span class="emoji">🐱</span>
+                    <div class="word">Cat</div>
+                    <div class="translation">Mushuk</div>
+                </div>
+
+                <div class="item-card" onclick="playWord('Dog')">
+                    <span class="emoji">🐶</span>
+                    <div class="word">Dog</div>
+                    <div class="translation">Kuchuk</div>
+                </div>
+
+                <div class="item-card" onclick="playWord('Apple')">
+                    <span class="emoji">🍎</span>
+                    <div class="word">Apple</div>
+                    <div class="translation">Olma</div>
+                </div>
+
+                <div class="item-card" onclick="playWord('Sun')">
+                    <span class="emoji">☀️</span>
+                    <div class="word">Sun</div>
+                    <div class="translation">Quyosh</div>
+                </div>
+            </div>
+
+            <button class="primary-btn" onclick="completeStep()">
+                <i class="fa-solid fa-circle-check"></i> 1-Bosqichni Yakunlash (+50 XP)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let userXP = parseInt(localStorage.getItem('kids_xp')) || 0;
+        document.getElementById('xpCount').innerText = userXP;
+
+        function playWord(text) {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('light');
+            }
+
+            if ('speechSynthesis' in window) {
+                let utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function completeStep() {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('success');
+            }
+            userXP += 50;
+            localStorage.setItem('kids_xp', userXP);
+            document.getElementById('xpCount').innerText = userXP;
+            alert("Tabriklaymiz! Kids 1-bosqichini muvaffaqiyatli tugatdingiz! 🎉 +50 XP");
+        }
+    </script>
+</body>
+</html>
