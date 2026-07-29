@@ -2,83 +2,144 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ingliz Tili Mini App</title>
+    <!-- Telegram Web App SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #2563eb;
+            --accent-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            --radius: 24px;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: #000000;
-            color: #ffffff;
-            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
-        .dashboard-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        /* Ilovalar ro'yxati (Tugmalar majmuasi) */
-        .apps-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .app-container {
             width: 100%;
+            max-width: 420px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            overflow: hidden;
+            padding: 24px;
+            min-height: 550px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        /* Minimalist noutbuk/kiberpank uslubidagi tugma */
-        .app-btn {
-            background: transparent;
-            color: #ffffff;
-            border: 1px solid #ffffff;
-            padding: 15px 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            text-align: center;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.25s ease;
-        }
+        h1 { font-size: 24px; font-weight: 800; text-align: center; margin-bottom: 8px; color: var(--text-primary); }
+        p.subtitle { color: var(--text-secondary); font-size: 14px; text-align: center; margin-bottom: 32px; }
 
-        .app-btn:hover {
+        .menu-btn {
             background: #ffffff;
-            color: #000000;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+            border: 2px solid #f1f5f9;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            text-decoration: none;
+            color: var(--text-primary);
         }
 
-        /* Kelajakda qo'shiladigan ilovalar uchun xira tugma dizayni */
-        .disabled-btn {
-            border: 1px dashed #444;
-            color: #444;
-            cursor: not-allowed;
+        .menu-btn:active {
+            transform: scale(0.97);
         }
+
+        .menu-btn:hover {
+            border-color: var(--accent);
+        }
+
+        .menu-btn .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .kids-box { background: #fdf4ff; color: #c084fc; }
+        .adults-box { background: #eff6ff; color: #2563eb; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
-        <div class="apps-grid">
-            <a href="time.html" class="app-btn">Vaqt & Taymer</a>
-            <a href="note.html" class="app-btn">Bloknot (Notes)</a>
-            
-            <a href="#" class="app-btn disabled-btn">Yaqinda...</a>
+    <div class="app-container">
+        <h1>Ingliz Tilini O'rganish</h1>
+        <p class="subtitle">O'zingizga mos bo'limni tanlang</p>
+
+        <!-- Kids bo'limiga o'tish (kidspanel.html ga yo'naltiradi) -->
+        <a href="kidspanel.html" class="menu-btn" onclick="hapticClick()">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="icon-box kids-box"><i class="fa-solid fa-child-reaching"></i></div>
+                <div>
+                    <h3 style="font-size: 16px;">Kids (Bolalar)</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">O'yinlar va qiziqarli darslar</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="color: var(--text-secondary);"></i>
+        </a>
+
+        <!-- Adults bo'limi (Hozircha ishchi holatda emasligini bildiruvchi xabar) -->
+        <div class="menu-btn" onclick="showAdultsWarning()">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="icon-box adults-box"><i class="fa-solid fa-user-tie"></i></div>
+                <div>
+                    <h3 style="font-size: 16px;">Adults (Kattalar)</h3>
+                    <p style="font-size: 13px; color: var(--text-secondary);">General & Business English</p>
+                </div>
+            </div>
+            <i class="fa-solid fa-lock" style="color: var(--text-secondary);"></i>
         </div>
     </div>
 
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function hapticClick() {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.impactOccurred('medium');
+            }
+        }
+
+        function showAdultsWarning() {
+            if (tg && tg.HapticFeedback) {
+                tg.HapticFeedback.notificationOccurred('warning');
+            }
+            alert("⚠️ Adults (Kattalar) bo'limi hozirda ishlab chiqilmoqda. Tez kunda ochiladi!");
+        }
+    </script>
 </body>
 </html>
