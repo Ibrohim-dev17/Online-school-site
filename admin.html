@@ -4,129 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chevarxona Pro - Admin Panel</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #121216; color: #1e1e24; }
+    </style>
 </head>
-<body class="bg-gray-100 font-sans min-h-screen p-4 max-w-7xl mx-auto">
+<body class="p-6">
 
-    <!-- Header -->
-    <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm mb-6">
-        <div class="flex items-center gap-3">
-            <div class="bg-purple-600 text-white p-2.5 rounded-xl font-bold">👑</div>
-            <div>
-                <h1 class="text-base font-extrabold text-gray-800">Admin panel</h1>
-                <p class="text-xs text-gray-400">Chevarxona faoliyatini nazorat qilish</p>
+<div class="max-w-7xl mx-auto bg-[#f8f9fc] rounded-[32px] p-6 shadow-2xl min-h-[90vh] flex flex-col justify-between">
+    
+    <div>
+        <!-- TOP HEADER -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center text-white shadow-md">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 9 9 0 010-3.18 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-gray-900">Xush kelibsiz, Admin! 👋</h1>
+                    <p class="text-xs text-gray-400">Chevarxona faoliyati nazorati</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="bg-white px-4 py-2 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2 text-sm font-semibold text-gray-700">
+                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    20 May, 2024
+                </div>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500" alt="Admin">
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <a href="index.html" class="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl text-xs font-bold hover:bg-purple-200 transition">
-                <i class="fa-solid fa-arrow-left mr-1"></i> Xodim oynasiga o'tish
-            </a>
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-9 h-9 rounded-full object-cover">
-        </div>
-    </div>
 
-    <!-- Statistik kartochkalar (Rasmdagi kabi) -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            <p class="text-xs text-gray-400 mb-1">Jami ishchilar</p>
-            <h3 class="text-xl font-extrabold text-gray-800">128 <span class="text-xs font-normal text-gray-400">nafap</span></h3>
-            <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-block">Faol: 116</span>
+        <!-- STATS CARDS -->
+        <div class="grid grid-cols-5 gap-4 mb-6">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg> Jami ishchilar
+                </div>
+                <p class="text-2xl font-extrabold text-gray-900">128</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                    <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Ishda
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <p class="text-2xl font-extrabold text-emerald-600" id="admin-ishda-count">98</p>
+                    <span class="text-xs text-emerald-500 font-bold">(76%)</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1m-2-8H6a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2V10a2 2 0 00-2-2z"/></svg> Tanaffusda
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <p class="text-2xl font-extrabold text-amber-500" id="admin-tanaffus-count">21</p>
+                    <span class="text-xs text-amber-500 font-bold">(16%)</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                    <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg> Ketgan
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <p class="text-2xl font-extrabold text-rose-500" id="admin-ketgan-count">9</p>
+                    <span class="text-xs text-rose-500 font-bold">(8%)</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <div class="flex items-center gap-2 text-xs text-gray-400 mb-1">
+                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Bugungi ish vaqti
+                </div>
+                <p class="text-2xl font-extrabold text-gray-900">742 <span class="text-xs text-gray-400 font-normal">soat</span></p>
+            </div>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            <p class="text-xs text-gray-400 mb-1">Bugun ishda</p>
-            <h3 class="text-xl font-extrabold text-emerald-600">98 <span class="text-xs font-normal text-gray-400">nafap</span></h3>
-            <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-block">76%</span>
-        </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            <p class="text-xs text-gray-400 mb-1">Jami ish vaqti</p>
-            <h3 class="text-xl font-extrabold text-purple-600">742 <span class="text-xs font-normal text-gray-400">soat 35 daqiqa</span></h3>
-        </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-            <p class="text-xs text-gray-400 mb-1">O'rtacha ish vaqti</p>
-            <h3 class="text-xl font-extrabold text-gray-800">7 soat 15 daqiqa</h3>
-        </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1">
-            <p class="text-xs text-gray-400 mb-1">Tanaffuslar soni</p>
-            <h3 class="text-xl font-extrabold text-amber-500">156 <span class="text-xs font-normal text-gray-400">marta</span></h3>
-        </div>
-    </div>
 
-    <!-- Xodimlar ro'yxati jadvali -->
-    <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-        <h3 class="font-bold text-gray-800 text-sm mb-4">Ishchilar ro'yxati</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-xs">
+        <!-- ISHCHILAR RO'YXATI TABLE -->
+        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-gray-900 text-base">Ishchilar ro'yxati</h3>
+                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live
+                </span>
+            </div>
+            
+            <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="text-gray-400 border-b border-gray-100 pb-2">
+                    <tr class="border-b border-gray-100 text-xs text-gray-400 uppercase tracking-wider">
                         <th class="pb-3 font-semibold">Ishchi</th>
+                        <th class="pb-3 font-semibold">Sektor</th>
                         <th class="pb-3 font-semibold">Holat</th>
-                        <th class="pb-3 font-semibold">Ishga kelgan</th>
-                        <th class="pb-3 font-semibold">So'nggi holat</th>
-                        <th class="pb-3 font-semibold">Ish vaqti</th>
-                        <th class="pb-3 font-semibold">Tanaffus</th>
+                        <th class="pb-3 font-semibold">Ishga keldi</th>
+                        <th class="pb-3 font-semibold">Tanaffuslar</th>
+                        <th class="pb-3 font-semibold">Jami ish vaqti</th>
                         <th class="pb-3 font-semibold">Samaradorlik</th>
-                        <th class="pb-3 font-semibold">Amallar</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50 text-gray-700">
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-3 flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-8 h-8 rounded-full object-cover">
-                            <div><p class="font-bold text-gray-800">Malika Abdullayeva</p><p class="text-[10px] text-gray-400">ID: 1025 | Tikuvchi</p></div>
+                <tbody class="divide-y divide-gray-50 text-sm">
+                    <tr class="hover:bg-gray-50/50 transition">
+                        <td class="py-3.5 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-9 h-9 rounded-full object-cover" alt="Malika">
+                            <div>
+                                <p class="font-bold text-gray-900 text-xs">Malika Abdullayeva</p>
+                                <p class="text-[11px] text-gray-400">ID: 1025</p>
+                            </div>
                         </td>
-                        <td class="py-3"><span id="admin-status-badge" class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">Ishda</span></td>
-                        <td class="py-3 font-medium">09:02</td>
-                        <td class="py-3 font-medium" id="admin-last-time">15:45</td>
-                        <td class="py-3 font-bold">7:15</td>
-                        <td class="py-3 font-bold">1:30 (2)</td>
-                        <td class="py-3 font-bold text-purple-600">92%</td>
-                        <td class="py-3 flex gap-2">
-                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-eye"></i></button>
-                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-pen"></i></button>
+                        <td class="py-3.5 text-xs text-gray-600">1-sektor</td>
+                        <td class="py-3.5">
+                            <span id="admin-status-badge" class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 flex items-center gap-1.5 w-max">
+                                <span id="admin-status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> 
+                                <span id="admin-status-text">Ishda</span>
+                            </span>
                         </td>
-                    </tr>
-                    <tr class="hover:bg-gray-50">
-                        <td class="py-3 flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="w-8 h-8 rounded-full object-cover">
-                            <div><p class="font-bold text-gray-800">Ziyodulla To'xtayev</p><p class="text-[10px] text-gray-400">ID: 1026 | Tikuvchi</p></div>
-                        </td>
-                        <td class="py-3"><span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold">Tanaffusda</span></td>
-                        <td class="py-3 font-medium">08:55</td>
-                        <td class="py-3 font-medium">15:30</td>
-                        <td class="py-3 font-bold">6:35</td>
-                        <td class="py-3 font-bold">1:15 (1)</td>
-                        <td class="py-3 font-bold text-purple-600">90%</td>
-                        <td class="py-3 flex gap-2">
-                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-eye"></i></button>
-                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-pen"></i></button>
-                        </td>
+                        <td class="py-3.5 text-xs text-gray-600" id="admin-time-val">09:02 dan beri</td>
+                        <td class="py-3.5 text-xs text-gray-600">T: 1</td>
+                        <td class="py-3.5 text-xs font-bold text-gray-900">5:28</td>
+                        <td class="py-3.5 text-xs font-extrabold text-purple-600">76%</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedData = localStorage.getItem("malikaStatus");
-            if(savedData) {
-                const data = JSON.parse(savedData);
-                const badge = document.getElementById('admin-status-badge');
-                const lastTime = document.getElementById('admin-last-time');
-                
-                badge.innerText = data.status;
-                lastTime.innerText = data.time;
-                
-                if(data.status.includes('Tugatildi')) {
-                    badge.className = "bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full font-bold";
-                } else if(data.status.includes('Tanaffus')) {
-                    badge.className = "bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold";
-                } else {
-                    badge.className = "bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold";
-                }
-            }
-        });
-    </script>
+    <!-- FOOTER -->
+    <div class="text-center pt-4 border-t border-gray-100 text-xs text-gray-400">
+        Chevarxona Pro &copy; 2026. Barcha huquqlar himoyalangan.
+    </div>
+</div>
+
+<script>
+    // Real vaqt rejimida localStorage dan o'qib ma'lumotni yangilash
+    window.addEventListener('storage', updateAdminData);
+    
+    function updateAdminData() {
+        const status = localStorage.getItem('malikaStatus');
+        const time = localStorage.getItem('malikaTime');
+        
+        if (!status) return;
+
+        const badge = document.getElementById('admin-status-badge');
+        const dot = document.getElementById('admin-status-dot');
+        const text = document.getElementById('admin-status-text');
+        const timeVal = document.getElementById('admin-time-val');
+        
+        const ishdaCount = document.getElementById('admin-ishda-count');
+        const tanaffusCount = document.getElementById('admin-tanaffus-count');
+        const ketganCount = document.getElementById('admin-ketgan-count');
+
+        if (status === 'Ishda') {
+            badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-600 flex items-center gap-1.5 w-max";
+            dot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse";
+            text.innerText = "Ishda";
+            timeVal.innerText = `${time} dan beri`;
+            ishdaCount.innerText = "98";
+        } else if (status === 'Tanaffusda') {
+            badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-600 flex items-center gap-1.5 w-max";
+            dot.className = "w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse";
+            text.innerText = "Tanaffusda";
+            timeVal.innerText = `${time} dan beri`;
+            tanaffusCount.innerText = "22";
+            ishdaCount.innerText = "97";
+        } else if (status === 'Ketgan') {
+            badge.className = "px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-600 flex items-center gap-1.5 w-max";
+            dot.className = "w-1.5 h-1.5 rounded-full bg-rose-500";
+            text.innerText = "Ketgan";
+            timeVal.innerText = `${time} da tugatdi`;
+            ketganCount.innerText = "10";
+            ishdaCount.innerText = "97";
+        }
+    }
+
+    // Sahifa ochilganda ham tekshirish
+    updateAdminData();
+</script>
 </body>
 </html>
