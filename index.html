@@ -12,12 +12,12 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header -->
-    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
+    <!-- Top Header (z-50 va to'liq bg-white orqali boshqa elementlar ostidan chiqib qolishi oldi olindi) -->
+    <header class="p-4 mt-12 bg-white shadow-md flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
-                <h1 class="font-bold text-gray-800 text-base">Salom, <span id="profile-name-text">Malika</span>!</h1>
+                <h1 class="font-bold text-gray-800 text-base">Salom, <span id="profile-name-text">Malika</span>! 👋</h1>
                 <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
             </div>
         </div>
@@ -142,12 +142,10 @@
     </nav>
 
     <script>
-        // Profil ma'lumotlarini yuklash (Ism va Rasm)
         function loadProfileInfo() {
             let saved = JSON.parse(localStorage.getItem('malika_profile'));
             if (saved) {
                 if (saved.name) {
-                    // Ismning faqat birinchi so'zini yoki to'liq ismni chiqarish
                     let firstName = saved.name.split(' ')[0];
                     document.getElementById('profile-name-text').innerText = firstName;
                 }
