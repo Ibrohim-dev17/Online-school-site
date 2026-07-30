@@ -12,41 +12,120 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Telegram oyna tugmalari bilan qo'shilib ketmasligi uchun bo'shliq -->
-    <div class="w-full">
-        <div class="h-2 w-full bg-transparent"></div>
+    <!-- Top Header -->
+    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
+        <div class="flex items-center gap-3">
+            <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
+            <div>
+                <h1 class="font-bold text-gray-800 text-base">Salom, <span id="profile-name-text">Malika</span>! 👋</h1>
+                <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
+            </div>
+        </div>
+        <!-- Chat va bildirishnoma orasini ochish va qulay qilish -->
+        <div class="flex items-center gap-3">
+            <a href="chat.html" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Boshliq bilan chat">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
+            </a>
+            <div class="relative w-10 h-10 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-full flex items-center justify-center transition shadow-sm cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75v-.7V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
+            </div>
+            <a href="profil.html">
+                <img id="header-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500 shadow-sm" alt="Profil">
+            </a>
+        </div>
+    </header>
 
-        <!-- Header: Profil rasmi, Ism va Salomlashish -->
-        <header class="px-4 py-3 bg-white flex items-center justify-between border-b border-gray-100">
+    <!-- Main Content -->
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
+        <!-- Date Card -->
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
-                <!-- Profil rasmi (Profil sahifasidan avtomatik keladi) -->
-                <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold overflow-hidden border border-purple-200">
-                    <span id="header-avatar-initials">M</span>
-                    <img id="header-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden">
-                </div>
-                <div>
-                    <h2 class="text-[11px] text-gray-400">Xush kelibsiz,</h2>
-                    <h1 id="user-name-display" class="font-bold text-gray-800 text-xs">Malika</h1>
-                </div>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+                <span id="current-date" class="font-medium">Yuklanmoqda...</span>
             </div>
-            <span class="text-xs font-semibold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-xl">Pro</span>
-        </header>
+            <span id="current-day-name" class="bg-white/20 px-3 py-1 rounded-lg text-sm font-medium">---</span>
+        </div>
 
-        <!-- Main Content -->
-        <main class="p-3 space-y-3 max-w-xl mx-auto w-full">
-            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 text-center space-y-3">
-                <h3 class="text-xs font-semibold text-gray-400">Ish jarayoni</h3>
-                <div class="text-3xl font-extrabold text-purple-600" id="timer-display">00:00:00</div>
-                <p class="text-xs text-gray-500">Bugungi faolligingiz muvaffaqiyatli saqlanmoqda.</p>
+        <!-- Joriy holat -->
+        <div id="status-card" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300">
+            <div class="flex items-center gap-3">
+                <div id="status-dot" class="w-3 h-3 bg-amber-500 rounded-full"></div>
+                <div>
+                    <h4 id="status-label" class="text-xs text-amber-600 font-semibold uppercase">Joriy holat</h4>
+                    <h2 class="text-lg font-bold text-gray-800" id="status-text">Ish boshlanmadi</h2>
+                    <p class="text-xs text-gray-500" id="start-time-text">Hali ishga kelmadingiz</p>
+                </div>
             </div>
-        </main>
-    </div>
+            <div id="status-svg-container" class="w-14 h-14 flex items-center justify-center">
+                <svg class="w-12 h-12 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </div>
+        </div>
+
+        <!-- Tezkor amallar -->
+        <div>
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-gray-700 font-bold">Tezkor amallar</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="startWork()" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/></svg></div>
+                    <span class="font-bold text-emerald-900 text-sm">Ishga keldim</span>
+                </button>
+                <button onclick="startBreak()" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/></svg></div>
+                    <span class="font-bold text-amber-900 text-sm">Tanaffusga chiqdim</span>
+                </button>
+                <button onclick="endBreak()" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
+                    <span class="font-bold text-blue-900 text-sm">Tanaffusdan qaytdim</span>
+                </button>
+                <button onclick="endWork()" class="bg-rose-50 hover:bg-rose-100 border border-rose-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z"/></svg></div>
+                    <span class="font-bold text-rose-900 text-sm">Ishni tugatdim</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bugungi ko'rsatkichlar -->
+        <div>
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-gray-700 font-bold">Bugungi ko'rsatkichlar</h3>
+                <span class="text-xs bg-emerald-100 text-emerald-600 px-2.5 py-0.5 rounded-full font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span> Jonli</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-purple-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
+                    <p class="text-xs text-gray-400">Ish vaqti</p>
+                    <h4 class="text-base font-bold text-gray-800" id="live-work-time">0 soat 0 daqiqa</h4>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-amber-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/></svg></div>
+                    <p class="text-xs text-gray-400">Tanaffuslar</p>
+                    <h4 class="text-base font-bold text-gray-800" id="live-break-count">0 marta</h4>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-blue-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg></div>
+                    <p class="text-xs text-gray-400">Tanaffus vaqti</p>
+                    <h4 class="text-base font-bold text-gray-800" id="live-break-time">0 daqiqa</h4>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-emerald-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.28m5.94 2.28-2.28 5.941"/></svg></div>
+                    <p class="text-xs text-gray-400">Reja bajarilishi</p>
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-base font-bold text-gray-800" id="live-efficiency">0%</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
         <a href="index.html" class="flex flex-col items-center text-purple-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
-            <span class="text-[10px] mt-1 font-medium">Asosiy</span>
+            <span class="text-[10px] mt-1 font-semibold">Asosiy</span>
         </a>
         <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
@@ -63,28 +142,157 @@
     </nav>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let savedName = localStorage.getItem('user_name') || 'Malika';
-            let savedAvatar = localStorage.getItem('user_avatar');
-
-            let nameEl = document.getElementById('user-name-display');
-            if (nameEl) {
-                nameEl.innerText = savedName;
+        // Profil ma'lumotlarini yuklash (Ism va Rasm)
+        function loadProfileInfo() {
+            let saved = JSON.parse(localStorage.getItem('malika_profile'));
+            if (saved) {
+                if (saved.name) {
+                    // Ismning faqat birinchi so'zini yoki to'liq ismni chiqarish
+                    let firstName = saved.name.split(' ')[0];
+                    document.getElementById('profile-name-text').innerText = firstName;
+                }
+                if (saved.avatar) {
+                    document.getElementById('header-avatar-img').src = saved.avatar;
+                }
             }
+        }
+        loadProfileInfo();
 
-            let imgEl = document.getElementById('header-avatar-img');
-            let initialEl = document.getElementById('header-avatar-initials');
+        function updateRealTimeDate() {
+            const now = new Date();
+            document.getElementById('current-date').innerText = now.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('current-day-name').innerText = now.toLocaleDateString('uz-UZ', { weekday: 'long' });
+        }
+        updateRealTimeDate();
 
-            if (savedAvatar) {
-                imgEl.src = savedAvatar;
-                imgEl.classList.remove('hidden');
-                initialEl.classList.add('hidden');
+        let state = JSON.parse(localStorage.getItem('malika_state')) || {
+            workSec: 0, breakSec: 0, breakCount: 0, status: 'STOPPED', startTime: '', history: [], lastActiveTime: null
+        };
+
+        const nowSec = Math.floor(Date.now() / 1000);
+        if (state.lastActiveTime && state.status !== 'STOPPED' && state.status !== 'FINISHED') {
+            let diff = nowSec - state.lastActiveTime;
+            if (diff > 0 && diff < 86400) {
+                if (state.status === 'WORKING') {
+                    state.workSec += diff;
+                } else if (state.status === 'BREAK') {
+                    state.breakSec += diff;
+                }
+            }
+        }
+        state.lastActiveTime = nowSec;
+
+        function saveData() {
+            state.lastActiveTime = Math.floor(Date.now() / 1000);
+            localStorage.setItem('malika_state', JSON.stringify(state));
+        }
+
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+            return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa ${sec} sekund`;
+        }
+
+        function renderUI() {
+            document.getElementById('live-work-time').innerText = formatTime(state.workSec);
+            document.getElementById('live-break-count').innerText = `${state.breakCount} marta`;
+            document.getElementById('live-break-time').innerText = formatTime(state.breakSec);
+            let eff = Math.min(Math.floor((state.workSec / (8 * 3600)) * 100), 100);
+            document.getElementById('live-efficiency').innerText = `${eff}%`;
+
+            const card = document.getElementById('status-card');
+            const svgContainer = document.getElementById('status-svg-container');
+
+            if (state.status === 'WORKING') {
+                card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
+                document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
+                document.getElementById('status-text').innerText = "Ish boshlandi (Faol)";
+                document.getElementById('start-time-text').innerText = `${state.startTime} da ish boshlandi`;
+                svgContainer.innerHTML = `<svg class="w-12 h-12 text-emerald-500 animate-spin" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>`;
+            } else if (state.status === 'BREAK') {
+                card.className = "bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-amber-500 rounded-full animate-pulse";
+                document.getElementById('status-label').className = "text-xs text-amber-600 font-semibold uppercase";
+                document.getElementById('status-text').innerText = "Tanaffusdamiz (Dam olish)";
+                document.getElementById('start-time-text').innerText = `Mazza qilib dam olinmoqda...`;
+                svgContainer.innerHTML = `<svg class="w-12 h-12 text-amber-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/></svg>`;
+            } else if (state.status === 'FINISHED') {
+                card.className = "bg-rose-50 border border-rose-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-rose-500 rounded-full";
+                document.getElementById('status-label').className = "text-xs text-rose-600 font-semibold uppercase";
+                document.getElementById('status-text').innerText = "Ish tugadi";
+                document.getElementById('start-time-text').innerText = `Kunlik vazifa yakunlandi`;
+                svgContainer.innerHTML = `<svg class="w-12 h-12 text-rose-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
             } else {
-                initialEl.innerText = savedName.charAt(0).toUpperCase();
-                initialEl.classList.remove('hidden');
-                imgEl.classList.add('hidden');
+                card.className = "bg-gray-50 border border-gray-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-gray-400 rounded-full";
+                document.getElementById('status-label').className = "text-xs text-gray-500 font-semibold uppercase";
+                document.getElementById('status-text').innerText = "Ish boshlanmadi";
+                document.getElementById('start-time-text').innerText = `Hali ishga kelmadingiz`;
+                svgContainer.innerHTML = `<svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>`;
             }
-        });
+        }
+        renderUI();
+
+        function startWork() {
+            if (state.status === 'WORKING' || state.status === 'BREAK') return;
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            if (!state.startTime) state.startTime = timeStr;
+            state.status = 'WORKING';
+            state.history.unshift({ time: timeStr, text: 'Ishga keldi', type: 'work' });
+            saveData();
+            renderUI();
+        }
+
+        function startBreak() {
+            if (state.status !== 'WORKING') {
+                alert("Tanaffusga chiqish uchun avval ishda bo'lishingiz kerak!");
+                return;
+            }
+            state.status = 'BREAK';
+            state.breakCount++;
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Tanaffusga chiqdi', type: 'break' });
+            saveData();
+            renderUI();
+        }
+
+        function endBreak() {
+            if (state.status !== 'BREAK') {
+                alert("Siz hozir tanaffusda emassiz!");
+                return;
+            }
+            state.status = 'WORKING';
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Tanaffusdan qaytdi', type: 'work' });
+            saveData();
+            renderUI();
+        }
+
+        function endWork() {
+            if (state.status === 'STOPPED' || state.status === 'FINISHED') return;
+            if (state.status === 'BREAK') {
+                alert("Tanaffusni yakunlamasdan turib ishni tugata olmaysiz! Avval tanaffusdan qayting.");
+                return;
+            }
+            state.status = 'FINISHED';
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Ishni tugatdi', type: 'stop' });
+            saveData();
+            renderUI();
+        }
+
+        setInterval(() => {
+            if (state.status === 'WORKING') {
+                state.workSec++;
+                saveData();
+                renderUI();
+            } else if (state.status === 'BREAK') {
+                state.breakSec++;
+                saveData();
+                renderUI();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
