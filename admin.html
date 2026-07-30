@@ -13,78 +13,268 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
-        <h1 class="font-bold text-gray-800 text-base">Admin panel</h1>
-        <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg">Barcha xodimlar</span>
+    <!-- Admin Header -->
+    <header class="px-4 pb-4 pt-14 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto rounded-b-2xl">
+        <div class="flex items-center gap-3">
+            <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
+            <div>
+                <h1 class="font-bold text-gray-800 text-base">Admin panel</h1>
+                <p class="text-xs text-gray-400">Barcha ishchilar nazorati</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm cursor-pointer">
+                <i class="fa-regular fa-bell text-lg"></i>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
+            </div>
+        </div>
     </header>
 
-    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Statistikalar -->
-        <div class="grid grid-cols-4 gap-2 text-center">
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-[10px] text-gray-400">Jami</p>
-                <h4 class="text-sm font-bold text-gray-800">128</h4>
+    <!-- Main Content -->
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2">
+        
+        <!-- Sana va Filtrlar -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+            <div class="flex justify-between items-center text-sm font-semibold text-gray-700">
+                <button class="text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="admin-current-date" class="text-purple-600 font-bold">20 May, 2024</span>
+                <button class="text-gray-400 hover:text-purple-600"><i class="fa-regular fa-calendar"></i></button>
             </div>
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-[10px] text-emerald-500 font-bold">Ishda</p>
-                <h4 class="text-sm font-bold text-gray-800" id="admin-working-count">1</h4>
-            </div>
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-[10px] text-amber-500 font-bold">Tanaffus</p>
-                <h4 class="text-sm font-bold text-gray-800" id="admin-break-count">0</h4>
-            </div>
-            <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-[10px] text-gray-400">Kelgan</p>
-                <h4 class="text-sm font-bold text-gray-800">9</h4>
+            <div class="grid grid-cols-4 gap-1 bg-gray-50 p-1 rounded-xl text-center text-xs font-semibold">
+                <button class="bg-purple-600 text-white py-2 rounded-lg shadow-sm">Kunlik</button>
+                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Haftalik</button>
+                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Oylik</button>
+                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Yillik</button>
             </div>
         </div>
 
-        <!-- Xodimlar ro'yxati -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-            <h3 class="font-bold text-gray-700 text-sm">Xodimlar ro'yxati (Real vaqt)</h3>
-            
-            <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-xl transition">
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover">
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm">Malika Abdullayeva</h4>
-                        <p class="text-xs text-gray-400">ID: 1025 - 1-sektor</p>
-                    </div>
+        <!-- Statistika Karta Grid -->
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Jami ishchilar</p>
+                    <h4 class="text-lg font-bold text-gray-800" id="stat-total">4</h4>
                 </div>
-                <div class="text-right">
-                    <span id="admin-malika-status" class="text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-100 text-amber-600">Ish boshlanmadi</span>
-                    <p class="text-[10px] text-gray-400 mt-1" id="admin-malika-time">0 soat</p>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-building-columns"></i></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ishda</p>
+                    <h4 class="text-lg font-bold text-emerald-600" id="stat-working">0</h4>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-mug-hot"></i></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanaffusda</p>
+                    <h4 class="text-lg font-bold text-amber-600" id="stat-break">0</h4>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ketgan</p>
+                    <h4 class="text-lg font-bold text-rose-600" id="stat-finished">0</h4>
                 </div>
             </div>
         </div>
+
+        <!-- Jonli Ish Jarayoni Progress -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
+            <div class="flex justify-between items-center text-xs font-bold text-gray-700">
+                <span>Bugungi ish jarayoni</span>
+                <span id="overall-efficiency" class="text-purple-600">0%</span>
+            </div>
+            <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                <div id="overall-progress-bar" class="bg-purple-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Qidirish va Filtr -->
+        <div class="flex gap-2">
+            <div class="relative flex-1">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+                <input type="text" id="search-input" oninput="filterEmployees()" placeholder="Qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:border-purple-500 transition shadow-sm">
+            </div>
+            <button class="bg-white border border-gray-200 px-4 rounded-2xl text-gray-600 hover:bg-gray-50 shadow-sm"><i class="fa-solid fa-filter"></i></button>
+        </div>
+
+        <!-- Status filter tugmalari -->
+        <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-semibold">
+            <button onclick="setStatusFilter('ALL')" id="filter-btn-ALL" class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Barchasi</button>
+            <button onclick="setStatusFilter('WORKING')" id="filter-btn-WORKING" class="bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Ishda</button>
+            <button onclick="setStatusFilter('BREAK')" id="filter-btn-BREAK" class="bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Tanaffus</button>
+            <button onclick="setStatusFilter('FINISHED')" id="filter-btn-FINISHED" class="bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Ketgan</button>
+        </div>
+
+        <!-- Ishchilar ro'yxati -->
+        <div class="space-y-3">
+            <div class="flex justify-between items-center">
+                <h3 class="text-gray-700 font-bold text-sm">Ishchilar ro'yxati</h3>
+                <span class="text-xs text-purple-600 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-ping"></i> Live</span>
+            </div>
+
+            <div id="employees-list" class="space-y-3">
+                <!-- JavaScript orqali dinamik to'ldiriladi -->
+            </div>
+        </div>
+
     </main>
 
+    <!-- Admin Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="admin.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-chart-pie text-lg"></i><span class="text-xs mt-1 font-medium">Dashboard</span></a>
-        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user text-lg"></i><span class="text-xs mt-1">Xodim</span></a>
+        <a href="admin.html" class="flex flex-col items-center text-purple-600">
+            <i class="fa-solid fa-chart-pie text-xl"></i>
+            <span class="text-[10px] mt-1 font-semibold">Dashboard</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-users text-xl"></i>
+            <span class="text-[10px] mt-1">Ishchilar</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-chart-line text-xl"></i>
+            <span class="text-[10px] mt-1">Hisobotlar</span>
+        </a>
+        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-gear text-xl"></i>
+            <span class="text-[10px] mt-1">Sozlamalar</span>
+        </a>
     </nav>
 
     <script>
-        let state = JSON.parse(localStorage.getItem('malika_state')) || { workSec: 0, status: 'STOPPED', startTime: '' };
+        // Sinov uchun bazadagi xodimlar bazasi (Agar localStorage bo'sh bo'lsa shular chiqadi)
+        let defaultEmployees = [
+            { id: "1025", name: "Malika Abdullayeva", sector: "1-sektor", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100", status: "WORKING", startTime: "09:02", breakCount: 1, workSec: 19584 },
+            { id: "1026", name: "Ziyodulla To'xtayev", sector: "2-sektor", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100", status: "BREAK", startTime: "11:45", breakCount: 1, workSec: 15120 },
+            { id: "1027", name: "Dilorom Saidova", sector: "1-sektor", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100", status: "WORKING", startTime: "09:15", breakCount: 2, workSec: 18900 },
+            { id: "1028", name: "Shahnoza Karimova", sector: "3-sektor", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100", status: "FINISHED", startTime: "09:05", breakCount: 1, workSec: 27000 }
+        ];
 
-        function formatTimeShort(s) {
+        // Asosiy ilovadan (index.html) Malikaning real ma'lumotlarini o'qib olish
+        function getEmployeesData() {
+            let malikaState = JSON.parse(localStorage.getItem('malika_state'));
+            let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
+            
+            let employees = [...defaultEmployees];
+            
+            if (malikaState) {
+                let mIndex = employees.findIndex(e => e.id === "1025");
+                if (mIndex !== -1) {
+                    employees[mIndex].status = malikaState.status === 'STOPPED' ? 'STOPPED' : malikaState.status;
+                    employees[mIndex].breakCount = malikaState.breakCount;
+                    employees[mIndex].workSec = malikaState.workSec;
+                    if (malikaState.startTime) employees[mIndex].startTime = malikaState.startTime.substring(0, 5);
+                    if (malikaProfile && malikaProfile.name) employees[mIndex].name = malikaProfile.name;
+                    if (malikaProfile && malikaProfile.avatar) employees[mIndex].avatar = malikaProfile.avatar;
+                }
+            }
+            return employees;
+        }
+
+        let currentStatusFilter = 'ALL';
+
+        function setStatusFilter(status) {
+            currentStatusFilter = status;
+            ['ALL', 'WORKING', 'BREAK', 'FINISHED'].forEach(s => {
+                let btn = document.getElementById(`filter-btn-${s}`);
+                if (s === status) {
+                    btn.className = "bg-purple-600 text-white px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition";
+                } else {
+                    btn.className = "bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition";
+                }
+            });
+            renderAdminDashboard();
+        }
+
+        function formatHoursMins(s) {
             let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
-            return `${h} soat ${m} daqiqa`;
+            return `${h}:${m < 10 ? '0' : ''}${m}`;
         }
 
-        const statusBadge = document.getElementById('admin-malika-status');
-        if (state.status === 'WORKING') {
-            statusBadge.className = "text-xs px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-600";
-            statusBadge.innerText = "Ishda";
-        } else if (state.status === 'BREAK') {
-            statusBadge.className = "text-xs px-2 py-0.5 rounded-full font-semibold bg-amber-100 text-amber-600";
-            statusBadge.innerText = "Tanaffusda";
-        } else if (state.status === 'FINISHED') {
-            statusBadge.className = "text-xs px-2 py-0.5 rounded-full font-semibold bg-rose-100 text-rose-600";
-            statusBadge.innerText = "Ish tugadi";
+        function renderAdminDashboard() {
+            let employees = getEmployeesData();
+            let searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            // Statistikani hisoblash
+            let total = employees.length;
+            let working = employees.filter(e => e.status === 'WORKING').length;
+            let breakCount = employees.filter(e => e.status === 'BREAK').length;
+            let finished = employees.filter(e => e.status === 'FINISHED' || e.status === 'STOPPED').length;
+
+            document.getElementById('stat-total').innerText = total;
+            document.getElementById('stat-working').innerText = working;
+            document.getElementById('stat-break').innerText = breakCount;
+            document.getElementById('stat-finished').innerText = finished;
+
+            // Umumiy progress
+            let avgEff = Math.round(employees.reduce((acc, e) => acc + Math.min(Math.floor((e.workSec / (8 * 3600)) * 100), 100), 0) / total);
+            document.getElementById('overall-efficiency').innerText = `${avgEff}%`;
+            document.getElementById('overall-progress-bar').style.width = `${avgEff}%`;
+
+            // Filtr va Qidiruv
+            let filtered = employees.filter(e => {
+                let matchesSearch = e.name.toLowerCase().includes(searchQuery) || e.id.includes(searchQuery);
+                if (currentStatusFilter === 'ALL') return matchesSearch;
+                if (currentStatusFilter === 'FINISHED') return matchesSearch && (e.status === 'FINISHED' || e.status === 'STOPPED');
+                return matchesSearch && e.status === currentStatusFilter;
+            });
+
+            let listContainer = document.getElementById('employees-list');
+            listContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Hech qanday ma'lumot topilmadi</p>`;
+                return;
+            }
+
+            filtered.forEach(emp => {
+                let statusBadge = '';
+                let timeInfo = '';
+                
+                let eff = Math.min(Math.floor((emp.workSec / (8 * 3600)) * 100), 100);
+                let timeFormatted = formatHoursMins(emp.workSec);
+
+                if (emp.status === 'WORKING') {
+                    statusBadge = `<span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Ishda</span>`;
+                    timeInfo = `${emp.startTime} dan beri`;
+                } else if (emp.status === 'BREAK') {
+                    statusBadge = `<span class="bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Tanaffusda</span>`;
+                    timeInfo = `Dam olishda`;
+                } else {
+                    statusBadge = `<span class="bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Ketgan</span>`;
+                    timeInfo = `Kun yakunlandi`;
+                }
+
+                let itemHTML = `
+                    <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="${emp.avatar}" class="w-11 h-11 rounded-full object-cover border border-gray-200">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">${emp.name}</h4>
+                                <p class="text-xs text-gray-400">ID: ${emp.id} &bull; ${emp.sector}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="flex justify-end mb-1">${statusBadge}</div>
+                            <p class="text-[11px] text-gray-500">${timeInfo}</p>
+                            <p class="text-xs font-bold text-gray-700 mt-0.5">${timeFormatted} &bull; T:${emp.breakCount} &bull; <span class="text-purple-600">${eff}%</span></p>
+                        </div>
+                    </div>
+                `;
+                listContainer.innerHTML += itemHTML;
+            });
         }
 
-        document.getElementById('admin-malika-time').innerText = formatTimeShort(state.workSec);
+        function filterEmployees() {
+            renderAdminDashboard();
+        }
+
+        // Sahifa ochilganda yuklash
+        renderAdminDashboard();
+        
+        // Har 3 sekundda ma'lumotlarni yangilab turish (Jonli kuzatish uchun)
+        setInterval(renderAdminDashboard, 3000);
     </script>
 </body>
 </html>
