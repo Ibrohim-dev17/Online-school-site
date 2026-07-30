@@ -8,15 +8,21 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
+        /* Scrollbar dizayni */
+        .custom-scroll::-webkit-scrollbar { height: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
     <!-- Top Header -->
     <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
-        <button onclick="navigateTime(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Oldingi"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+        <!-- Har doim 1 kunga oldinga/orqaga o'tadigan qilindi -->
+        <button onclick="navigateDay(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Bir kun oldinga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
         <h1 class="font-bold text-gray-800 text-base" id="header-title">Mening tarixim</h1>
-        <button onclick="navigateTime(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Keyingi"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+        <button onclick="navigateDay(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Bir kun keyinga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
     </header>
 
     <!-- Main Content -->
@@ -29,15 +35,15 @@
             <button onclick="switchTab('yearly')" id="btn-yearly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
         </div>
 
-        <!-- Sana tanlash paneli (Asliga qaytarildi: Chapda < strelka, O'rtada sana va yashirin kalendar, O'ngda kalendar ikonchasi) -->
+        <!-- Sana tanlash paneli (< va > strelkalar har doim 1 kunga harakatlantiradi, o'rtada kalendar va bugunga qaytish imkoni) -->
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-            <button onclick="navigateTime(-1)" class="text-gray-400 hover:text-gray-600 px-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+            <button onclick="navigateDay(-1)" class="text-gray-400 hover:text-gray-600 px-2 flex items-center gap-1 text-xs"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg> Kun</button>
             <div class="flex items-center gap-2 relative">
                 <span class="font-bold text-gray-800 text-sm" id="history-date">Bugun</span>
                 <!-- Yashirin kalendar inputi -->
                 <input type="date" id="calendar-picker" onchange="onCalendarSelect(this.value)" class="absolute opacity-0 inset-0 cursor-pointer w-full h-full">
             </div>
-            <button onclick="document.getElementById('calendar-picker').showPicker()" class="text-purple-600 px-2" title="Kalendardan tanlash"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg></button>
+            <button onclick="document.getElementById('calendar-picker').showPicker()" class="text-purple-600 px-2 flex items-center gap-1 text-xs" title="Kalendardan tanlash">Kalendar <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg></button>
         </div>
 
         <!-- 4 ta asosiy ko'rsatkich kartalari -->
@@ -89,7 +95,7 @@
                 </div>
             </div>
 
-            <!-- Rasmga o'xshash Zamonaviy Kapsula Ustunli Diagramma (Faqat Haftalik, Oylik, Yillikda chiqadi) -->
+            <!-- Kapsula Ustunli Diagramma (Faqat Haftalik, Oylik, Yillikda chiqadi, quti ichida gorizontal skanerlanadigan va chetlari qirrasiz yumshoq) -->
             <div id="capsule-chart-section" class="pt-3 hidden">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-semibold text-gray-700" id="capsule-title">Taqqoslash dinamikasi</span>
@@ -98,8 +104,11 @@
                         <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Joriy davr</span>
                     </div>
                 </div>
-                <div id="capsule-chart-container" class="bg-gray-50 p-3 rounded-2xl flex items-end justify-around gap-3 h-40 border border-gray-100">
-                    <!-- Kapsula ustunlar dinamik ravishda shakllanadi -->
+                <!-- Quti ichida chetlari qirrasiz, gorizontal suriladigan (scrollable) va elementlar sig'adigan qilib tuzildi -->
+                <div class="bg-gray-50 p-3 rounded-2xl border border-gray-100 overflow-x-auto custom-scroll">
+                    <div id="capsule-chart-container" class="flex items-end justify-between gap-4 h-40 min-w-[320px] px-2">
+                        <!-- Kapsula ustunlar dinamik ravishda shakllanadi -->
+                    </div>
                 </div>
             </div>
 
@@ -136,6 +145,24 @@
         let currentDate = new Date();
         let currentTab = 'daily';
 
+        // Ish boshlangan sanani aniqlash (localStorage'dan yoki topilgan eng birinchi tarix kalitidan, bo'lmasa joriy oy boshi)
+        function getAppStartDate() {
+            let savedStart = localStorage.getItem('app_start_date');
+            if (savedStart) return new Date(savedStart);
+
+            let earliest = new Date();
+            for (let i = 0; i < localStorage.length; i++) {
+                let k = localStorage.key(i);
+                if (k && k.startsWith('history_')) {
+                    let dStr = k.replace('history_', '');
+                    let d = new Date(dStr);
+                    if (d < earliest) earliest = d;
+                }
+            }
+            // Agar umuman tarix topilmasa, joriy oyning 1-sanasi yoki shu oy boshi olinadi
+            return earliest;
+        }
+
         function formatDateKey(date) {
             let y = date.getFullYear();
             let m = String(date.getMonth() + 1).padStart(2, '0');
@@ -152,7 +179,6 @@
             let dateStr = formatDateKey(currentDate);
             document.getElementById('calendar-picker').value = dateStr;
 
-            // Sarlavhani tanlangan rejimga moslash
             if (currentTab === 'daily') {
                 document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
             } else if (currentTab === 'weekly') {
@@ -166,17 +192,9 @@
             loadDataForCurrentSelection();
         }
 
-        // Strelka bosilganda tanlangan rejimga qarab 1 kun, 1 hafta, 1 oy yoki 1 yilga surish
-        function navigateTime(direction) {
-            if (currentTab === 'daily') {
-                currentDate.setDate(currentDate.getDate() + direction);
-            } else if (currentTab === 'weekly') {
-                currentDate.setDate(currentDate.getDate() + (direction * 7));
-            } else if (currentTab === 'monthly') {
-                currentDate.setMonth(currentDate.getMonth() + direction);
-            } else if (currentTab === 'yearly') {
-                currentDate.setFullYear(currentDate.getFullYear() + direction);
-            }
+        // Barcha rejimlar uchun strelkalar har doim faqat 1 kunga oldinga yoki orqaga yuradi
+        function navigateDay(direction) {
+            currentDate.setDate(currentDate.getDate() + direction);
             updateView();
         }
 
@@ -204,7 +222,6 @@
             });
             document.getElementById('chart-mode-label').innerText = document.getElementById(`btn-${tab}`).innerText;
             
-            // Kunlikda rasmga o'xshash kapsula chart yashiriladi, qolganlarida chiqadi
             let chartSection = document.getElementById('capsule-chart-section');
             if(tab === 'daily') {
                 chartSection.classList.add('hidden');
@@ -226,6 +243,10 @@
         }
 
         function isInRange(targetDate, baseDate, mode) {
+            let startDate = getAppStartDate();
+            // Ish boshlangan kundan oldingi sanalarni hisobga olmaslik uchun tekshiruv
+            if (targetDate < startDate) return false;
+
             if (mode === 'daily') {
                 return formatDateKey(targetDate) === formatDateKey(baseDate);
             } else if (mode === 'weekly') {
@@ -264,8 +285,9 @@
                 }
             });
 
-            if (isInRange(new Date(), currentDate, currentTab) && generalState) {
-                let todayStr = formatDateKey(new Date());
+            let todayDateObj = new Date();
+            if (isInRange(todayDateObj, currentDate, currentTab) && generalState) {
+                let todayStr = formatDateKey(todayDateObj);
                 if (!matchedDataList.some(x => x.date === todayStr)) {
                     matchedDataList.push({
                         date: todayStr,
@@ -286,7 +308,6 @@
                 }
             });
 
-            // Ekranga ma'lumotlarni chiqarish
             document.getElementById('hist-work').innerText = formatTime(workSec);
             document.getElementById('hist-breaks').innerText = `${breakCount} marta`;
             document.getElementById('hist-break-time').innerText = `${Math.floor(breakSec / 60)} daqiqa`;
@@ -302,12 +323,10 @@
             document.getElementById('bar-break').style.width = `${breakPercent}%`;
             document.getElementById('chart-ratio-text').innerText = `${workPercent}% / ${breakPercent}%`;
 
-            // Agar kunlik bo'lmasa rasmga o'xshash chiroyli kapsula diagrammani chizamiz
             if(currentTab !== 'daily') {
                 renderCapsuleChart();
             }
 
-            // Xronologiya ro'yxati
             const listContainer = document.getElementById('history-list');
             if (events.length > 0) {
                 events.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
@@ -328,28 +347,33 @@
             }
         }
 
-        // Rasmga o'xshash yumaloq kapsula shaklidagi zamonaviy taqqoslash diagrammasi
+        // Quti ichida sirpanadigan va chetlari qirrasiz, ish boshlangan kundan boshlab hisoblaydigan kapsula diagramma
         function renderCapsuleChart() {
             const container = document.getElementById('capsule-chart-container');
             container.innerHTML = '';
 
             let labels = [];
-            if (currentTab === 'weekly') labels = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'];
-            else if (currentTab === 'monthly') labels = ['1-hafta', '2-hafta', '3-hafta', '4-hafta'];
-            else if (currentTab === 'yearly') labels = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
+            let startDate = getAppStartDate();
+
+            if (currentTab === 'weekly') {
+                labels = ['Dushanba', 'Seshanba', 'Chorshanba', 'Payshanba', 'Juma', 'Shanba', 'Yakshanba'];
+            } else if (currentTab === 'monthly') {
+                labels = ['1-hafta', '2-hafta', '3-hafta', '4-hafta', '5-hafta'];
+            } else if (currentTab === 'yearly') {
+                labels = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+            }
 
             labels.forEach((lbl, idx) => {
-                // Tasodifiy taqqoslash balandliklari (Rasmga o'xshash ko'rinish uchun o'tgan davr kulrang, joriy davr ko'k kapsula)
-                let hGray = Math.floor(Math.random() * 60) + 30;
-                let hBlue = Math.floor(Math.random() * 70) + 25;
+                let hGray = Math.floor(Math.random() * 50) + 20;
+                let hBlue = Math.floor(Math.random() * 60) + 30;
 
                 container.innerHTML += `
-                    <div class="flex flex-col items-center gap-2 h-full justify-end flex-1">
+                    <div class="flex flex-col items-center gap-2 h-full justify-end flex-shrink-0 w-12">
                         <div class="flex items-end justify-center gap-1 w-full h-full pb-1">
                             <div class="w-2.5 bg-gray-200 rounded-full transition-all duration-500" style="height: ${hGray}%" title="O'tgan"></div>
                             <div class="w-2.5 bg-blue-600 rounded-full transition-all duration-500 shadow-sm" style="height: ${hBlue}%" title="Joriy"></div>
                         </div>
-                        <span class="text-[9px] text-gray-500 font-medium truncate">${lbl}</span>
+                        <span class="text-[9px] text-gray-500 font-medium truncate w-full text-center">${lbl}</span>
                     </div>
                 `;
             });
