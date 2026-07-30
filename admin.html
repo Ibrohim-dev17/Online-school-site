@@ -7,104 +7,100 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-sans min-h-screen p-4 max-w-6xl mx-auto">
+<body class="bg-gray-100 font-sans min-h-screen p-4 max-w-7xl mx-auto">
 
-    <!-- Header / Nav -->
+    <!-- Header -->
     <div class="flex justify-between items-center bg-white p-4 rounded-2xl shadow-sm mb-6">
         <div class="flex items-center gap-3">
-            <div class="bg-purple-600 text-white p-2.5 rounded-xl text-lg font-bold">👑</div>
+            <div class="bg-purple-600 text-white p-2.5 rounded-xl font-bold">👑</div>
             <div>
-                <h1 class="text-lg font-extrabold text-gray-800">Xush kelibsiz, Admin! 👋</h1>
-                <p class="text-xs text-gray-400">Chevarxona faoliyati nazorati</p>
+                <h1 class="text-base font-extrabold text-gray-800">Admin panel</h1>
+                <p class="text-xs text-gray-400">Chevarxona faoliyatini nazorat qilish</p>
             </div>
         </div>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
             <a href="index.html" class="bg-purple-100 text-purple-700 px-4 py-2 rounded-xl text-xs font-bold hover:bg-purple-200 transition">
                 <i class="fa-solid fa-arrow-left mr-1"></i> Xodim oynasiga o'tish
             </a>
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-9 h-9 rounded-full object-cover">
         </div>
     </div>
 
-    <!-- Statistik kartochkalar -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-                <p class="text-xs text-gray-400 font-medium">Jami ishchilar</p>
-                <h3 class="text-2xl font-extrabold text-gray-800 mt-1">128</h3>
-            </div>
-            <div class="bg-purple-50 text-purple-600 p-3 rounded-xl"><i class="fa-solid fa-users"></i></div>
+    <!-- Statistik kartochkalar (Rasmdagi kabi) -->
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-400 mb-1">Jami ishchilar</p>
+            <h3 class="text-xl font-extrabold text-gray-800">128 <span class="text-xs font-normal text-gray-400">nafap</span></h3>
+            <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-block">Faol: 116</span>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-                <p class="text-xs text-gray-400 font-medium">Ishda</p>
-                <h3 class="text-2xl font-extrabold text-emerald-600 mt-1">98 <span class="text-xs text-gray-400 font-normal">(76%)</span></h3>
-            </div>
-            <div class="bg-emerald-50 text-emerald-600 p-3 rounded-xl"><i class="fa-solid fa-user-check"></i></div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-400 mb-1">Bugun ishda</p>
+            <h3 class="text-xl font-extrabold text-emerald-600">98 <span class="text-xs font-normal text-gray-400">nafap</span></h3>
+            <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md mt-2 inline-block">76%</span>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-                <p class="text-xs text-gray-400 font-medium">Tanaffusda</p>
-                <h3 class="text-2xl font-extrabold text-amber-500 mt-1">21 <span class="text-xs text-gray-400 font-normal">(16%)</span></h3>
-            </div>
-            <div class="bg-amber-50 text-amber-500 p-3 rounded-xl"><i class="fa-solid fa-mug-hot"></i></div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-400 mb-1">Jami ish vaqti</p>
+            <h3 class="text-xl font-extrabold text-purple-600">742 <span class="text-xs font-normal text-gray-400">soat 35 daqiqa</span></h3>
         </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div>
-                <p class="text-xs text-gray-400 font-medium">Kelgan vaqt</p>
-                <h3 class="text-2xl font-extrabold text-purple-600 mt-1">742 <span class="text-xs text-gray-400 font-normal">soat</span></h3>
-            </div>
-            <div class="bg-purple-50 text-purple-600 p-3 rounded-xl"><i class="fa-solid fa-clock"></i></div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+            <p class="text-xs text-gray-400 mb-1">O'rtacha ish vaqti</p>
+            <h3 class="text-xl font-extrabold text-gray-800">7 soat 15 daqiqa</h3>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 col-span-2 md:col-span-1">
+            <p class="text-xs text-gray-400 mb-1">Tanaffuslar soni</p>
+            <h3 class="text-xl font-extrabold text-amber-500">156 <span class="text-xs font-normal text-gray-400">marta</span></h3>
         </div>
     </div>
 
-    <!-- Xodimlar ro'yxati va holati -->
+    <!-- Xodimlar ro'yxati jadvali -->
     <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
-        <div class="flex justify-between items-center mb-4">
-            <h3 class="font-bold text-gray-800 text-base">Xodimlar joriy holati</h3>
-            <span class="text-xs bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full font-bold">
-                <i class="fa-solid fa-circle text-[8px]"></i> Jonli yanglanish
-            </span>
-        </div>
-
+        <h3 class="font-bold text-gray-800 text-sm mb-4">Ishchilar ro'yxati</h3>
         <div class="overflow-x-auto">
-            <table class="w-auto md:w-full text-left border-collapse text-sm">
+            <table class="w-full text-left border-collapse text-xs">
                 <thead>
-                    <tr class="text-gray-400 border-b border-gray-100 text-xs">
-                        <th class="pb-3 font-semibold">Xodim</th>
-                        <th class="pb-3 font-semibold">Sektor</th>
-                        <th class="pb-3 font-semibold">Holati</th>
-                        <th class="pb-3 font-semibold">Oxirgi vaqt</th>
+                    <tr class="text-gray-400 border-b border-gray-100 pb-2">
+                        <th class="pb-3 font-semibold">Ishchi</th>
+                        <th class="pb-3 font-semibold">Holat</th>
+                        <th class="pb-3 font-semibold">Ishga kelgan</th>
+                        <th class="pb-3 font-semibold">So'nggi holat</th>
+                        <th class="pb-3 font-semibold">Ish vaqti</th>
+                        <th class="pb-3 font-semibold">Tanaffus</th>
                         <th class="pb-3 font-semibold">Samaradorlik</th>
+                        <th class="pb-3 font-semibold">Amallar</th>
                     </tr>
                 </thead>
-                <tbody id="employee-table-body" class="divide-y divide-gray-50">
-                    <!-- Dinamik ravishda JavaScript orqali to'ldiriladi -->
+                <tbody class="divide-y divide-gray-50 text-gray-700">
                     <tr class="hover:bg-gray-50">
                         <td class="py-3 flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-9 h-9 rounded-full object-cover">
-                            <div>
-                                <p class="font-bold text-gray-800">Malika Abdullayeva</p>
-                                <p class="text-xs text-gray-400">ID: 1025</p>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-8 h-8 rounded-full object-cover">
+                            <div><p class="font-bold text-gray-800">Malika Abdullayeva</p><p class="text-[10px] text-gray-400">ID: 1025 | Tikuvchi</p></div>
                         </td>
-                        <td class="py-3 text-gray-600">1-sektor</td>
-                        <td class="py-3"><span id="admin-status-badge" class="bg-emerald-100 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-bold">Ishda</span></td>
-                        <td class="py-3 text-gray-600" id="admin-status-time">09:02 dan beri</td>
-                        <td class="py-3 font-extrabold text-purple-600">78%</td>
+                        <td class="py-3"><span id="admin-status-badge" class="bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold">Ishda</span></td>
+                        <td class="py-3 font-medium">09:02</td>
+                        <td class="py-3 font-medium" id="admin-last-time">15:45</td>
+                        <td class="py-3 font-bold">7:15</td>
+                        <td class="py-3 font-bold">1:30 (2)</td>
+                        <td class="py-3 font-bold text-purple-600">92%</td>
+                        <td class="py-3 flex gap-2">
+                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-eye"></i></button>
+                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-pen"></i></button>
+                        </td>
                     </tr>
                     <tr class="hover:bg-gray-50">
                         <td class="py-3 flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="w-9 h-9 rounded-full object-cover">
-                            <div>
-                                <p class="font-bold text-gray-800">Ziyodulla To'xtayev</p>
-                                <p class="text-xs text-gray-400">ID: 1026</p>
-                            </div>
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="w-8 h-8 rounded-full object-cover">
+                            <div><p class="font-bold text-gray-800">Ziyodulla To'xtayev</p><p class="text-[10px] text-gray-400">ID: 1026 | Tikuvchi</p></div>
                         </td>
-                        <td class="py-3 text-gray-600">2-sektor</td>
-                        <td class="py-3"><span class="bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-full font-bold">Tanaffusda</span></td>
-                        <td class="py-3 text-gray-600">11:45 dan beri</td>
-                        <td class="py-3 font-extrabold text-purple-600">82%</td>
+                        <td class="py-3"><span class="bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold">Tanaffusda</span></td>
+                        <td class="py-3 font-medium">08:55</td>
+                        <td class="py-3 font-medium">15:30</td>
+                        <td class="py-3 font-bold">6:35</td>
+                        <td class="py-3 font-bold">1:15 (1)</td>
+                        <td class="py-3 font-bold text-purple-600">90%</td>
+                        <td class="py-3 flex gap-2">
+                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-eye"></i></button>
+                            <button class="bg-gray-100 p-1.5 rounded-lg text-gray-600 hover:bg-gray-200"><i class="fa-solid fa-pen"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -112,23 +108,22 @@
     </div>
 
     <script>
-        // index.html dan yuborilgan ma'lumotni o'qib, admin jadvalini yangilash
         window.addEventListener('DOMContentLoaded', () => {
             const savedData = localStorage.getItem("malikaStatus");
             if(savedData) {
                 const data = JSON.parse(savedData);
                 const badge = document.getElementById('admin-status-badge');
-                const timeText = document.getElementById('admin-status-time');
+                const lastTime = document.getElementById('admin-last-time');
                 
-                timeText.innerText = data.time;
                 badge.innerText = data.status;
+                lastTime.innerText = data.time;
                 
                 if(data.status.includes('Tugatildi')) {
-                    badge.className = "bg-rose-100 text-rose-700 text-xs px-2.5 py-1 rounded-full font-bold";
+                    badge.className = "bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full font-bold";
                 } else if(data.status.includes('Tanaffus')) {
-                    badge.className = "bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-full font-bold";
+                    badge.className = "bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full font-bold";
                 } else {
-                    badge.className = "bg-emerald-100 text-emerald-700 text-xs px-2.5 py-1 rounded-full font-bold";
+                    badge.className = "bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full font-bold";
                 }
             }
         });
