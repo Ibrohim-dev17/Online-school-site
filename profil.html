@@ -12,8 +12,8 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header (Ortiqcha bo'shliqlar olib tashlandi, sarlavha "Mening profilim" qilindi) -->
-    <header class="px-4 py-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
+    <!-- Top Header ("Mening profilim" yozuvi biroz pastroqqa tushirildi va toza dizayn qilindi) -->
+    <header class="px-4 pt-5 pb-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
         <h1 class="font-bold text-gray-800 text-sm">Mening profilim</h1>
         <span class="text-xs font-semibold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Faol
@@ -32,94 +32,57 @@
             </div>
         </div>
 
-        <!-- Ichki sahifalarga o'tish tugmalari (Umumiy, Statistika, Sozlamalar) -->
+        <!-- Ichki sahifalarga o'tish tugmalari -->
         <div class="grid grid-cols-3 gap-1.5 bg-gray-100 p-1.5 rounded-2xl">
             <button onclick="switchTab('umumiy')" id="ptab-umumiy" class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Umumiy</button>
             <button onclick="switchTab('statistika')" id="ptab-statistika" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Statistika</button>
             <button onclick="switchTab('sozlamalar')" id="ptab-sozlamalar" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Sozlamalar</button>
         </div>
 
-        <!-- UMUMIY TAB KONTenti -->
+        <!-- UMUMIY TAB KONTenti (Real vaqt ma'lumotlari bilan) -->
         <div id="content-umumiy" class="space-y-3">
             <div class="flex justify-between items-center px-1">
                 <h4 class="font-bold text-gray-800 text-xs">Bu oy natijalari</h4>
-                <a href="#" class="text-purple-600 text-[11px] font-semibold hover:underline">Batafsil ></a>
+                <span class="text-purple-600 text-[11px] font-semibold" id="current-month-label">Iyul, 2026</span>
             </div>
 
-            <!-- 4 ta natija kartalari -->
+            <!-- 4 ta natija kartalari (Real vaqtda hisoblanadi) -->
             <div class="grid grid-cols-2 gap-2.5">
                 <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                     <div class="text-purple-600 mb-1.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
                     </div>
                     <p class="text-[10px] text-gray-400">Ish soatlari</p>
-                    <h5 class="text-xs font-bold text-gray-800">162 soat</h5>
+                    <h5 class="text-xs font-bold text-gray-800" id="res-work-hours">0 soat</h5>
                 </div>
                 <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                     <div class="text-purple-600 mb-1.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                     </div>
                     <p class="text-[10px] text-gray-400">O'rtacha kunlik</p>
-                    <h5 class="text-xs font-bold text-gray-800">7.4 soat</h5>
+                    <h5 class="text-xs font-bold text-gray-800" id="res-avg-hours">0 soat</h5>
                 </div>
                 <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                     <div class="text-emerald-500 mb-1.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
                     </div>
                     <p class="text-[10px] text-gray-400">Kelgan kunlar</p>
-                    <h5 class="text-xs font-bold text-gray-800">22 kun</h5>
+                    <h5 class="text-xs font-bold text-gray-800" id="res-days-count">0 kun</h5>
                 </div>
                 <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                     <div class="text-rose-500 mb-1.5">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
                     </div>
                     <p class="text-[10px] text-gray-400">Kechikishlar</p>
-                    <h5 class="text-xs font-bold text-gray-800">1 marta</h5>
+                    <h5 class="text-xs font-bold text-gray-800" id="res-lates-count">0 marta</h5>
                 </div>
-            </div>
-
-            <!-- Samaradorlik Banneri -->
-            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-2xl shadow-sm text-white flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="text-3xl">🏆</div>
-                    <div>
-                        <h5 class="font-bold text-xs flex items-center gap-1">Zo'r ishlayapsiz! 🎉</h5>
-                        <p class="text-[11px] text-purple-100 mt-0.5">Bu oy samaradorligingiz <span class="font-bold text-white">94%</span></p>
-                    </div>
-                </div>
-                <svg class="w-4 h-4 text-purple-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-            </div>
-
-            <!-- Menyu ro'yxati -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-50">
-                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
-                    <div class="flex items-center gap-3">
-                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></span>
-                        <span class="text-xs font-semibold text-gray-700">Bildirishnomalar</span>
-                    </div>
-                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-                </button>
-                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
-                    <div class="flex items-center gap-3">
-                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M98.79 15.75H12a2.25 2.25 0 0 1-2.25-2.25V6.75A2.25 2.25 0 0 1 12 4.5h10.5a2.25 2.25 0 0 1 2.25 2.25v6.75a2.25 2.25 0 0 1-2.25 2.25Z"/></svg><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/></svg></span>
-                        <span class="text-xs font-semibold text-gray-700">Yordam</span>
-                    </div>
-                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-                </button>
-                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
-                    <div class="flex items-center gap-3">
-                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg></span>
-                        <span class="text-xs font-semibold text-gray-700">Ilova haqida</span>
-                    </div>
-                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-                </button>
             </div>
         </div>
 
         <!-- STATISTIKA TAB KONTenti -->
         <div id="content-statistika" class="hidden space-y-3">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center py-6">
-                <p class="text-xs text-gray-400">To'liq oylik hisobotlar va tahlillar tez orada qo'shiladi.</p>
+                <p class="text-xs text-gray-400">To'liq oylik hisobotlar va tahlillar statistik bo'limda saqlanadi.</p>
             </div>
         </div>
 
@@ -182,12 +145,58 @@
             }
         }
 
-        // Load saved profile data if exists
+        // Real vaqt rejimida localStorage'dan joriy oy ma'lumotlarini hisoblash
+        function loadMonthlyStats() {
+            let totalWorkSec = 0;
+            let daysCount = 0;
+            let latesCount = 0;
+
+            let now = new Date();
+            let currentYear = now.getFullYear();
+            let currentMonth = now.getMonth();
+
+            for (let i = 0; i < localStorage.length; i++) {
+                let k = localStorage.key(i);
+                if (k && k.startsWith('history_')) {
+                    let dStr = k.replace('history_', '');
+                    let d = new Date(dStr);
+                    if (d.getFullYear() === currentYear && d.getMonth() === currentMonth) {
+                        let val = JSON.parse(localStorage.getItem(k));
+                        if (val) {
+                            let wSec = val.workSec || 0;
+                            totalWorkSec += wSec;
+                            if (wSec > 0) daysCount++;
+                        }
+                    }
+                }
+            }
+
+            // Bugungi kun ma'lumotini ham qo'shish
+            let generalState = JSON.parse(localStorage.getItem('malika_state'));
+            if (generalState) {
+                totalWorkSec += generalState.workSec || 0;
+                if ((generalState.workSec || 0) > 0) {
+                    daysCount = Math.max(1, daysCount);
+                }
+            }
+
+            let totalHours = (totalWorkSec / 3600).toFixed(1);
+            let avgHours = daysCount > 0 ? (totalWorkSec / 3600 / daysCount).toFixed(1) : "0";
+
+            document.getElementById('res-work-hours').innerText = `${totalHours} soat`;
+            document.getElementById('res-avg-hours').innerText = `${avgHours} soat`;
+            document.getElementById('res-days-count').innerText = `${daysCount} kun`;
+            document.getElementById('res-lates-count').innerText = `${latesCount} marta`;
+        }
+
+        // Foydalanuvchi nomini yangilash
         let saved = JSON.parse(localStorage.getItem('malika_profile'));
         if (saved && saved.name) {
             document.getElementById('profile-name').innerText = saved.name;
             document.getElementById('edit-name').value = saved.name;
         }
+
+        loadMonthlyStats();
     </script>
 </body>
 </html>
