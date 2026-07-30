@@ -14,7 +14,7 @@
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
     <!-- Admin Header -->
-    <header class="px-4 pb-3 pt-12 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto rounded-b-2xl">
+    <header class="px-4 py-3 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto rounded-b-2xl">
         <div class="flex items-center gap-3">
             <button onclick="goBack()" id="back-btn" class="text-gray-600 text-xl hidden"><i class="fa-solid fa-arrow-left"></i></button>
             <div>
@@ -31,7 +31,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="p-3 space-y-3 max-w-xl mx-auto w-full mt-1 flex flex-col justify-start">
+    <main class="px-3 pt-2 pb-3 space-y-3 max-w-xl mx-auto w-full flex flex-col justify-start">
         
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-3">
@@ -50,6 +50,14 @@
                 <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Real vaqt
                 </span>
+            </div>
+
+            <!-- Filter Tugmalari (Faqat Dashboard bo'limida) -->
+            <div class="flex gap-2 overflow-x-auto pb-1">
+                <button onclick="filterStatus('all')" id="filter-btn-all" class="px-3.5 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Barchasi</button>
+                <button onclick="filterStatus('WORKING')" id="filter-btn-working" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ishda</button>
+                <button onclick="filterStatus('BREAK')" id="filter-btn-break" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Tanaffusda</button>
+                <button onclick="filterStatus('LEFT')" id="filter-btn-left" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ketgan</button>
             </div>
 
             <!-- Statistika qutilari -->
@@ -86,7 +94,7 @@
         </div>
 
         <!-- EMPLOYEES VIEW -->
-        <div id="view-employees" class="space-y-3">
+        <div id="view-employees" class="space-y-3" style="display: none;">
             <div class="relative w-full">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                 <input type="text" id="search-input" oninput="filterEmployees()" placeholder="Ishchini ismi yoki ID si bo'yicha qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:border-purple-500 transition shadow-sm">
@@ -227,6 +235,7 @@
         let selectedEmployeeId = null;
         let currentPeriod = 'daily'; 
         let currentChartType = 1; 
+        let currentStatusFilter = 'all';
 
         if (!localStorage.getItem('chevar_hourly_rate')) {
             localStorage.setItem('chevar_hourly_rate', '15000');
@@ -285,6 +294,19 @@
             renderEmployeeDetail();
         }
 
+        function filterStatus(status) {
+            currentStatusFilter = status;
+            ['all', 'WORKING', 'BREAK', 'LEFT'].forEach(s => {
+                let btn = document.getElementById(`filter-btn-${s.toLowerCase()}`);
+                if (s === status) {
+                    btn.className = "px-3.5 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
+                } else {
+                    btn.className = "px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
+                }
+            });
+            renderAdminDashboard();
+        }
+
         function switchTab(tab) {
             currentTab = tab;
             selectedEmployeeId = null;
@@ -321,7 +343,6 @@
 
             if (tab === 'dashboard') {
                 dashEl.style.display = 'block';
-                empEl.style.display = 'block';
                 navDash.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Admin Panel Pro";
                 headerSub.innerText = "Asosiy boshqaruv paneli";
@@ -460,11 +481,14 @@
             if (!listContainer) return;
             listContainer.innerHTML = '';
 
-            if (!emp.name.toLowerCase().includes(searchQuery) && !emp.id.includes(searchQuery)) {
+            let matchesSearch = emp.name.toLowerCase().includes(searchQuery) || emp.id.includes(searchQuery);
+
+            if (!matchesSearch) {
                 listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Topilmadi</p>`;
                 return;
             }
 
+            // Ishchilar bo'limida barcha ishchilar chiqadi (filtr faqat dashboardda ishlaydi)
             listContainer.innerHTML = `
                 <div onclick="openEmployeeDetail('${emp.id}')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-purple-300 transition">
                     <div class="flex items-center gap-3">
