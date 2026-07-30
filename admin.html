@@ -161,9 +161,8 @@
                     <div id="break-history-list" class="space-y-1 text-[11px] text-gray-600 max-h-24 overflow-y-auto">
                         <p class="text-gray-400 italic">Tanaffuslar mavjud emas</p>
                     </div>
-                    <div class="flex justify-between text-[11px] text-gray-600 pt-1.5 border-t border-amber-200/50">
+                    <div class="flex justify-end text-[11px] text-gray-600 pt-1.5 border-t border-amber-200/50">
                         <span>Jami tanaffus vaqti: <strong id="total-break-duration" class="text-amber-700">0 daqiqa</strong></span>
-                        <span>O'rtacha chiqish: <strong id="avg-break-time" class="text-gray-800">--:--</strong></span>
                     </div>
                 </div>
 
@@ -412,7 +411,7 @@
             renderEmployeeDetail();
         }
 
-        // Ishchi ma'lumotlarini tanlangan sanaga va arxivga qarab aniq olish
+        // Ishchi ma'lumotlarini localStorage'dan real o'qib olish
         function getEmployeeDataForDate(targetDateStr) {
             let todayStr = new Date().toISOString().split('T')[0];
             let malikaState = JSON.parse(localStorage.getItem('malika_state')) || {};
@@ -421,18 +420,16 @@
 
             let record = null;
             if (targetDateStr === todayStr) {
-                // Bugungi kun uchun joriy holat va tarixni birlashtiramiz
                 record = {
                     status: malikaState.status || "LEFT",
                     workSec: malikaState.workSec || 0,
                     breakCount: malikaState.breakCount || 0,
-                    arrivalTime: malikaState.arrivalTime || "--:--",
-                    departureTime: malikaState.departureTime || (malikaState.status === 'LEFT' ? "18:00" : "--:--"),
+                    arrivalTime: malikaState.arrivalTime || null,
+                    departureTime: malikaState.departureTime || null,
                     totalBreakMins: malikaState.totalBreakMins || 0,
                     breaks: malikaState.breaks || []
                 };
             } else {
-                // Eski sanalar uchun agar xotirada bo'lmasa 0 qaytaramiz
                 if (historyMap[targetDateStr]) {
                     record = historyMap[targetDateStr];
                 } else {
@@ -440,8 +437,8 @@
                         status: "LEFT",
                         workSec: 0,
                         breakCount: 0,
-                        arrivalTime: "--:--",
-                        departureTime: "--:--",
+                        arrivalTime: null,
+                        departureTime: null,
                         totalBreakMins: 0,
                         breaks: []
                     };
@@ -455,6 +452,23 @@
                 statusText = "Ketgan"; badgeClass = "bg-rose-50 text-rose-600"; dotClass = "bg-rose-500";
             }
 
+            // Holatlarga qarab aniq matnlar (Kelmadi / Hali tugatmadi / Vaqti)
+            let arrivalDisplay = record.arrivalTime ? record.arrivalTime : "Hali kelmadi";
+            let departureDisplay = "";
+            if (targetDateStr === todayStr) {
+                if (record.status === 'LEFT' || record.status === 'FINISHED') {
+                    departureDisplay = record.departureTime ? record.departureTime : "Tugatgan";
+                } else {
+                    if (record.arrivalTime) {
+                        departureDisplay = "Hali tugatmadi";
+                    } else {
+                        departureDisplay = "Hali kelmadi";
+                    }
+                }
+            } else {
+                departureDisplay = record.departureTime ? record.departureTime : (record.arrivalTime ? "Tugatgan" : "Kelmagan");
+            }
+
             return {
                 id: "1025",
                 role: "Bosh Chevar",
@@ -465,14 +479,13 @@
                 statusText, badgeClass, dotClass,
                 dailySec: record.workSec,
                 breakCount: record.breakCount,
-                arrivalTime: record.arrivalTime,
-                departureTime: record.departureTime,
+                arrivalTime: arrivalDisplay,
+                departureTime: departureDisplay,
                 totalBreakMins: record.totalBreakMins,
                 breaks: record.breaks || []
             };
         }
 
-        // Tanlangan davr (kunlik, haftalik, oylik, yillik) bo'yicha jami sekundlarni hisoblash
         function getPeriodAggregatedSeconds(targetDateStr, period) {
             let todayStr = new Date().toISOString().split('T')[0];
             let historyMap = JSON.parse(localStorage.getItem('malika_history')) || {};
@@ -581,21 +594,19 @@
             document.getElementById('detail-sector').innerText = emp.sector;
             document.getElementById('detail-status-badge').innerHTML = `<span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1"><span class="w-2 h-2 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>`;
 
-            // Tanlangan kundagi kelgan va ketgan vaqtlar (agar ma'lumot bo'lmasa --:--)
             document.getElementById('real-arrival-time').innerText = emp.arrivalTime;
             document.getElementById('real-departure-time').innerText = emp.departureTime;
             document.getElementById('break-count-badge').innerText = `${emp.breakCount} marta`;
             document.getElementById('total-break-duration').innerText = `${emp.totalBreakMins} daqiqa`;
-            document.getElementById('avg-break-time').innerText = emp.breakCount > 0 ? Math.round(emp.totalBreakMins / emp.breakCount) + " daq/marta" : "0 daq";
 
-            // Tanaffuslar tarixini ro'yxatga chiqarish
+            // Tanaffuslar tarixini aniq vaqtlari bilan chiqarish
             let breakListContainer = document.getElementById('break-history-list');
             if (breakListContainer) {
                 if (emp.breaks && emp.breaks.length > 0) {
                     breakListContainer.innerHTML = emp.breaks.map((b, idx) => `
-                        <div class="flex justify-between items-center bg-white px-2 py-1 rounded border border-amber-100">
-                            <span>${idx+1}-chi tanaffus:</span>
-                            <span class="font-bold text-amber-700">${b.out || '--:--'} &rarr; ${b.back || 'Hali qaytmagan'}</span>
+                        <div class="flex justify-between items-center bg-white px-2.5 py-1.5 rounded-lg border border-amber-100">
+                            <span class="font-semibold text-gray-700">${idx+1}-tanaffus:</span>
+                            <span class="font-bold text-amber-700">Chiqqan: ${b.out || '--:--'} &rarr; Qaytgan: ${b.back || 'Hali qaytmagan'}</span>
                         </div>
                     `).join('');
                 } else {
@@ -603,58 +614,60 @@
                 }
             }
 
-            // Davr bo'yicha jami ishlangan vaqtni hisoblash
             let periodSec = getPeriodAggregatedSeconds(selectedDateStr, currentPeriod);
             document.getElementById('period-time-value').innerText = formatHoursMins(periodSec);
             let chartContainer = document.getElementById('period-chart-container');
             let hoursFloat = (periodSec / 3600).toFixed(1);
 
-            // Chartlarni tanlangan davr va ma'lumotlarga moslab render qilish
+            // Chartlar real ma'lumotlar asosida render qilinadi
             if (currentChartType === 1) {
+                let barHeight = Math.min(Math.round(hoursFloat * 12), 110);
                 chartContainer.innerHTML = `
-                    <div class="flex items-end justify-between h-32 px-4 pt-3 bg-purple-50/50 rounded-2xl border border-purple-100">
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-xl h-12"></div><span class="text-[10px] text-gray-500">O'tgan</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-400 rounded-t-xl h-20"></div><span class="text-[10px] text-gray-500">O'rta</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-600 rounded-t-xl h-28"></div><span class="text-[10px] text-purple-700 font-bold">${currentPeriod.toUpperCase()} (${hoursFloat}s)</span></div>
+                    <div class="flex items-end justify-around h-32 px-4 pt-3 bg-purple-50/50 rounded-2xl border border-purple-100">
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-xl h-10"></div><span class="text-[10px] text-gray-500">Oldingi</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-500 rounded-t-xl h-16"></div><span class="text-[10px] text-gray-500">Kecha</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-700 rounded-t-xl" style="height: ${Math.max(barHeight, 15)}px"></div><span class="text-[10px] text-purple-700 font-bold">Tanlangan (${hoursFloat}s)</span></div>
                     </div>
                 `;
             } else if (currentChartType === 2) {
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-emerald-50/40 rounded-2xl border border-emerald-100 flex flex-col justify-between h-32">
-                        <div class="flex justify-between text-xs text-emerald-700 font-bold"><span>Dinamika (${currentPeriod})</span><span>${hoursFloat} soat</span></div>
-                        <div class="w-full bg-emerald-200 h-2 rounded-full relative"><div class="absolute left-0 top-0 bottom-0 bg-emerald-600 rounded-full" style="width: ${Math.min(hoursFloat * 5, 100)}%"></div></div>
-                        <p class="text-[11px] text-gray-500">Tanlangan davrdagi umumiy ishlash ko'rsatkichi.</p>
+                        <div class="flex justify-between text-xs text-emerald-700 font-bold"><span>Haqiqiy dinamika (${currentPeriod})</span><span>${hoursFloat} soat</span></div>
+                        <div class="w-full bg-emerald-200 h-2.5 rounded-full relative"><div class="absolute left-0 top-0 bottom-0 bg-emerald-600 rounded-full" style="width: ${Math.min(hoursFloat * 8, 100)}%"></div></div>
+                        <p class="text-[11px] text-gray-600">Jami ishlangan vaqt: <strong>${formatHoursMins(periodSec)}</strong></p>
                     </div>
                 `;
             } else if (currentChartType === 3) {
+                let percent = Math.min(Math.round((hoursFloat / 8) * 100), 100);
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-amber-50/40 rounded-2xl border border-amber-100 flex items-center justify-between h-32">
                         <div>
-                            <h4 class="text-base font-bold text-amber-600">${hoursFloat} soat</h4>
-                            <p class="text-[11px] text-gray-500 mt-0.5">Normaga nisbatan doiraviy foiz ulushi</p>
+                            <h4 class="text-lg font-bold text-amber-700">${hoursFloat} soat</h4>
+                            <p class="text-[11px] text-gray-500 mt-0.5">Kunlik normaga nisbatan bajarilish</p>
                         </div>
-                        <div class="w-16 h-16 rounded-full border-4 border-amber-500 border-t-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">${Math.min(Math.round(hoursFloat * 2), 100)}%</div>
+                        <div class="w-16 h-16 rounded-full border-4 border-amber-500 border-t-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">${percent}%</div>
                     </div>
                 `;
             } else if (currentChartType === 4) {
+                let progressPercent = Math.min(Math.round((hoursFloat / 8) * 100), 100);
                 chartContainer.innerHTML = `
-                    <div class="p-3.5 bg-blue-50/40 rounded-2xl border border-blue-100 space-y-2 h-32 flex flex-col justify-center">
-                        <div class="flex justify-between text-xs font-bold text-blue-700"><span>Reja bajarilishi (${currentPeriod})</span><span>${hoursFloat}s</span></div>
-                        <div class="w-full bg-blue-200 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width: ${Math.min(hoursFloat * 4, 100)}%"></div></div>
-                        <p class="text-[11px] text-gray-500">Tanlangan vaqt oralig'idagi umumiy progress.</p>
+                    <div class="p-3.5 bg-blue-50/40 rounded-2xl border border-blue-100 space-y-2.5 h-32 flex flex-col justify-center">
+                        <div class="flex justify-between text-xs font-bold text-blue-700"><span>Ishlab chiqarish progressi</span><span>${progressPercent}%</span></div>
+                        <div class="w-full bg-blue-200 h-3 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: ${progressPercent}%"></div></div>
+                        <p class="text-[11px] text-gray-600">Haqiqiy ishlangan: <strong>${formatHoursMins(periodSec)}</strong></p>
                     </div>
                 `;
             } else {
                 chartContainer.innerHTML = `
-                    <div class="p-3.5 bg-rose-50/40 rounded-2xl border border-rose-100 space-y-2 h-32 flex flex-col justify-center">
+                    <div class="p-3.5 bg-rose-50/40 rounded-2xl border border-rose-100 space-y-2.5 h-32 flex flex-col justify-center">
                         <div class="flex justify-between text-xs font-bold text-rose-700">
-                            <span>Tanaffus vaqtlari tahlili</span>
-                            <span>${emp.breakCount} marta chiqdi</span>
+                            <span>Tanaffuslar tahlili</span>
+                            <span>${emp.breakCount} marta</span>
                         </div>
-                        <div class="w-full bg-rose-200 h-2.5 rounded-full overflow-hidden">
-                            <div class="bg-rose-500 h-full rounded-full" style="width: ${Math.min(emp.totalBreakMins, 100)}%"></div>
+                        <div class="w-full bg-rose-200 h-3 rounded-full overflow-hidden">
+                            <div class="bg-rose-500 h-full rounded-full" style="width: ${Math.min(emp.totalBreakMins * 2, 100)}%"></div>
                         </div>
-                        <p class="text-[11px] text-gray-600">Jami tanaffusga sarflangan vaqt: <strong>${emp.totalBreakMins} daqiqa</strong></p>
+                        <p class="text-[11px] text-gray-600">Tanaffusga ketgan jami vaqt: <strong>${emp.totalBreakMins} daqiqa</strong></p>
                     </div>
                 `;
             }
