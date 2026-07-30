@@ -139,7 +139,7 @@
                     <span id="selected-day-name" class="text-[11px] bg-purple-100 text-purple-700 px-2.5 py-0.5 rounded-lg font-bold">Bugun</span>
                 </div>
 
-                <!-- Kelgan va Ketgan vaqtlar (Narigi ilovadan real) -->
+                <!-- Tanlangan kundagi Kelgan va Ketgan vaqtlar -->
                 <div class="grid grid-cols-2 gap-2 text-xs">
                     <div class="bg-emerald-50/60 p-2.5 rounded-xl border border-emerald-100">
                         <p class="text-emerald-700 font-semibold text-[10px]">Ishga kelgan vaqti:</p>
@@ -151,13 +151,17 @@
                     </div>
                 </div>
 
-                <!-- Tanaffuslar haqida batafsil real ma'lumot -->
-                <div class="bg-amber-50/50 p-3 rounded-xl border border-amber-100 space-y-1.5">
+                <!-- Tanlangan kundagi Tanaffuslar tarixi va statistikasi -->
+                <div class="bg-amber-50/50 p-3 rounded-xl border border-amber-100 space-y-2">
                     <div class="flex justify-between items-center text-xs">
-                        <span class="font-bold text-amber-800"><i class="fa-solid fa-mug-hot"></i> Tanaffuslar statistikasi:</span>
+                        <span class="font-bold text-amber-800"><i class="fa-solid fa-mug-hot"></i> Tanaffuslar tarixi:</span>
                         <span id="break-count-badge" class="bg-amber-200 text-amber-900 px-2 py-0.5 rounded-md font-bold text-[11px]">0 marta</span>
                     </div>
-                    <div class="flex justify-between text-[11px] text-gray-600 pt-1 border-t border-amber-200/50">
+                    <!-- Tanaffus chiqqan/qaytgan vaqtlari ro'yxati -->
+                    <div id="break-history-list" class="space-y-1 text-[11px] text-gray-600 max-h-24 overflow-y-auto">
+                        <p class="text-gray-400 italic">Tanaffuslar mavjud emas</p>
+                    </div>
+                    <div class="flex justify-between text-[11px] text-gray-600 pt-1.5 border-t border-amber-200/50">
                         <span>Jami tanaffus vaqti: <strong id="total-break-duration" class="text-amber-700">0 daqiqa</strong></span>
                         <span>O'rtacha chiqish: <strong id="avg-break-time" class="text-gray-800">--:--</strong></span>
                     </div>
@@ -178,7 +182,7 @@
 
                 <div class="pt-1">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400">Jami ishlangan vaqt:</span>
+                        <span class="text-xs text-gray-400" id="period-label-text">Tanlangan davrda ishlangan vaqt:</span>
                         <span id="period-time-value" class="text-xs font-bold text-gray-800">0 soat</span>
                     </div>
                     
@@ -215,7 +219,7 @@
                         <p id="audit-hourly-rate" class="font-bold text-emerald-600 mt-0.5">15,000 so'm</p>
                     </div>
                     <div class="bg-gray-50 p-2.5 rounded-xl">
-                        <p class="text-gray-400 text-[10px] uppercase font-semibold">Bu oy ishlagani</p>
+                        <p class="text-gray-400 text-[10px] uppercase font-semibold">Tanlangan davrda ishlagani</p>
                         <p id="audit-month-hours" class="font-bold text-blue-600 mt-0.5">0 soat</p>
                     </div>
                 </div>
@@ -408,22 +412,46 @@
             renderEmployeeDetail();
         }
 
-        // Narigi xodim ilovasidan real ma'lumotlarni o'qib olish
-        function getEmployeeData() {
+        // Ishchi ma'lumotlarini tanlangan sanaga va arxivga qarab aniq olish
+        function getEmployeeDataForDate(targetDateStr) {
+            let todayStr = new Date().toISOString().split('T')[0];
             let malikaState = JSON.parse(localStorage.getItem('malika_state')) || {};
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile')) || {};
-            
-            let status = malikaState.status || "LEFT";
-            let workSec = malikaState.workSec || 0;
-            let breakCount = malikaState.breakCount !== undefined ? malikaState.breakCount : 0;
-            let arrivalTime = malikaState.arrivalTime || "08:30";
-            let departureTime = malikaState.departureTime || (status === 'LEFT' ? "18:00" : "Hali ketmagan");
-            let totalBreakMins = malikaState.totalBreakMins || (breakCount * 15);
+            let historyMap = JSON.parse(localStorage.getItem('malika_history')) || {};
+
+            let record = null;
+            if (targetDateStr === todayStr) {
+                // Bugungi kun uchun joriy holat va tarixni birlashtiramiz
+                record = {
+                    status: malikaState.status || "LEFT",
+                    workSec: malikaState.workSec || 0,
+                    breakCount: malikaState.breakCount || 0,
+                    arrivalTime: malikaState.arrivalTime || "--:--",
+                    departureTime: malikaState.departureTime || (malikaState.status === 'LEFT' ? "18:00" : "--:--"),
+                    totalBreakMins: malikaState.totalBreakMins || 0,
+                    breaks: malikaState.breaks || []
+                };
+            } else {
+                // Eski sanalar uchun agar xotirada bo'lmasa 0 qaytaramiz
+                if (historyMap[targetDateStr]) {
+                    record = historyMap[targetDateStr];
+                } else {
+                    record = {
+                        status: "LEFT",
+                        workSec: 0,
+                        breakCount: 0,
+                        arrivalTime: "--:--",
+                        departureTime: "--:--",
+                        totalBreakMins: 0,
+                        breaks: []
+                    };
+                }
+            }
 
             let statusText = "Ishda", badgeClass = "bg-emerald-50 text-emerald-600", dotClass = "bg-emerald-500";
-            if (status === 'BREAK') {
+            if (record.status === 'BREAK') {
                 statusText = "Tanaffusda"; badgeClass = "bg-amber-50 text-amber-600"; dotClass = "bg-amber-500";
-            } else if (status === 'LEFT' || status === 'FINISHED') {
+            } else if (record.status === 'LEFT' || record.status === 'FINISHED') {
                 statusText = "Ketgan"; badgeClass = "bg-rose-50 text-rose-600"; dotClass = "bg-rose-500";
             }
 
@@ -433,16 +461,48 @@
                 name: malikaProfile.name || "Ibrohim",
                 sector: "1-sektor",
                 avatar: malikaProfile.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
-                status, statusText, badgeClass, dotClass,
-                dailySec: workSec,
-                weeklySec: workSec * 5,
-                monthlySec: workSec * 22,
-                yearlySec: workSec * 240,
-                breakCount,
-                arrivalTime,
-                departureTime,
-                totalBreakMins
+                status: record.status,
+                statusText, badgeClass, dotClass,
+                dailySec: record.workSec,
+                breakCount: record.breakCount,
+                arrivalTime: record.arrivalTime,
+                departureTime: record.departureTime,
+                totalBreakMins: record.totalBreakMins,
+                breaks: record.breaks || []
             };
+        }
+
+        // Tanlangan davr (kunlik, haftalik, oylik, yillik) bo'yicha jami sekundlarni hisoblash
+        function getPeriodAggregatedSeconds(targetDateStr, period) {
+            let todayStr = new Date().toISOString().split('T')[0];
+            let historyMap = JSON.parse(localStorage.getItem('malika_history')) || {};
+            let malikaState = JSON.parse(localStorage.getItem('malika_state')) || {};
+
+            if (period === 'daily') {
+                let emp = getEmployeeDataForDate(targetDateStr);
+                return emp.dailySec;
+            }
+
+            let baseDate = new Date(targetDateStr);
+            let totalSec = 0;
+            let countDays = 1;
+
+            if (period === 'weekly') countDays = 7;
+            else if (period === 'monthly') countDays = 30;
+            else if (period === 'yearly') countDays = 365;
+
+            for (let i = 0; i < countDays; i++) {
+                let d = new Date(baseDate);
+                d.setDate(d.getDate() - i);
+                let dStr = d.toISOString().split('T')[0];
+
+                if (dStr === todayStr) {
+                    totalSec += (malikaState.workSec || 0);
+                } else if (historyMap[dStr]) {
+                    totalSec += (historyMap[dStr].workSec || 0);
+                }
+            }
+            return totalSec;
         }
 
         function formatHoursMins(s) {
@@ -451,7 +511,8 @@
         }
 
         function renderAdminDashboard() {
-            let emp = getEmployeeData();
+            let todayStr = new Date().toISOString().split('T')[0];
+            let emp = getEmployeeDataForDate(todayStr);
             let searchQuery = '';
             let dashSearchInput = document.getElementById('dashboard-search-input');
             let empSearchInput = document.getElementById('search-input');
@@ -508,7 +569,10 @@
         }
 
         function renderEmployeeDetail() {
-            let emp = getEmployeeData();
+            let datePicker = document.getElementById('employee-date-picker');
+            let selectedDateStr = datePicker ? datePicker.value : new Date().toISOString().split('T')[0];
+            
+            let emp = getEmployeeDataForDate(selectedDateStr);
             let hourlyRate = parseInt(localStorage.getItem('chevar_hourly_rate')) || 15000;
 
             document.getElementById('detail-avatar').src = emp.avatar;
@@ -517,63 +581,70 @@
             document.getElementById('detail-sector').innerText = emp.sector;
             document.getElementById('detail-status-badge').innerHTML = `<span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1"><span class="w-2 h-2 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>`;
 
-            // Real kelib-ketish va tanaffus ma'lumotlarini UI ga chiqarish
+            // Tanlangan kundagi kelgan va ketgan vaqtlar (agar ma'lumot bo'lmasa --:--)
             document.getElementById('real-arrival-time').innerText = emp.arrivalTime;
             document.getElementById('real-departure-time').innerText = emp.departureTime;
             document.getElementById('break-count-badge').innerText = `${emp.breakCount} marta`;
             document.getElementById('total-break-duration').innerText = `${emp.totalBreakMins} daqiqa`;
             document.getElementById('avg-break-time').innerText = emp.breakCount > 0 ? Math.round(emp.totalBreakMins / emp.breakCount) + " daq/marta" : "0 daq";
 
-            let secVal = emp.dailySec;
-            if (currentPeriod === 'weekly') secVal = emp.weeklySec;
-            if (currentPeriod === 'monthly') secVal = emp.monthlySec;
-            if (currentPeriod === 'yearly') secVal = emp.yearlySec;
+            // Tanaffuslar tarixini ro'yxatga chiqarish
+            let breakListContainer = document.getElementById('break-history-list');
+            if (breakListContainer) {
+                if (emp.breaks && emp.breaks.length > 0) {
+                    breakListContainer.innerHTML = emp.breaks.map((b, idx) => `
+                        <div class="flex justify-between items-center bg-white px-2 py-1 rounded border border-amber-100">
+                            <span>${idx+1}-chi tanaffus:</span>
+                            <span class="font-bold text-amber-700">${b.out || '--:--'} &rarr; ${b.back || 'Hali qaytmagan'}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    breakListContainer.innerHTML = `<p class="text-gray-400 italic">Bu kunda tanaffuslar bo'lmagan</p>`;
+                }
+            }
 
-            document.getElementById('period-time-value').innerText = formatHoursMins(secVal);
+            // Davr bo'yicha jami ishlangan vaqtni hisoblash
+            let periodSec = getPeriodAggregatedSeconds(selectedDateStr, currentPeriod);
+            document.getElementById('period-time-value').innerText = formatHoursMins(periodSec);
             let chartContainer = document.getElementById('period-chart-container');
-            let hoursFloat = (secVal / 3600).toFixed(1);
+            let hoursFloat = (periodSec / 3600).toFixed(1);
 
-            // 5 xil Chartni render qilish
+            // Chartlarni tanlangan davr va ma'lumotlarga moslab render qilish
             if (currentChartType === 1) {
-                // 1. Ustunli chart
                 chartContainer.innerHTML = `
                     <div class="flex items-end justify-between h-32 px-4 pt-3 bg-purple-50/50 rounded-2xl border border-purple-100">
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-xl h-12"></div><span class="text-[10px] text-gray-500">Kecha</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-400 rounded-t-xl h-20"></div><span class="text-[10px] text-gray-500">Avvalgi</span></div>
-                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-600 rounded-t-xl h-28"></div><span class="text-[10px] text-purple-700 font-bold">Tanlangan (${hoursFloat}s)</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-xl h-12"></div><span class="text-[10px] text-gray-500">O'tgan</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-400 rounded-t-xl h-20"></div><span class="text-[10px] text-gray-500">O'rta</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-600 rounded-t-xl h-28"></div><span class="text-[10px] text-purple-700 font-bold">${currentPeriod.toUpperCase()} (${hoursFloat}s)</span></div>
                     </div>
                 `;
             } else if (currentChartType === 2) {
-                // 2. Chiziqli chart
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-emerald-50/40 rounded-2xl border border-emerald-100 flex flex-col justify-between h-32">
-                        <div class="flex justify-between text-xs text-emerald-700 font-bold"><span>Ishlash dinamikasi (Chiziqli)</span><span>${hoursFloat} soat</span></div>
-                        <div class="w-full bg-emerald-200 h-2 rounded-full relative"><div class="absolute left-0 top-0 bottom-0 bg-emerald-600 rounded-full" style="width: 80%"></div></div>
-                        <p class="text-[11px] text-gray-500">Xodimning tanlangan davrdagi faolligi barqaror.</p>
+                        <div class="flex justify-between text-xs text-emerald-700 font-bold"><span>Dinamika (${currentPeriod})</span><span>${hoursFloat} soat</span></div>
+                        <div class="w-full bg-emerald-200 h-2 rounded-full relative"><div class="absolute left-0 top-0 bottom-0 bg-emerald-600 rounded-full" style="width: ${Math.min(hoursFloat * 5, 100)}%"></div></div>
+                        <p class="text-[11px] text-gray-500">Tanlangan davrdagi umumiy ishlash ko'rsatkichi.</p>
                     </div>
                 `;
             } else if (currentChartType === 3) {
-                // 3. Doiraviy chart
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-amber-50/40 rounded-2xl border border-amber-100 flex items-center justify-between h-32">
                         <div>
                             <h4 class="text-base font-bold text-amber-600">${hoursFloat} soat</h4>
                             <p class="text-[11px] text-gray-500 mt-0.5">Normaga nisbatan doiraviy foiz ulushi</p>
                         </div>
-                        <div class="w-16 h-16 rounded-full border-4 border-amber-500 border-t-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">88%</div>
+                        <div class="w-16 h-16 rounded-full border-4 border-amber-500 border-t-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">${Math.min(Math.round(hoursFloat * 2), 100)}%</div>
                     </div>
                 `;
             } else if (currentChartType === 4) {
-                // 4. Progress chart
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-blue-50/40 rounded-2xl border border-blue-100 space-y-2 h-32 flex flex-col justify-center">
-                        <div class="flex justify-between text-xs font-bold text-blue-700"><span>Kunlik/Davriy Progress</span><span>92%</span></div>
-                        <div class="w-full bg-blue-200 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width: 92%"></div></div>
-                        <p class="text-[11px] text-gray-500">Belgilangan vazifalar rejasi bajarilmoqda.</p>
+                        <div class="flex justify-between text-xs font-bold text-blue-700"><span>Reja bajarilishi (${currentPeriod})</span><span>${hoursFloat}s</span></div>
+                        <div class="w-full bg-blue-200 h-2.5 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width: ${Math.min(hoursFloat * 4, 100)}%"></div></div>
+                        <p class="text-[11px] text-gray-500">Tanlangan vaqt oralig'idagi umumiy progress.</p>
                     </div>
                 `;
             } else {
-                // 5. Tanaffuslar bo'yicha maxsus chart/statistika
                 chartContainer.innerHTML = `
                     <div class="p-3.5 bg-rose-50/40 rounded-2xl border border-rose-100 space-y-2 h-32 flex flex-col justify-center">
                         <div class="flex justify-between text-xs font-bold text-rose-700">
@@ -588,15 +659,15 @@
                 `;
             }
 
-            let monthHoursFloat = (emp.monthlySec / 3600);
-            let totalEarned = Math.round(monthHoursFloat * hourlyRate);
+            let periodHoursFloat = (periodSec / 3600);
+            let totalEarned = Math.round(periodHoursFloat * hourlyRate);
             let advance = 100000;
             let remaining = Math.max(totalEarned - advance, 0);
 
             document.getElementById('audit-id').innerText = `#${emp.id}`;
             document.getElementById('audit-role').innerText = emp.role;
             document.getElementById('audit-hourly-rate').innerText = hourlyRate.toLocaleString() + " so'm";
-            document.getElementById('audit-month-hours').innerText = Math.round(monthHoursFloat) + " soat";
+            document.getElementById('audit-month-hours').innerText = Math.round(periodHoursFloat) + " soat";
             document.getElementById('audit-earned').innerText = totalEarned.toLocaleString() + " so'm";
             document.getElementById('audit-advance').innerText = advance.toLocaleString() + " so'm";
             document.getElementById('audit-remaining').innerText = remaining.toLocaleString() + " so'm";
