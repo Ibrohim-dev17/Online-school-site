@@ -24,47 +24,47 @@
             </div>
         </div>
         <div id="header-right-action">
-            <!-- Chat SVG Icon -->
-            <a href="#" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Chat">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
+            <!-- Kattalashtirilgan, zamonaviyroq Chat Icon -->
+            <a href="#" class="relative w-12 h-12 bg-gradient-to-tr from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl flex items-center justify-center transition shadow-lg shadow-purple-500/25" title="Chat">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <span class="absolute top-2.5 right-2.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
             </a>
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main Content: Yuqoridan boshlanishi uchun justify-start ishlatildi -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2 flex flex-col justify-start">
         
-        <!-- DASHBOARD VIEW (4 ta quti va filterlar bilan) -->
+        <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
-            <!-- Statistika 4 ta quti -->
+            <!-- 4 ta quti yuqoriga birlashtirilib, ixchamlashtirildi -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-users"></i></div>
                     <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Jami ishchilar</p>
-                        <h4 class="text-lg font-bold text-gray-800" id="stat-total">1</h4>
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Jami ishchilar</p>
+                        <h4 class="text-xl font-extrabold text-gray-800" id="stat-total">1</h4>
                     </div>
                 </div>
-                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-user-check"></i></div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-user-check"></i></div>
                     <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Ishda</p>
-                        <h4 class="text-lg font-bold text-emerald-600" id="stat-working">1</h4>
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ishda</p>
+                        <h4 class="text-xl font-extrabold text-emerald-600" id="stat-working">1</h4>
                     </div>
                 </div>
-                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg"><i class="fa-solid fa-mug-hot"></i></div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-mug-hot"></i></div>
                     <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanaffusda</p>
-                        <h4 class="text-lg font-bold text-amber-600" id="stat-break">0</h4>
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Tanaffusda</p>
+                        <h4 class="text-xl font-extrabold text-amber-600" id="stat-break">0</h4>
                     </div>
                 </div>
-                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
+                    <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
                     <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Ketgan</p>
-                        <h4 class="text-lg font-bold text-rose-600" id="stat-left">0</h4>
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ketgan</p>
+                        <h4 class="text-xl font-extrabold text-rose-600" id="stat-left">0</h4>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 </div>
             </div>
 
-            <!-- Kalendar va Sana tanlash bloki -->
+            <!-- Kalendar va Joriy Sana bloki -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                 
                 <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
@@ -115,7 +115,8 @@
                         <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         <input type="date" id="employee-date-picker" onchange="onDateChange(this.value)" class="bg-transparent text-xs font-bold text-gray-800 focus:outline-none cursor-pointer">
                     </div>
-                    <span id="selected-day-name" class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-lg font-bold">Bugun</span>
+                    <!-- Real kun va sana ko'rsatkichi -->
+                    <span id="selected-day-name" class="text-[10px] bg-purple-100 text-purple-700 px-2.5 py-1 rounded-lg font-bold">Bugun</span>
                 </div>
 
                 <div class="flex justify-between items-center">
@@ -131,14 +132,13 @@
                     <button onclick="setPeriod('yearly')" id="btn-period-yearly" class="py-2 rounded-lg transition text-gray-500">Yillik</button>
                 </div>
 
-                <!-- Chartlar (5 xil interaktiv tanlanadigan va ko'rsatiladigan) -->
+                <!-- 5 ta chart turlari va tanlash imkoniyati -->
                 <div class="pt-2">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-xs text-gray-400">Jami ishlangan vaqt:</span>
                         <span id="period-time-value" class="text-sm font-bold text-gray-800">0 soat</span>
                     </div>
                     
-                    <!-- 5 ta chart turini almashtirib ko'rish uchun kichik tugmalar -->
                     <div class="flex gap-1 mb-3 overflow-x-auto pb-1">
                         <button onclick="setChartType(1)" id="chart-type-1" class="px-2 py-1 bg-purple-100 text-purple-700 rounded text-[10px] font-bold whitespace-nowrap">Ustunli</button>
                         <button onclick="setChartType(2)" id="chart-type-2" class="px-2 py-1 bg-gray-100 text-gray-600 rounded text-[10px] font-semibold whitespace-nowrap">Chiziqli</button>
@@ -196,10 +196,10 @@
             </div>
         </div>
 
-        <!-- REPORTS / SETTINGS VIEW -->
+        <!-- SETTINGS VIEW (Sozlamalar) -->
         <div id="view-reports" class="space-y-4" style="display: none;">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-gear text-purple-600"></i> Hisobotlar va Sozlamalar</h3>
+                <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-purple-600"></i> Tizimni Sozlash</h3>
                 <p class="text-xs text-gray-400">Bu yerda ishchining soatlik maoshini sozlay olasiz va u darhol ishchining moliyaviy auditiga ta'sir qiladi.</p>
                 
                 <div class="space-y-2">
@@ -220,24 +220,24 @@
             <i class="fa-solid fa-users text-xl"></i>
             <span class="text-[10px] mt-1">Ishchilar</span>
         </button>
+        <!-- Hisobotlar ikonkasi sozlamalar ikonkasiga almashtirildi -->
         <button onclick="switchTab('reports')" id="nav-reports-tab" class="flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none">
-            <i class="fa-solid fa-chart-line text-xl"></i>
-            <span class="text-[10px] mt-1">Hisobotlar</span>
+            <i class="fa-solid fa-sliders text-xl"></i>
+            <span class="text-[10px] mt-1">Sozlamalar</span>
         </button>
     </nav>
 
     <script>
         let currentTab = 'dashboard';
         let selectedEmployeeId = null;
-        let currentPeriod = 'daily'; // daily, weekly, monthly, yearly
-        let currentFilter = 'all'; // all, working, break, left
-        let currentChartType = 1; // 1 to 5
+        let currentPeriod = 'daily'; 
+        let currentFilter = 'all'; 
+        let currentChartType = 1; 
 
         if (!localStorage.getItem('chevar_hourly_rate')) {
             localStorage.setItem('chevar_hourly_rate', '15000');
         }
 
-        // Joriy sanani inputga yozish
         window.addEventListener('DOMContentLoaded', () => {
             let todayStr = new Date().toISOString().split('T')[0];
             let datePicker = document.getElementById('employee-date-picker');
@@ -312,9 +312,9 @@
             menuBtn.style.display = 'block';
 
             headerRight.innerHTML = `
-                <a href="#" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Chat">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                    <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
+                <a href="#" class="relative w-12 h-12 bg-gradient-to-tr from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl flex items-center justify-center transition shadow-lg shadow-purple-500/25" title="Chat">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <span class="absolute top-2.5 right-2.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
                 </a>
             `;
 
@@ -339,8 +339,8 @@
             } else if (tab === 'reports') {
                 reportsEl.style.display = 'block';
                 navRep.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
-                headerTitle.innerText = "Hisobotlar";
-                headerSub.innerText = "Moliyaviy va vaqt sozlamalari";
+                headerTitle.innerText = "Sozlamalar";
+                headerSub.innerText = "Tizim va vaqt sozlamalari";
                 document.getElementById('setting-hourly-rate').value = localStorage.getItem('chevar_hourly_rate');
             }
         }
@@ -358,8 +358,8 @@
 
             let headerRight = document.getElementById('header-right-action');
             headerRight.innerHTML = `
-                <button onclick="sendDirectMessage()" class="bg-purple-600 hover:bg-purple-700 text-white px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-sm transition">
-                    <i class="fa-regular fa-comment-dots text-sm"></i> Xabar yuborish
+                <button onclick="sendDirectMessage()" class="bg-purple-600 hover:bg-purple-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 shadow-sm transition">
+                    <i class="fa-regular fa-comment-dots text-sm"></i> Xabar
                 </button>
             `;
 
@@ -395,14 +395,32 @@
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
             let workSec = malikaState ? malikaState.workSec : 25200; 
             
+            // Holatni realniy tarzda aniqlash (Ishda / Tanaffusda / Ketgan)
+            let status = malikaState && malikaState.status ? malikaState.status : "WORKING";
+            let statusText = "Ishlayotgan";
+            let badgeClass = "bg-emerald-50 text-emerald-600";
+            let dotClass = "bg-emerald-500";
+
+            if (status === 'BREAK') {
+                statusText = "Tanaffusda";
+                badgeClass = "bg-amber-50 text-amber-600";
+                dotClass = "bg-amber-500";
+            } else if (status === 'LEFT') {
+                statusText = "Ketgan";
+                badgeClass = "bg-rose-50 text-rose-600";
+                dotClass = "bg-rose-500";
+            }
+
             return {
                 id: "1025",
                 role: "Bosh Chevar",
                 name: malikaProfile && malikaProfile.name ? malikaProfile.name : "Malika Abdullayeva",
                 sector: "1-sektor",
                 avatar: malikaProfile && malikaProfile.avatar ? malikaProfile.avatar : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
-                status: "WORKING", // WORKING, BREAK, LEFT
-                statusText: "Ishlashi",
+                status: status,
+                statusText: statusText,
+                badgeClass: badgeClass,
+                dotClass: dotClass,
                 dailySec: workSec,
                 weeklySec: workSec * 5,
                 monthlySec: workSec * 22,
@@ -419,15 +437,19 @@
             let emp = getEmployeeData();
             let searchQuery = document.getElementById('search-input').value.toLowerCase();
 
+            // Real ma'lumotlar asosida statistika qutilarini yangilash
+            let isWorkingCount = emp.status === 'WORKING' ? 1 : 0;
+            let isBreakCount = emp.status === 'BREAK' ? 1 : 0;
+            let isLeftCount = emp.status === 'LEFT' ? 1 : 0;
+
             document.getElementById('stat-total').innerText = "1";
-            document.getElementById('stat-working').innerText = "1";
-            document.getElementById('stat-break').innerText = "0";
-            document.getElementById('stat-left').innerText = "0";
+            document.getElementById('stat-working').innerText = isWorkingCount;
+            document.getElementById('stat-break').innerText = isBreakCount;
+            document.getElementById('stat-left').innerText = isLeftCount;
 
             let listContainer = document.getElementById('employees-list');
             listContainer.innerHTML = '';
 
-            // Filter tekshiruvi
             if (currentFilter === 'working' && emp.status !== 'WORKING') return;
             if (currentFilter === 'break' && emp.status !== 'BREAK') return;
             if (currentFilter === 'left' && emp.status !== 'LEFT') return;
@@ -447,7 +469,7 @@
                         </div>
                     </div>
                     <div class="text-right">
-                        <span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Ishlayotgan</span>
+                        <span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>
                         <p class="text-xs font-bold text-gray-700 mt-1">${formatHoursMins(emp.dailySec)}</p>
                     </div>
                 </div>
@@ -463,8 +485,7 @@
             document.getElementById('detail-id').innerText = emp.id;
             document.getElementById('detail-sector').innerText = emp.sector;
             
-            // Tepada status: ishlayotgan / tanaffusda / ketgan
-            document.getElementById('detail-status-badge').innerHTML = `<span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Ishlayotgan</span>`;
+            document.getElementById('detail-status-badge').innerHTML = `<span class="${emp.badgeClass} px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>`;
 
             let secVal = emp.dailySec;
             if (currentPeriod === 'weekly') secVal = emp.weeklySec;
@@ -476,7 +497,6 @@
             let chartContainer = document.getElementById('period-chart-container');
             let hoursFloat = (secVal / 3600).toFixed(1);
 
-            // 5 xil chart dizayni
             if (currentChartType === 1) {
                 chartContainer.innerHTML = `
                     <div class="flex items-end justify-between h-32 px-4 pt-4 bg-purple-50/50 rounded-2xl border border-purple-100">
@@ -520,7 +540,6 @@
                 `;
             }
 
-            // MOLIYAVIY AUDIT MA'LUMOTLARI
             let monthHoursFloat = (emp.monthlySec / 3600);
             let totalEarned = Math.round(monthHoursFloat * hourlyRate);
             let advance = 100000;
