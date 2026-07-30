@@ -13,8 +13,8 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header -->
-    <header class="p-4 bg-white shadow-sm flex justify-between items-center sticky top-0 z-50">
+    <!-- Top Header (Telegram menyusi to'sib qo'ymasligi uchun pastroqqa tushirildi) -->
+    <header class="p-4 mt-8 bg-white shadow-sm flex justify-between items-center sticky top-8 z-40">
         <div class="flex items-center gap-3">
             <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
@@ -35,26 +35,26 @@
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Date Card -->
+        <!-- Date Card (Real vaqt, bugungi sana va kun) -->
         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
                 <i class="fa-regular fa-calendar-days text-xl"></i>
-                <span id="current-date" class="font-medium">20 May, 2024</span>
+                <span id="current-date" class="font-medium">Yuklanmoqda...</span>
             </div>
-            <span class="bg-white/20 px-3 py-1 rounded-lg text-sm font-medium">Dushanba</span>
+            <span id="current-day-name" class="bg-white/20 px-3 py-1 rounded-lg text-sm font-medium">---</span>
         </div>
 
         <!-- Joriy holat -->
-        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between">
+        <div id="status-card" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300">
             <div class="flex items-center gap-3">
-                <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
+                <div id="status-dot" class="w-3 h-3 bg-amber-500 rounded-full"></div>
                 <div>
-                    <h4 class="text-xs text-emerald-600 font-semibold uppercase">Joriy holat</h4>
-                    <h2 class="text-lg font-bold text-gray-800" id="status-text">Ishda</h2>
-                    <p class="text-xs text-gray-500" id="start-time-text">09:02 da ishga kelgansiz</p>
+                    <h4 id="status-label" class="text-xs text-amber-600 font-semibold uppercase">Joriy holat</h4>
+                    <h2 class="text-lg font-bold text-gray-800" id="status-text">Ish boshlanmadi</h2>
+                    <p class="text-xs text-gray-500" id="start-time-text">Hali ishga kelmadingiz</p>
                 </div>
             </div>
-            <i class="fa-solid fa-vest text-4xl text-emerald-400"></i>
+            <i id="status-icon" class="fa-solid fa-user-clock text-4xl text-amber-400"></i>
         </div>
 
         <!-- Tezkor amallar -->
@@ -64,19 +64,19 @@
                 <a href="#" class="text-xs text-purple-600 font-semibold hover:underline">Qo'llanma</a>
             </div>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="updateAction('Ishda', 'emerald', '09:02 da ishga kelgansiz')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                <button onclick="startWork()" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
                     <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-play"></i></div>
                     <span class="font-bold text-emerald-900 text-sm">Ishga keldim</span>
                 </button>
-                <button onclick="updateAction('Tanaffusda', 'amber', 'Tanaffus vaqti boshlandi')" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                <button onclick="startBreak()" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
                     <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-mug-hot"></i></div>
                     <span class="font-bold text-amber-900 text-sm">Tanaffusga chiqdim</span>
                 </button>
-                <button onclick="updateAction('Ishda (Qaytdi)', 'blue', 'Tanaffusdan qaytdingiz')" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                <button onclick="endBreak()" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
                     <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-rotate-right"></i></div>
                     <span class="font-bold text-blue-900 text-sm">Tanaffusdan qaytdim</span>
                 </button>
-                <button onclick="updateAction('Ish tugadi', 'rose', 'Ish yakunlandi')" class="bg-rose-50 hover:bg-rose-100 border border-rose-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                <button onclick="endWork()" class="bg-rose-50 hover:bg-rose-100 border border-rose-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
                     <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-stop"></i></div>
                     <span class="font-bold text-rose-900 text-sm">Ishni tugatdim</span>
                 </button>
@@ -93,23 +93,23 @@
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <div class="text-purple-600 mb-2"><i class="fa-regular fa-clock text-lg"></i></div>
                     <p class="text-xs text-gray-400">Ish vaqti</p>
-                    <h4 class="text-base font-bold text-gray-800" id="live-work-time">5 soat 28 daqiqa</h4>
+                    <h4 class="text-base font-bold text-gray-800" id="live-work-time">0 soat 0 daqiqa</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <div class="text-amber-600 mb-2"><i class="fa-solid fa-mug-hot text-lg"></i></div>
                     <p class="text-xs text-gray-400">Tanaffuslar</p>
-                    <h4 class="text-base font-bold text-gray-800">1 marta</h4>
+                    <h4 class="text-base font-bold text-gray-800" id="live-break-count">0 marta</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <div class="text-blue-600 mb-2"><i class="fa-solid fa-stopwatch text-lg"></i></div>
                     <p class="text-xs text-gray-400">Tanaffus vaqti</p>
-                    <h4 class="text-base font-bold text-gray-800">1 soat 13 daqiqa</h4>
+                    <h4 class="text-base font-bold text-gray-800" id="live-break-time">0 daqiqa</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                     <div class="text-emerald-600 mb-2"><i class="fa-solid fa-chart-line text-lg"></i></div>
                     <p class="text-xs text-gray-400">Reja bajarilishi</p>
                     <div class="flex items-center justify-between">
-                        <h4 class="text-base font-bold text-gray-800" id="live-efficiency">78%</h4>
+                        <h4 class="text-base font-bold text-gray-800" id="live-efficiency">0%</h4>
                         <i class="fa-solid fa-arrow-trend-up text-emerald-500 text-sm"></i>
                     </div>
                 </div>
@@ -138,18 +138,120 @@
     </nav>
 
     <script>
-        function updateAction(status, color, desc) {
-            document.getElementById('status-text').innerText = status;
-            document.getElementById('start-time-text').innerText = desc;
+        // Real vaqtda bugungi sana va kunni chiqarish
+        function updateRealTimeDate() {
+            const now = new Date();
+            const optionsDate = { day: 'numeric', month: 'long', year: 'numeric' };
+            const optionsDay = { weekday: 'long' };
+            
+            document.getElementById('current-date').innerText = now.toLocaleDateString('uz-UZ', optionsDate);
+            document.getElementById('current-day-name').innerText = now.toLocaleDateString('uz-UZ', optionsDay);
+        }
+        updateRealTimeDate();
+
+        // Ish va tanaffus hisob-kitob o'zgaruvchilari
+        let workSeconds = 0;
+        let breakSeconds = 0;
+        let breakCount = 0;
+        let currentState = 'STOPPED'; // STOPPED, WORKING, BREAK, FINISHED
+        let timerInterval = null;
+
+        function formatTime(totalSecs) {
+            let h = Math.floor(totalSecs / 3600);
+            let m = Math.floor((totalSecs % 3600) / 60);
+            let s = totalSecs % 60;
+            if (h > 0) {
+                return `${h} soat ${m} daqiqa`;
+            }
+            return `${m} daqiqa ${s} sekund`;
         }
 
-        let seconds = 5 * 3600 + 28 * 60;
-        setInterval(() => {
-            seconds++;
-            let h = Math.floor(seconds / 3600);
-            let m = Math.floor((seconds % 3600) / 60);
-            document.getElementById('live-work-time').innerText = `${h} soat ${m} daqiqa`;
-        }, 1000);
+        function startWork() {
+            if (currentState === 'WORKING') return;
+            
+            const now = new Date();
+            const timeString = now.toTimeString().substring(0, 8); // HH:MM:SS
+            
+            currentState = 'WORKING';
+            
+            // UI o'zgartirish
+            const card = document.getElementById('status-card');
+            card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
+            document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
+            document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
+            document.getElementById('status-text').innerText = "Ishda";
+            document.getElementById('start-time-text').innerText = `${timeString} da ish boshlandi`;
+            document.getElementById('status-icon').className = "fa-solid fa-vest text-4xl text-emerald-400";
+
+            startTimerEngine();
+        }
+
+        function startBreak() {
+            if (currentState !== 'WORKING') return;
+            
+            currentState = 'BREAK';
+            breakCount++;
+
+            const card = document.getElementById('status-card');
+            card.className = "bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
+            document.getElementById('status-dot').className = "w-3 h-3 bg-amber-500 rounded-full animate-pulse";
+            document.getElementById('status-label').className = "text-xs text-amber-600 font-semibold uppercase";
+            document.getElementById('status-text').innerText = "Tanaffusda";
+            document.getElementById('start-time-text').innerText = `Tanaffus vaqti boshlandi (${breakCount}-marta)`;
+            document.getElementById('status-icon').className = "fa-solid fa-mug-hot text-4xl text-amber-400";
+        }
+
+        function endBreak() {
+            if (currentState !== 'BREAK') return;
+
+            currentState = 'WORKING';
+
+            const card = document.getElementById('status-card');
+            card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
+            document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
+            document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
+            document.getElementById('status-text').innerText = "Ishda (Qaytdi)";
+            document.getElementById('start-time-text').innerText = `Tanaffusdan qaytdingiz`;
+            document.getElementById('status-icon').className = "fa-solid fa-vest text-4xl text-emerald-400";
+        }
+
+        function endWork() {
+            if (currentState === 'STOPPED' || currentState === 'FINISHED') return;
+
+            currentState = 'FINISHED';
+            clearInterval(timerInterval);
+
+            const card = document.getElementById('status-card');
+            card.className = "bg-rose-50 border border-rose-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
+            document.getElementById('status-dot').className = "w-3 h-3 bg-rose-500 rounded-full";
+            document.getElementById('status-label').className = "text-xs text-rose-600 font-semibold uppercase";
+            document.getElementById('status-text').innerText = "Ish tugadi";
+            document.getElementById('start-time-text').innerText = `Kunlik ish yakunlandi`;
+            document.getElementById('status-icon').className = "fa-solid fa-stop text-4xl text-rose-400";
+        }
+
+        // Jonli vaqt hisoblagich mexanizmi
+        function startTimerEngine() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                if (currentState === 'WORKING') {
+                    workSeconds++;
+                } else if (currentState === 'BREAK') {
+                    breakSeconds++;
+                }
+
+                // Ekranga chiqarish
+                document.getElementById('live-work-time').innerText = formatTime(workSeconds);
+                document.getElementById('live-break-count').innerText = `${breakCount} marta`;
+                document.getElementById('live-break-time').innerText = formatTime(breakSeconds);
+
+                // Samaradorlik foizini taxminiy hisoblash (masalan, 8 soatlik reja asosida)
+                let efficiency = Math.min(Math.floor((workSeconds / (8 * 3600)) * 100), 100);
+                document.getElementById('live-efficiency').innerText = `${efficiency}%`;
+
+            }, 1000);
+        }
     </script>
 </body>
 </html>
