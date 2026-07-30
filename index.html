@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chevarxona Pro - Asosiy</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
@@ -22,18 +21,18 @@
                 <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
             </div>
         </div>
+        <!-- Chat va bildirishnoma orasini ochish va qulay qilish -->
         <div class="flex items-center gap-3">
-            <!-- Boshliq bilan chat tugmasi -->
-            <a href="chat.html" class="relative cursor-pointer text-gray-700 hover:text-purple-600 transition" title="Boshliq bilan chat">
-                <i class="fa-regular fa-comment-dots text-xl"></i>
-                <span class="absolute -top-1 -right-1 w-2 h-2 bg-purple-600 rounded-full"></span>
+            <a href="chat.html" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Boshliq bilan chat">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
             </a>
-            <div class="relative cursor-pointer">
-                <i class="fa-regular fa-bell text-xl text-gray-700"></i>
-                <span class="absolute top-0 right-0 w-2 h-2 bg-purple-600 rounded-full"></span>
+            <div class="relative w-10 h-10 bg-gray-50 hover:bg-gray-100 text-gray-700 rounded-full flex items-center justify-center transition shadow-sm cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75v-.7V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
             </div>
             <a href="profil.html">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500" alt="Profil">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500 shadow-sm" alt="Profil">
             </a>
         </div>
     </header>
@@ -43,13 +42,13 @@
         <!-- Date Card -->
         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
-                <i class="fa-regular fa-calendar-days text-xl"></i>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
                 <span id="current-date" class="font-medium">Yuklanmoqda...</span>
             </div>
             <span id="current-day-name" class="bg-white/20 px-3 py-1 rounded-lg text-sm font-medium">---</span>
         </div>
 
-        <!-- Joriy holat (Dinamik SVG bilan) -->
+        <!-- Joriy holat -->
         <div id="status-card" class="bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300">
             <div class="flex items-center gap-3">
                 <div id="status-dot" class="w-3 h-3 bg-amber-500 rounded-full"></div>
@@ -59,9 +58,7 @@
                     <p class="text-xs text-gray-500" id="start-time-text">Hali ishga kelmadingiz</p>
                 </div>
             </div>
-            <!-- Dinamik SVG container -->
             <div id="status-svg-container" class="w-14 h-14 flex items-center justify-center">
-                <!-- Ish boshlanmagan SVG -->
                 <svg class="w-12 h-12 text-amber-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
             </div>
         </div>
@@ -73,19 +70,19 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <button onclick="startWork()" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-play"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"/></svg></div>
                     <span class="font-bold text-emerald-900 text-sm">Ishga keldim</span>
                 </button>
                 <button onclick="startBreak()" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
-                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/></svg></div>
                     <span class="font-bold text-amber-900 text-sm">Tanaffusga chiqdim</span>
                 </button>
                 <button onclick="endBreak()" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
-                    <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-rotate-right"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg></div>
                     <span class="font-bold text-blue-900 text-sm">Tanaffusdan qaytdim</span>
                 </button>
                 <button onclick="endWork()" class="bg-rose-50 hover:bg-rose-100 border border-rose-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28 shadow-sm">
-                    <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-stop"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 7.5A2.25 2.25 0 0 1 7.5 5.25h9a2.25 2.25 0 0 1 2.25 2.25v9a2.25 2.25 0 0 1-2.25 2.25h-9a2.25 2.25 0 0 1-2.25-2.25v-9Z"/></svg></div>
                     <span class="font-bold text-rose-900 text-sm">Ishni tugatdim</span>
                 </button>
             </div>
@@ -99,38 +96,49 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="text-purple-600 mb-2"><i class="fa-regular fa-clock text-lg"></i></div>
+                    <div class="text-purple-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg></div>
                     <p class="text-xs text-gray-400">Ish vaqti</p>
                     <h4 class="text-base font-bold text-gray-800" id="live-work-time">0 soat 0 daqiqa</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="text-amber-600 mb-2"><i class="fa-solid fa-mug-hot text-lg"></i></div>
+                    <div class="text-amber-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/></svg></div>
                     <p class="text-xs text-gray-400">Tanaffuslar</p>
                     <h4 class="text-base font-bold text-gray-800" id="live-break-count">0 marta</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="text-blue-600 mb-2"><i class="fa-solid fa-stopwatch text-lg"></i></div>
+                    <div class="text-blue-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg></div>
                     <p class="text-xs text-gray-400">Tanaffus vaqti</p>
                     <h4 class="text-base font-bold text-gray-800" id="live-break-time">0 daqiqa</h4>
                 </div>
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                    <div class="text-emerald-600 mb-2"><i class="fa-solid fa-chart-line text-lg"></i></div>
+                    <div class="text-emerald-600 mb-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.28m5.94 2.28-2.28 5.941"/></svg></div>
                     <p class="text-xs text-gray-400">Reja bajarilishi</p>
                     <div class="flex items-center justify-between">
                         <h4 class="text-base font-bold text-gray-800" id="live-efficiency">0%</h4>
-                        <i class="fa-solid fa-arrow-trend-up text-emerald-500 text-sm"></i>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation (Profil tugmasi bilan) -->
+    <!-- Bottom Navigation (Yangicha yagona SVG uslubida) -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="index.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1 font-medium">Asosiy</span></a>
-        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1">Mening tarixim</span></a>
-        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1">Statistika</span></a>
-        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-regular fa-user text-lg"></i><span class="text-xs mt-1">Profil</span></a>
+        <a href="index.html" class="flex flex-col items-center text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+            <span class="text-[10px] mt-1 font-semibold">Asosiy</span>
+        </a>
+        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            <span class="text-[10px] mt-1">Mening tarixim</span>
+        </a>
+        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+            <span class="text-[10px] mt-1">Statistika</span>
+        </a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+            <span class="text-[10px] mt-1">Profil</span>
+        </a>
     </nav>
 
     <script>
@@ -145,12 +153,11 @@
             workSec: 0, breakSec: 0, breakCount: 0, status: 'STOPPED', startTime: '', history: [], lastActiveTime: null
         };
 
-        // --- BACKGROUND TIME CALCULATION FIX ---
-        // Agar dasturdan chiqib boshqa joyga o'tilgan yoki yopilgan bo'lsa, o'tgan vaqtni hisoblab qo'shish
+        // --- YANGI G'OYA: CHIQIB KETIB QAYTIB KELGANDA VAQTNI TO'G'RI HISOBLASH ---
         const nowSec = Math.floor(Date.now() / 1000);
         if (state.lastActiveTime && state.status !== 'STOPPED' && state.status !== 'FINISHED') {
             let diff = nowSec - state.lastActiveTime;
-            if (diff > 0 && diff < 86400) { // 1 sutkadan oshmasa
+            if (diff > 0 && diff < 86400) {
                 if (state.status === 'WORKING') {
                     state.workSec += diff;
                 } else if (state.status === 'BREAK') {
@@ -184,14 +191,14 @@
                 card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between";
                 document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
                 document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
-                document.getElementById('status-text').innerText = "Ishda (Faol)";
+                document.getElementById('status-text').innerText = "Ish boshlandi (Faol)";
                 document.getElementById('start-time-text').innerText = `${state.startTime} da ish boshlandi`;
                 svgContainer.innerHTML = `<svg class="w-12 h-12 text-emerald-500 animate-spin" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/></svg>`;
             } else if (state.status === 'BREAK') {
                 card.className = "bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between";
                 document.getElementById('status-dot').className = "w-3 h-3 bg-amber-500 rounded-full animate-pulse";
                 document.getElementById('status-label').className = "text-xs text-amber-600 font-semibold uppercase";
-                document.getElementById('status-text').innerText = "Tanaffusda (Dam olish)";
+                document.getElementById('status-text').innerText = "Tanaffusdamiz (Dam olish)";
                 document.getElementById('start-time-text').innerText = `Mazza qilib dam olinmoqda...`;
                 svgContainer.innerHTML = `<svg class="w-12 h-12 text-amber-500 animate-bounce" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0 1 12 21 8.25 8.25 0 0 1 6.038 7.047 8.287 8.287 0 0 0 9 9.601a8.983 8.983 0 0 1 3.361-6.867 8.21 8.21 0 0 0 3 2.48Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"/></svg>`;
             } else if (state.status === 'FINISHED') {
@@ -212,7 +219,7 @@
         }
         renderUI();
 
-        // --- VALIDATSIYA VA TUGMA MANTIQI ---
+        // --- TUGMA VALIDATSIYALARI ---
         function startWork() {
             if (state.status === 'WORKING' || state.status === 'BREAK') return;
             const timeStr = new Date().toTimeString().substring(0, 8);
@@ -224,7 +231,6 @@
         }
 
         function startBreak() {
-            // Faqat ishlayotgan paytda tanaffusga chiqish mumkin
             if (state.status !== 'WORKING') {
                 alert("Tanaffusga chiqish uchun avval ishda bo'lishingiz kerak!");
                 return;
@@ -238,7 +244,6 @@
         }
 
         function endBreak() {
-            // Faqat tanaffusda bo'lgandagina tanaffusdan qaytish mumkin
             if (state.status !== 'BREAK') {
                 alert("Siz hozir tanaffusda emassiz!");
                 return;
@@ -251,7 +256,6 @@
         }
 
         function endWork() {
-            // Ish boshlanmagan yoki tanaffus paytida ishni tugatib bo'lmaydi
             if (state.status === 'STOPPED' || state.status === 'FINISHED') return;
             if (state.status === 'BREAK') {
                 alert("Tanaffusni yakunlamasdan turib ishni tugata olmaysiz! Avval tanaffusdan qayting.");
@@ -264,7 +268,7 @@
             renderUI();
         }
 
-        // Jonli sekundomer va vaqtni yangilab borish
+        // Sekundomer
         setInterval(() => {
             if (state.status === 'WORKING') {
                 state.workSec++;
