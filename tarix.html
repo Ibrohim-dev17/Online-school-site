@@ -13,30 +13,32 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header (Ortiqcha pastga tushib ketish oldi olindi: mt-4) -->
-    <header class="p-4 mt-4 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
-        <a href="index.html" class="text-gray-600 text-lg"><i class="fa-solid fa-chevron-left"></i></a>
-        <h1 class="font-bold text-gray-800 text-base">Mening tarixim</h1>
-        <div class="w-5"></div>
+    <!-- Top Header ("Mening tarixim" yozuvi biroz pastroqqa tushirildi: mt-6, pt-2) -->
+    <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
+        <button onclick="navigateDate(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition"><i class="fa-solid fa-chevron-left"></i></button>
+        <h1 class="font-bold text-gray-800 text-base" id="header-title">Mening tarixim</h1>
+        <button onclick="navigateDate(1)" class="text-gray-600 text-lg hover:text-purple-600 transition"><i class="fa-solid fa-chevron-right"></i></button>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
         <!-- Filtr tugmalari: Kunlik, Haftalik, Oylik, Yillik -->
         <div class="grid grid-cols-4 gap-1.5 bg-gray-100 p-1.5 rounded-2xl">
-            <button class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Kunlik</button>
-            <button class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Haftalik</button>
-            <button class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Oylik</button>
-            <button class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
+            <button onclick="switchTab('daily')" id="btn-daily" class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Kunlik</button>
+            <button onclick="switchTab('weekly')" id="btn-weekly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Haftalik</button>
+            <button onclick="switchTab('monthly')" id="btn-monthly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Oylik</button>
+            <button onclick="switchTab('yearly')" id="btn-yearly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
         </div>
 
-        <!-- Sana tanlash paneli -->
+        <!-- Sana tanlash paneli (Hozirgi real vaqt va kalendar orqali o'zgartirish) -->
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-            <button class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-            <div class="flex items-center gap-2">
-                <span class="font-bold text-gray-800 text-sm" id="history-date">20 May, 2024</span>
+            <button onclick="navigateDate(-1)" class="text-gray-400 hover:text-gray-600 px-2"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+            <div class="flex items-center gap-2 relative">
+                <span class="font-bold text-gray-800 text-sm" id="history-date">Bugun</span>
+                <!-- Yashirin kalendar inputi -->
+                <input type="date" id="calendar-picker" onchange="onCalendarSelect(this.value)" class="absolute opacity-0 inset-0 cursor-pointer w-full h-full">
             </div>
-            <button class="text-purple-600"><i class="fa-regular fa-calendar text-base"></i></button>
+            <button onclick="document.getElementById('calendar-picker').showPicker()" class="text-purple-600 px-2"><i class="fa-regular fa-calendar text-base"></i></button>
         </div>
 
         <!-- 4 ta asosiy ko'rsatkich kartalari -->
@@ -44,86 +46,58 @@
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div class="text-purple-600 mb-2"><i class="fa-regular fa-clock text-base"></i></div>
                 <p class="text-[11px] text-gray-400">Ish vaqti</p>
-                <h4 class="text-sm font-bold text-gray-800" id="hist-work">7 soat 24 daqiqa</h4>
+                <h4 class="text-sm font-bold text-gray-800" id="hist-work">0 soat 0 daqiqa</h4>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div class="text-amber-500 mb-2"><i class="fa-solid fa-mug-hot text-base"></i></div>
                 <p class="text-[11px] text-gray-400">Tanaffuslar</p>
-                <h4 class="text-sm font-bold text-gray-800" id="hist-breaks">2 marta</h4>
+                <h4 class="text-sm font-bold text-gray-800" id="hist-breaks">0 marta</h4>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div class="text-blue-500 mb-2"><i class="fa-regular fa-clock text-base"></i></div>
                 <p class="text-[11px] text-gray-400">Tanaffus vaqti</p>
-                <h4 class="text-sm font-bold text-gray-800" id="hist-break-time">44 daqiqa</h4>
+                <h4 class="text-sm font-bold text-gray-800" id="hist-break-time">0 daqiqa</h4>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
                 <div class="text-emerald-500 mb-2"><i class="fa-solid fa-chart-line text-base"></i></div>
                 <p class="text-[11px] text-gray-400">Samaradorlik</p>
                 <div class="flex items-center justify-between">
-                    <h4 class="text-sm font-bold text-gray-800" id="hist-eff">96%</h4>
+                    <h4 class="text-sm font-bold text-gray-800" id="hist-eff">0%</h4>
                     <i class="fa-solid fa-arrow-trend-up text-emerald-500 text-xs"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Ish jarayoni xronologiyasi -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+        <!-- Ish jarayoni vaqtlar chizig'i va Diagramma bo'limi -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
             <div class="flex justify-between items-center">
-                <h3 class="font-bold text-gray-800 text-sm">Ish jarayoni</h3>
-                <a href="#" class="text-xs text-purple-600 font-semibold hover:underline">Batafsil</a>
+                <h3 class="font-bold text-gray-800 text-sm">Ish jarayoni va tanaffuslar</h3>
+                <span class="text-[11px] text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded-md" id="chart-mode-label">Kunlik</span>
             </div>
-            
+
+            <!-- Vizual Diagramma (Ish vaqti va Tanaffus nisbati) -->
+            <div class="space-y-1.5 pt-1">
+                <div class="flex justify-between text-[11px] text-gray-500">
+                    <span>Ish va tanaffus balansi</span>
+                    <span id="chart-ratio-text">0% / 0%</span>
+                </div>
+                <div class="w-full bg-gray-100 h-3 rounded-full overflow-hidden flex shadow-inner">
+                    <div id="bar-work" class="bg-purple-600 h-full transition-all duration-500" style="width: 0%"></div>
+                    <div id="bar-break" class="bg-amber-400 h-full transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-gray-400 pt-1">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-purple-600"></span> Ish vaqti</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400"></span> Tanaffus</span>
+                </div>
+            </div>
+
+            <hr class="border-gray-100 my-2">
+
+            <!-- Xronologiya ro'yxati -->
             <div id="history-list" class="space-y-3 pt-1">
-                <!-- Dinamik yoki standart ko'rinish -->
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-emerald-500 flex items-center justify-center text-[8px] text-white"><i class="fa-solid fa-check"></i></span>
-                        <span class="font-bold text-gray-800">09:01</span>
-                        <span class="text-gray-600">Ishga keldi</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-amber-500 flex items-center justify-center text-[8px] text-white"></span>
-                        <span class="font-bold text-gray-800">11:58</span>
-                        <span class="text-gray-600">Tanaffusga chiqdi</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-blue-500 flex items-center justify-center text-[8px] text-white"></span>
-                        <span class="font-bold text-gray-800">12:17</span>
-                        <span class="text-gray-600">Tanaffusdan qaytdi</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-amber-500 flex items-center justify-center text-[8px] text-white"></span>
-                        <span class="font-bold text-gray-800">15:08</span>
-                        <span class="text-gray-600">Tanaffusga chiqdi</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-blue-500 flex items-center justify-center text-[8px] text-white"></span>
-                        <span class="font-bold text-gray-800">15:23</span>
-                        <span class="text-gray-600">Tanaffusdan qaytdi</span>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between text-xs">
-                    <div class="flex items-center gap-3">
-                        <span class="w-3 h-3 rounded-full bg-rose-500 flex items-center justify-center text-[8px] text-white"></span>
-                        <span class="font-bold text-gray-800">18:05</span>
-                        <span class="text-gray-600">Ishni tugatdi</span>
-                    </div>
-                </div>
+                <p class="text-xs text-gray-400 text-center py-4">Bu kun uchun ma'lumot mavjud emas</p>
             </div>
         </div>
-
-        <!-- Hisobotni ulash tugmasi -->
-        <button onclick="alert('Hisobot havolasi nusxalandi!')" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3.5 rounded-2xl text-sm shadow-md hover:opacity-95 transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-arrow-up-from-bracket"></i> Hisobotni ulash
-        </button>
     </main>
 
     <!-- Bottom Navigation -->
@@ -135,32 +109,184 @@
     </nav>
 
     <script>
-        // Real vaqtda localStorage dan ma'lumotlarni o'qib chiqarish (agar ishlatilgan bo'lsa)
-        let state = JSON.parse(localStorage.getItem('malika_state'));
-        if (state && state.workSec > 0) {
-            function formatTime(s) {
-                let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
-                return `${h} soat ${m} daqiqa`;
-            }
-            document.getElementById('hist-work').innerText = formatTime(state.workSec);
-            document.getElementById('hist-breaks').innerText = `${state.breakCount} marta`;
-            document.getElementById('hist-break-time').innerText = `${Math.floor(state.breakSec / 60)} daqiqa`;
-            let eff = Math.min(Math.floor((state.workSec / (8 * 3600)) * 100), 100);
-            document.getElementById('hist-eff').innerText = `${eff}%`;
+        // Joriy tanlangan sana (default: bugungi sana yyyy-mm-dd formatida)
+        let currentDate = new Date();
+        let currentTab = 'daily';
 
-            if (state.history && state.history.length > 0) {
-                const listContainer = document.getElementById('history-list');
-                listContainer.innerHTML = state.history.map(item => `
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-3">
-                            <span class="w-3 h-3 rounded-full ${item.type === 'work' ? 'bg-emerald-500' : item.type === 'break' ? 'bg-amber-500' : 'bg-rose-500'}"></span>
-                            <span class="font-bold text-gray-800">${item.time}</span>
-                            <span class="text-gray-600">${item.text}</span>
-                        </div>
-                    </div>
-                `).join('');
+        function formatDateKey(date) {
+            let y = date.getFullYear();
+            let m = String(date.getMonth() + 1).padStart(2, '0');
+            let d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function getDisplayDateText(date) {
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return date.toLocaleDateString('uz-UZ', options);
+        }
+
+        function updateView() {
+            let dateStr = formatDateKey(currentDate);
+            document.getElementById('calendar-picker').value = dateStr;
+
+            // Sarlavhani yangilash
+            if (currentTab === 'daily') {
+                document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
+            } else if (currentTab === 'weekly') {
+                document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil (Haftalik yig'indi)`;
+            } else if (currentTab === 'monthly') {
+                document.getElementById('history-date').innerText = currentDate.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
+            } else if (currentTab === 'yearly') {
+                document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil`;
+            }
+
+            // Barcha saqlangan arxivni olish (localStorage da har bir kun 'history_YYYY-MM-DD' tarzida saqlanadi deb nazarda tutiladi)
+            loadDataForCurrentSelection();
+        }
+
+        function navigateDate(direction) {
+            if (currentTab === 'daily') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            } else if (currentTab === 'weekly') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentTab === 'monthly') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentTab === 'yearly') {
+                currentDate.setFullYear(currentDate.getFullYear() + direction);
+            }
+            updateView();
+        }
+
+        function onCalendarSelect(val) {
+            if (val) {
+                currentDate = new Date(val);
+                currentTab = 'daily';
+                setActiveTabUI('daily');
+                updateView();
             }
         }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            setActiveTabUI(tab);
+            updateView();
+        }
+
+        function setActiveTabUI(tab) {
+            ['daily', 'weekly', 'monthly', 'yearly'].forEach(t => {
+                let btn = document.getElementById(`btn-${t}`);
+                if (t === tab) {
+                    btn.className = "bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition";
+                } else {
+                    btn.className = "text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition";
+                }
+            });
+            document.getElementById('chart-mode-label').innerText = document.getElementById(`btn-${tab}`).innerText;
+        }
+
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+            return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa`;
+        }
+
+        function loadDataForCurrentSelection() {
+            let workSec = 0, breakSec = 0, breakCount = 0;
+            let events = [];
+
+            if (currentTab === 'daily') {
+                let key = `history_${formatDateKey(currentDate)}`;
+                let dayData = JSON.parse(localStorage.getItem(key));
+                // Agar maxsus kunlik yozuv bo'lmasa, umumiy active state ni tekshiramiz (agar bugun bo'lsa)
+                if (!dayData && formatDateKey(currentDate) === formatDateKey(new Date())) {
+                    let generalState = JSON.parse(localStorage.getItem('malika_state'));
+                    if (generalState) {
+                        workSec = generalState.workSec || 0;
+                        breakSec = generalState.breakSec || 0;
+                        breakCount = generalState.breakCount || 0;
+                        events = generalState.history || [];
+                    }
+                } else if (dayData) {
+                    workSec = dayData.workSec || 0;
+                    breakSec = dayData.breakSec || 0;
+                    breakCount = dayData.breakCount || 0;
+                    events = dayData.history || [];
+                }
+            } else {
+                // Haftalik, oylik yoki yillik diapazon uchun localStorage dagi barcha mos kunlarni yig'amiz
+                for (let i = 0; i < localStorage.length; i++) {
+                    let k = localStorage.key(i);
+                    if (k && k.startsWith('history_')) {
+                        let datePart = k.replace('history_', '');
+                        let dObj = new Date(datePart);
+                        if (isInRange(dObj, currentDate, currentTab)) {
+                            let dVal = JSON.parse(localStorage.getItem(k));
+                            workSec += dVal.workSec || 0;
+                            breakSec += dVal.breakSec || 0;
+                            breakCount += dVal.breakCount || 0;
+                            if (dVal.history) events = events.concat(dVal.history);
+                        }
+                    }
+                }
+            }
+
+            // Ma'lumotlarni Ekranga chiqarish (0 dan boshlanadi agar ma'lumot bo'lmasa)
+            document.getElementById('hist-work').innerText = formatTime(workSec);
+            document.getElementById('hist-breaks').innerText = `${breakCount} marta`;
+            document.getElementById('hist-break-time').innerText = `${Math.floor(breakSec / 60)} daqiqa`;
+            
+            let totalActive = workSec + breakSec;
+            let eff = totalActive > 0 ? Math.min(Math.floor((workSec / totalActive) * 100), 100) : 0;
+            document.getElementById('hist-eff').innerText = `${eff}%`;
+
+            // Diagramma nisbatlarini hisoblash
+            let totalBar = workSec + breakSec;
+            let workPercent = totalBar > 0 ? Math.round((workSec / totalBar) * 100) : 0;
+            let breakPercent = totalBar > 0 ? (100 - workPercent) : 0;
+            
+            document.getElementById('bar-work').style.width = `${workPercent}%`;
+            document.getElementById('bar-break').style.width = `${breakPercent}%`;
+            document.getElementById('chart-ratio-text').innerText = `${workPercent}% / ${breakPercent}%`;
+
+            // Xronologiya ro'yxatini tartiblash ("tanaffusga chiqdi" doimo "qaytdi"ning tepasida turishi uchun xronologik ketma-ketlikda chiqariladi)
+            const listContainer = document.getElementById('history-list');
+            if (events.length > 0) {
+                // Vaqt bo'yicha saralash
+                events.sort((a, b) => a.time.localeCompare(b.time));
+                
+                listContainer.innerHTML = events.map(item => {
+                    let dotColor = item.type === 'work' ? 'bg-emerald-500' : item.type === 'break' ? 'bg-amber-500' : 'bg-rose-500';
+                    return `
+                        <div class="flex items-center justify-between text-xs py-1 border-b border-gray-50 last:border-none">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2.5 h-2.5 rounded-full ${dotColor}"></span>
+                                <span class="font-bold text-gray-800">${item.time}</span>
+                                <span class="text-gray-600">${item.text}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                listContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">Tanlangan davr uchun ma'lumot topilmadi (0)</p>`;
+            }
+        }
+
+        function isInRange(targetDate, baseDate, mode) {
+            if (mode === 'weekly') {
+                let startOfWeek = new Date(baseDate);
+                startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
+                let endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                return targetDate >= startOfWeek && targetDate <= endOfWeek;
+            } else if (mode === 'monthly') {
+                return targetDate.getFullYear() === baseDate.getFullYear() && targetDate.getMonth() === baseDate.getMonth();
+            } else if (mode === 'yearly') {
+                return targetDate.getFullYear() === baseDate.getFullYear();
+            }
+            return false;
+        }
+
+        // Sahifa yuklanganda joriy sana bo'yicha ma'lumotni chiqarish
+        updateView();
     </script>
 </body>
 </html>
