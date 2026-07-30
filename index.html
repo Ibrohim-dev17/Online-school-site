@@ -13,8 +13,8 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header (Telegram menyusi to'sib qo'ymasligi uchun pastroqqa tushirildi) -->
-    <header class="p-4 mt-8 bg-white shadow-sm flex justify-between items-center sticky top-8 z-40">
+    <!-- Top Header (Pastroqqa tushirildi) -->
+    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
         <div class="flex items-center gap-3">
             <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
@@ -35,7 +35,7 @@
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Date Card (Real vaqt, bugungi sana va kun) -->
+        <!-- Date Card -->
         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
                 <i class="fa-regular fa-calendar-days text-xl"></i>
@@ -83,7 +83,7 @@
             </div>
         </div>
 
-        <!-- Bugungi ko'rsatkichlar (Real vaqtda hisoblagich) -->
+        <!-- Bugungi ko'rsatkichlar -->
         <div>
             <div class="flex justify-between items-center mb-3">
                 <h3 class="text-gray-700 font-bold">Bugungi ko'rsatkichlar</h3>
@@ -119,139 +119,111 @@
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="index.html" class="flex flex-col items-center text-purple-600">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-xs mt-1 font-medium">Asosiy</span>
-        </a>
-        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-user-gear text-lg"></i>
-            <span class="text-xs mt-1">Mening tarixim</span>
-        </a>
-        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-chart-simple text-lg"></i>
-            <span class="text-xs mt-1">Statistika</span>
-        </a>
-        <a href="sozlamalar.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-gear text-lg"></i>
-            <span class="text-xs mt-1">Sozlamalar</span>
-        </a>
+        <a href="index.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1 font-medium">Asosiy</span></a>
+        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1">Mening tarixim</span></a>
+        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1">Statistika</span></a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-xs mt-1">Sozlamalar</span></a>
     </nav>
 
     <script>
-        // Real vaqtda bugungi sana va kunni chiqarish
         function updateRealTimeDate() {
             const now = new Date();
-            const optionsDate = { day: 'numeric', month: 'long', year: 'numeric' };
-            const optionsDay = { weekday: 'long' };
-            
-            document.getElementById('current-date').innerText = now.toLocaleDateString('uz-UZ', optionsDate);
-            document.getElementById('current-day-name').innerText = now.toLocaleDateString('uz-UZ', optionsDay);
+            document.getElementById('current-date').innerText = now.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+            document.getElementById('current-day-name').innerText = now.toLocaleDateString('uz-UZ', { weekday: 'long' });
         }
         updateRealTimeDate();
 
-        // Ish va tanaffus hisob-kitob o'zgaruvchilari
-        let workSeconds = 0;
-        let breakSeconds = 0;
-        let breakCount = 0;
-        let currentState = 'STOPPED'; // STOPPED, WORKING, BREAK, FINISHED
-        let timerInterval = null;
+        let state = JSON.parse(localStorage.getItem('malika_state')) || {
+            workSec: 0, breakSec: 0, breakCount: 0, status: 'STOPPED', startTime: '', history: []
+        };
 
-        function formatTime(totalSecs) {
-            let h = Math.floor(totalSecs / 3600);
-            let m = Math.floor((totalSecs % 3600) / 60);
-            let s = totalSecs % 60;
-            if (h > 0) {
-                return `${h} soat ${m} daqiqa`;
-            }
-            return `${m} daqiqa ${s} sekund`;
+        function saveData() {
+            localStorage.setItem('malika_state', JSON.stringify(state));
         }
 
-        function startWork() {
-            if (currentState === 'WORKING') return;
-            
-            const now = new Date();
-            const timeString = now.toTimeString().substring(0, 8); // HH:MM:SS
-            
-            currentState = 'WORKING';
-            
-            // UI o'zgartirish
-            const card = document.getElementById('status-card');
-            card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
-            document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
-            document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
-            document.getElementById('status-text').innerText = "Ishda";
-            document.getElementById('start-time-text').innerText = `${timeString} da ish boshlandi`;
-            document.getElementById('status-icon').className = "fa-solid fa-vest text-4xl text-emerald-400";
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+            return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa ${sec} sekund`;
+        }
 
-            startTimerEngine();
+        function renderUI() {
+            document.getElementById('live-work-time').innerText = formatTime(state.workSec);
+            document.getElementById('live-break-count').innerText = `${state.breakCount} marta`;
+            document.getElementById('live-break-time').innerText = formatTime(state.breakSec);
+            let eff = Math.min(Math.floor((state.workSec / (8 * 3600)) * 100), 100);
+            document.getElementById('live-efficiency').innerText = `${eff}%`;
+
+            const card = document.getElementById('status-card');
+            if (state.status === 'WORKING') {
+                card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
+                document.getElementById('status-text').innerText = "Ishda";
+                document.getElementById('start-time-text').innerText = `${state.startTime} da ish boshlandi`;
+            } else if (state.status === 'BREAK') {
+                card.className = "bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-amber-500 rounded-full animate-pulse";
+                document.getElementById('status-text').innerText = "Tanaffusda";
+                document.getElementById('start-time-text').innerText = `Tanaffus davom etmoqda...`;
+            } else if (state.status === 'FINISHED') {
+                card.className = "bg-rose-50 border border-rose-200 p-4 rounded-2xl flex items-center justify-between";
+                document.getElementById('status-dot').className = "w-3 h-3 bg-rose-500 rounded-full";
+                document.getElementById('status-text').innerText = "Ish tugadi";
+                document.getElementById('start-time-text').innerText = `Kunlik ish yakunlandi`;
+            }
+        }
+        renderUI();
+
+        function startWork() {
+            if (state.status === 'WORKING') return;
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            if (!state.startTime) state.startTime = timeStr;
+            state.status = 'WORKING';
+            state.history.unshift({ time: timeStr, text: 'Ishga keldi', type: 'work' });
+            saveData();
+            renderUI();
         }
 
         function startBreak() {
-            if (currentState !== 'WORKING') return;
-            
-            currentState = 'BREAK';
-            breakCount++;
-
-            const card = document.getElementById('status-card');
-            card.className = "bg-amber-50 border border-amber-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
-            document.getElementById('status-dot').className = "w-3 h-3 bg-amber-500 rounded-full animate-pulse";
-            document.getElementById('status-label').className = "text-xs text-amber-600 font-semibold uppercase";
-            document.getElementById('status-text').innerText = "Tanaffusda";
-            document.getElementById('start-time-text').innerText = `Tanaffus vaqti boshlandi (${breakCount}-marta)`;
-            document.getElementById('status-icon').className = "fa-solid fa-mug-hot text-4xl text-amber-400";
+            if (state.status !== 'WORKING') return;
+            state.status = 'BREAK';
+            state.breakCount++;
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Tanaffusga chiqdi', type: 'break' });
+            saveData();
+            renderUI();
         }
 
         function endBreak() {
-            if (currentState !== 'BREAK') return;
-
-            currentState = 'WORKING';
-
-            const card = document.getElementById('status-card');
-            card.className = "bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
-            document.getElementById('status-dot').className = "w-3 h-3 bg-emerald-500 rounded-full animate-pulse";
-            document.getElementById('status-label').className = "text-xs text-emerald-600 font-semibold uppercase";
-            document.getElementById('status-text').innerText = "Ishda (Qaytdi)";
-            document.getElementById('start-time-text').innerText = `Tanaffusdan qaytdingiz`;
-            document.getElementById('status-icon').className = "fa-solid fa-vest text-4xl text-emerald-400";
+            if (state.status !== 'BREAK') return;
+            state.status = 'WORKING';
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Tanaffusdan qaytdi', type: 'work' });
+            saveData();
+            renderUI();
         }
 
         function endWork() {
-            if (currentState === 'STOPPED' || currentState === 'FINISHED') return;
-
-            currentState = 'FINISHED';
-            clearInterval(timerInterval);
-
-            const card = document.getElementById('status-card');
-            card.className = "bg-rose-50 border border-rose-200 p-4 rounded-2xl flex items-center justify-between transition-all duration-300";
-            document.getElementById('status-dot').className = "w-3 h-3 bg-rose-500 rounded-full";
-            document.getElementById('status-label').className = "text-xs text-rose-600 font-semibold uppercase";
-            document.getElementById('status-text').innerText = "Ish tugadi";
-            document.getElementById('start-time-text').innerText = `Kunlik ish yakunlandi`;
-            document.getElementById('status-icon').className = "fa-solid fa-stop text-4xl text-rose-400";
+            if (state.status === 'STOPPED' || state.status === 'FINISHED') return;
+            state.status = 'FINISHED';
+            const timeStr = new Date().toTimeString().substring(0, 8);
+            state.history.unshift({ time: timeStr, text: 'Ishni tugatdi', type: 'stop' });
+            saveData();
+            renderUI();
         }
 
-        // Jonli vaqt hisoblagich mexanizmi
-        function startTimerEngine() {
-            if (timerInterval) clearInterval(timerInterval);
-
-            timerInterval = setInterval(() => {
-                if (currentState === 'WORKING') {
-                    workSeconds++;
-                } else if (currentState === 'BREAK') {
-                    breakSeconds++;
-                }
-
-                // Ekranga chiqarish
-                document.getElementById('live-work-time').innerText = formatTime(workSeconds);
-                document.getElementById('live-break-count').innerText = `${breakCount} marta`;
-                document.getElementById('live-break-time').innerText = formatTime(breakSeconds);
-
-                // Samaradorlik foizini taxminiy hisoblash (masalan, 8 soatlik reja asosida)
-                let efficiency = Math.min(Math.floor((workSeconds / (8 * 3600)) * 100), 100);
-                document.getElementById('live-efficiency').innerText = `${efficiency}%`;
-
-            }, 1000);
-        }
+        // Jonli sekundomer
+        setInterval(() => {
+            if (state.status === 'WORKING') {
+                state.workSec++;
+                saveData();
+                renderUI();
+            } else if (state.status === 'BREAK') {
+                state.breakSec++;
+                saveData();
+                renderUI();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
+ 
