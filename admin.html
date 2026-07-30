@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chevarxona Pro - Ishchi Shaxsiy Kabineti</title>
+    <title>Chevarxona Pro - Asosiy Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -17,11 +17,10 @@
     <header class="px-4 py-3 bg-white shadow-sm flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto">
         <div class="flex items-center gap-3">
             <div>
-                <h1 id="header-title" class="font-bold text-gray-800 text-base">Ishchi Shaxsiy Kabineti</h1>
-                <p id="header-subtitle" class="text-xs text-gray-400">Real vaqt faoliyat va tahlillar</p>
+                <h1 id="header-title" class="font-bold text-gray-800 text-base">Chevarxona Boshqaruvi</h1>
+                <p id="header-subtitle" class="text-xs text-gray-400">Ishlab chiqarish va xodimlar nazorati</p>
             </div>
         </div>
-        <!-- Yuqori o'ng burchakda Chat SVG iconi -->
         <div>
             <a href="#" class="relative w-10 h-10 bg-gradient-to-tr from-purple-600 to-indigo-500 text-white rounded-xl flex items-center justify-center transition shadow-md shadow-purple-500/25">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
@@ -33,8 +32,70 @@
     <!-- Main Content -->
     <main class="px-4 pt-3 pb-2 space-y-3 max-w-xl mx-auto w-full">
         
-        <!-- DASHBOARD VIEW -->
+        <!-- DASHBOARD TAB (Asosiy Boshqaruv Paneli) -->
         <div id="view-dashboard" class="space-y-3">
+            <!-- Statistika qisqacha -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Jami Ishchilar</p>
+                        <h3 id="stat-total-workers" class="text-sm font-bold text-gray-800">12 ta</h3>
+                    </div>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-check-to-slot"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Bugun Ishda</p>
+                        <h3 id="stat-active-workers" class="text-sm font-bold text-emerald-600">9 ta</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kunlik Ishlab chiqarish Diagrammasi -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-gray-800 font-bold text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-purple-600"></i> Kunlik Ishlab Chiqarish Tahlili
+                    </h3>
+                    <span class="text-[10px] bg-purple-50 text-purple-600 px-2 py-0.5 rounded-lg font-bold">Real Vaqt</span>
+                </div>
+                <div class="flex items-end justify-between h-36 px-2 pt-4 bg-gradient-to-b from-purple-50/40 to-white rounded-xl border border-purple-50">
+                    <div class="flex flex-col items-center gap-1.5"><div class="w-8 bg-purple-200 rounded-t-lg h-16"></div><span class="text-[10px] text-gray-400">Du</span></div>
+                    <div class="flex flex-col items-center gap-1.5"><div class="w-8 bg-purple-300 rounded-t-lg h-20"></div><span class="text-[10px] text-gray-400">Se</span></div>
+                    <div class="flex flex-col items-center gap-1.5"><div class="w-8 bg-purple-400 rounded-t-lg h-24"></div><span class="text-[10px] text-gray-400">Ch</span></div>
+                    <div class="flex flex-col items-center gap-1.5"><div class="w-8 bg-purple-500 rounded-t-lg h-28"></div><span class="text-[10px] text-gray-400">Pa</span></div>
+                    <div class="flex flex-col items-center gap-1.5"><div class="w-8 bg-purple-600 rounded-t-lg h-32 shadow-md shadow-purple-500/30"></div><span class="text-[10px] text-purple-700 font-bold">Ju</span></div>
+                </div>
+            </div>
+
+            <!-- Tezkor Amallar va Xodimlar ro'yxati -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-gray-800 font-bold text-xs">Tezkor Boshqaruv</h3>
+                    <button onclick="switchTab('employees')" class="text-[11px] text-purple-600 font-bold hover:underline">Barchasi &rarr;</button>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-xl border border-gray-100">
+                        <div class="flex items-center gap-2.5">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-9 h-9 rounded-full object-cover">
+                            <div>
+                                <h4 class="text-xs font-bold text-gray-800">Ibrohim (#1025)</h4>
+                                <p class="text-[10px] text-gray-400">Bosh Chevar &bull; 1-sektor</p>
+                            </div>
+                        </div>
+                        <span class="bg-emerald-50 text-emerald-600 text-[10px] font-bold px-2.5 py-1 rounded-full">Ishda</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EMPLOYEES TAB (Ishchilar Shaxsiy Kabineti) -->
+        <div id="view-employees" class="space-y-3" style="display: none;">
             <!-- Profil va Status Qutisi -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -158,8 +219,8 @@
             </div>
         </div>
 
-        <!-- SETTINGS VIEW (Sozlash bo'limi) -->
-        <div id="view-reports" class="space-y-3" style="display: none;">
+        <!-- SETTINGS TAB (Sozlash bo'limi) -->
+        <div id="view-settings" class="space-y-3" style="display: none;">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                 <h3 class="text-gray-700 font-bold text-xs flex items-center gap-2"><i class="fa-solid fa-sliders text-purple-600"></i> Tizimni Sozlash</h3>
                 <p class="text-xs text-gray-400">Ishchining soatlik maosh stavkasini va o'tgan oydan qolgan qarzni sozlang:</p>
@@ -177,13 +238,17 @@
         </div>
     </main>
 
-    <!-- Pastki menyu: Dashboard va Sozlash tugmalari joylashgan -->
+    <!-- Pastki menyu: Dashboard, Ishchi kabineti va Sozlash tugmalari -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50 max-w-xl mx-auto">
         <button onclick="switchTab('dashboard')" id="nav-dashboard" class="flex flex-col items-center text-purple-600 font-semibold focus:outline-none">
             <i class="fa-solid fa-chart-pie text-lg"></i>
             <span class="text-[10px] mt-1">Dashboard</span>
         </button>
-        <button onclick="switchTab('reports')" id="nav-reports-tab" class="flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none">
+        <button onclick="switchTab('employees')" id="nav-employees" class="flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none">
+            <i class="fa-solid fa-user-gear text-lg"></i>
+            <span class="text-[10px] mt-1">Shaxsiy Kabinet</span>
+        </button>
+        <button onclick="switchTab('settings')" id="nav-settings" class="flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none">
             <i class="fa-solid fa-sliders text-lg"></i>
             <span class="text-[10px] mt-1">Sozlash</span>
         </button>
@@ -213,23 +278,31 @@
         function switchTab(tab) {
             currentTab = tab;
             let dashEl = document.getElementById('view-dashboard');
-            let reportsEl = document.getElementById('view-reports');
+            let empEl = document.getElementById('view-employees');
+            let setEl = document.getElementById('view-settings');
             
             document.getElementById('nav-dashboard').className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
-            document.getElementById('nav-reports-tab').className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
+            document.getElementById('nav-employees').className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
+            document.getElementById('nav-settings').className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
 
             dashEl.style.display = 'none';
-            reportsEl.style.display = 'none';
+            empEl.style.display = 'none';
+            setEl.style.display = 'none';
 
             if (tab === 'dashboard') {
                 dashEl.style.display = 'block';
                 document.getElementById('nav-dashboard').className = "flex flex-col items-center text-purple-600 font-semibold focus:outline-none";
+                document.getElementById('header-title').innerText = "Chevarxona Boshqaruvi";
+                document.getElementById('header-subtitle').innerText = "Ishlab chiqarish va xodimlar nazorati";
+            } else if (tab === 'employees') {
+                empEl.style.display = 'block';
+                document.getElementById('nav-employees').className = "flex flex-col items-center text-purple-600 font-semibold focus:outline-none";
                 document.getElementById('header-title').innerText = "Ishchi Shaxsiy Kabineti";
                 document.getElementById('header-subtitle').innerText = "Real vaqt faoliyat va tahlillar";
                 renderEmployeeCabinet();
-            } else if (tab === 'reports') {
-                reportsEl.style.display = 'block';
-                document.getElementById('nav-reports-tab').className = "flex flex-col items-center text-purple-600 font-semibold focus:outline-none";
+            } else if (tab === 'settings') {
+                setEl.style.display = 'block';
+                document.getElementById('nav-settings').className = "flex flex-col items-center text-purple-600 font-semibold focus:outline-none";
                 document.getElementById('header-title').innerText = "Sozlash";
                 document.getElementById('header-subtitle').innerText = "Tizim sozlamalari va ko'rsatkichlar";
                 document.getElementById('setting-hourly-rate').value = localStorage.getItem('chevar_hourly_rate');
@@ -279,13 +352,12 @@
             renderEmployeeCabinet();
         }
 
-        // LocalStoragedan real ma'lumotlarni o'qish funksiyasi
         function getEmployeeData() {
             let malikaState = JSON.parse(localStorage.getItem('malika_state')) || {};
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile')) || {};
             
             let status = malikaState.status || "WORKING";
-            let workSec = malikaState.workSec || 14400; // 4 soat real sekund
+            let workSec = malikaState.workSec || 14400; 
             let breakCount = malikaState.breakCount !== undefined ? malikaState.breakCount : 2;
             let arrivalTime = malikaState.arrivalTime || "08:30";
             let departureTime = malikaState.departureTime || (status === 'LEFT' ? "18:00" : "Hali ketmagan");
@@ -328,7 +400,6 @@
             let hourlyRate = parseInt(localStorage.getItem('chevar_hourly_rate')) || 15000;
             let prevDebt = parseInt(localStorage.getItem('chevar_prev_debt')) || 0;
 
-            // Profil ma'lumotlari
             document.getElementById('detail-avatar').src = emp.avatar;
             document.getElementById('detail-name').innerText = emp.name;
             document.getElementById('detail-id').innerText = emp.id;
@@ -336,7 +407,6 @@
             document.getElementById('audit-role').innerText = emp.role;
             document.getElementById('detail-status-badge').innerHTML = `<span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-[11px] font-semibold inline-flex items-center gap-1"><span class="w-2 h-2 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>`;
 
-            // Vaqtlar
             document.getElementById('real-arrival-time').innerText = emp.arrivalTime;
             document.getElementById('real-departure-time').innerText = emp.departureTime;
             document.getElementById('break-count-badge').innerText = `${emp.breakCount} marta`;
@@ -353,7 +423,6 @@
             let hoursFloat = (secVal / 3600).toFixed(1);
             let chartContainer = document.getElementById('period-chart-container');
 
-            // 5 ta Chartni LocalStorage ma'lumotlari asosida render qilish
             if (currentChartType === 1) {
                 chartContainer.innerHTML = `
                     <div class="flex items-end justify-between h-36 px-4 pt-4 bg-gradient-to-b from-purple-50/60 to-white rounded-2xl border border-purple-100">
@@ -403,7 +472,6 @@
                 `;
             }
 
-            // Moliyaviy Audit va Hisob-kitoblar (Real LocalStorage ma'lumotlari asosida)
             let monthHoursFloat = (emp.monthlySec / 3600);
             let totalEarned = Math.round(monthHoursFloat * hourlyRate);
             let advance = 100000;
@@ -416,8 +484,6 @@
             document.getElementById('audit-prev-debt').innerText = prevDebt.toLocaleString() + " so'm";
             document.getElementById('audit-remaining').innerText = totalRemaining.toLocaleString() + " so'm";
         }
-
-        renderEmployeeCabinet();
     </script>
 </body>
 </html>
