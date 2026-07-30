@@ -11,104 +11,64 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen justify-between pb-20">
+<body class="flex flex-col min-h-screen justify-between pb-24">
 
     <!-- Top Header -->
-    <header class="p-4 bg-white shadow-sm flex justify-between items-center sticky top-0 z-50">
-        <h1 class="font-bold text-gray-800 text-lg">Hisobotlar va Statistika</h1>
-        <button onclick="exportData()" class="bg-purple-50 text-purple-600 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 hover:bg-purple-100 transition">
-            <i class="fa-solid fa-file-arrow-down"></i> PDF / Excel
-        </button>
+    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
+        <h1 class="font-bold text-gray-800 text-base">Statistika</h1>
+        <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg">Bugungi ko'rsatkichlar</span>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Filter Tabs -->
-        <div class="flex bg-gray-200/60 p-1 rounded-xl">
-            <button onclick="changeTab('kunlik')" id="btn-kunlik" class="flex-1 py-2 text-gray-600 font-medium text-sm rounded-lg transition">Kunlik</button>
-            <button onclick="changeTab('haftalik')" id="btn-haftalik" class="flex-1 py-2 text-gray-600 font-medium text-sm rounded-lg transition">Haftalik</button>
-            <button onclick="changeTab('oylik')" id="btn-oylik" class="flex-1 py-2 bg-purple-600 text-white font-medium text-sm rounded-lg shadow-sm transition">Oylik</button>
-            <button onclick="changeTab('yillik')" id="btn-yillik" class="flex-1 py-2 text-gray-600 font-medium text-sm rounded-lg transition">Yillik</button>
-        </div>
-
-        <!-- Month Navigation -->
-        <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-            <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-            <span class="font-bold text-gray-800 text-sm" id="stat-period-label">May, 2024</span>
-            <button class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-        </div>
-
-        <!-- Stats Grid (Real vaqtda o'zgaruvchan) -->
+        <!-- Umumiy hisobot kartalari -->
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400 mb-1">Jami ish soatlari</p>
-                <h3 class="text-lg font-bold text-gray-800" id="stat-total-hours">3 245 <span class="text-xs font-normal text-gray-500">soat</span></h3>
+                <div class="text-purple-600 mb-2"><i class="fa-regular fa-clock text-lg"></i></div>
+                <p class="text-xs text-gray-400">Jami ish vaqti</p>
+                <h4 class="text-base font-bold text-gray-800" id="stat-work-time">0 soat 0 daqiqa</h4>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400 mb-1">O'rtacha kunlik</p>
-                <h3 class="text-lg font-bold text-gray-800" id="stat-avg-daily">7.6 <span class="text-xs font-normal text-gray-500">soat</span></h3>
-            </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400 mb-1">Kelgan kunlar</p>
-                <h3 class="text-lg font-bold text-gray-800" id="stat-days-came">22 <span class="text-xs font-normal text-gray-500">kun</span></h3>
-            </div>
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400 mb-1">Kechikishlar</p>
-                <h3 class="text-lg font-bold text-gray-800" id="stat-lates">8 <span class="text-xs font-normal text-gray-500">marta</span></h3>
+                <div class="text-emerald-600 mb-2"><i class="fa-solid fa-chart-line text-lg"></i></div>
+                <p class="text-xs text-gray-400">O'rtacha samaradorlik</p>
+                <h4 class="text-base font-bold text-emerald-600" id="stat-efficiency">0%</h4>
             </div>
         </div>
 
-        <!-- Grafik bo'limi -->
+        <!-- Grafik bo'limi (Vizual ko'rinish) -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
             <div class="flex justify-between items-center">
-                <h4 class="font-bold text-gray-800 text-sm">Kunlar bo'yicha ish soatlari</h4>
-                <div class="flex items-center gap-3 text-xs text-gray-500">
-                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-purple-300 rounded-full"></span> Reja</span>
-                    <span class="flex items-center gap-1"><span class="w-2 h-2 bg-purple-600 rounded-full"></span> Amal</span>
-                </div>
+                <h3 class="font-bold text-gray-700 text-sm">Soatlar bo'yicha faollik</h3>
+                <span class="text-xs text-purple-600 font-semibold">Jonli</span>
             </div>
-            <!-- Simulatsiya qilingan ustunli grafik -->
-            <div class="h-32 flex items-end gap-1 pt-4 border-b border-gray-100 pb-2 overflow-x-auto" id="chart-bars">
-                <!-- JavaScript orqali generatsiya qilinadi -->
+            <div class="h-32 flex items-end justify-between gap-1 pt-4 px-2 bg-gray-50 rounded-xl" id="chart-bars">
+                <!-- Dinamik ustunlar -->
+                <div class="w-full bg-purple-200 rounded-t-md h-10"></div>
+                <div class="w-full bg-purple-300 rounded-t-md h-16"></div>
+                <div class="w-full bg-purple-400 rounded-t-md h-24"></div>
+                <div class="w-full bg-purple-600 rounded-t-md h-full" id="active-bar"></div>
+                <div class="w-full bg-purple-300 rounded-t-md h-20"></div>
+                <div class="w-full bg-purple-200 rounded-t-md h-12"></div>
+            </div>
+            <div class="flex justify-between text-[10px] text-gray-400 px-1">
+                <span>08:00</span>
+                <span>10:00</span>
+                <span>12:00</span>
+                <span>14:00</span>
+                <span>16:00</span>
+                <span>18:00</span>
             </div>
         </div>
 
-        <!-- Eng samarali ishchilar -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-            <h4 class="font-bold text-gray-800 text-sm">Eng samarali ishchilar</h4>
-            <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-xs font-bold flex items-center justify-center">1</span>
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-8 h-8 rounded-full object-cover">
-                        <span class="text-sm font-medium text-gray-800">Malika Abdullayeva</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-sm font-bold text-purple-600">96%</span>
-                        <p class="text-[10px] text-gray-400">162 soat</p>
-                    </div>
+        <!-- Qo'shimcha ma'lumot -->
+        <div class="bg-purple-50 border border-purple-100 p-4 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-award text-lg"></i>
                 </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-gray-100 text-gray-700 text-xs font-bold flex items-center justify-center">2</span>
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="w-8 h-8 rounded-full object-cover">
-                        <span class="text-sm font-medium text-gray-800">Shahnoza Karimova</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-sm font-bold text-purple-600">94%</span>
-                        <p class="text-[10px] text-gray-400">158 soat</p>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-700/10 text-amber-800 text-xs font-bold flex items-center justify-center">3</span>
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100" class="w-8 h-8 rounded-full object-cover">
-                        <span class="text-sm font-medium text-gray-800">Dilorom Saidova</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-sm font-bold text-purple-600">92%</span>
-                        <p class="text-[10px] text-gray-400">154 soat</p>
-                    </div>
+                <div>
+                    <h4 class="font-bold text-purple-900 text-sm">Zo'r ishlayapsiz!</h4>
+                    <p class="text-xs text-purple-600">Bugungi reja muvaffaqiyatli bajarilmoqda</p>
                 </div>
             </div>
         </div>
@@ -116,74 +76,23 @@
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-xs mt-1">Asosiy</span>
-        </a>
-        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-user-gear text-lg"></i>
-            <span class="text-xs mt-1">Mening tarixim</span>
-        </a>
-        <a href="statistika.html" class="flex flex-col items-center text-purple-600">
-            <i class="fa-solid fa-chart-simple text-lg"></i>
-            <span class="text-xs mt-1 font-medium">Statistika</span>
-        </a>
-        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
-            <i class="fa-solid fa-gear text-lg"></i>
-            <span class="text-xs mt-1">Sozlamalar</span>
-        </a>
+        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1">Asosiy</span></a>
+        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1">Mening tarixim</span></a>
+        <a href="statistika.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1 font-medium">Statistika</span></a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-xs mt-1">Sozlamalar</span></a>
     </nav>
 
     <script>
-        // Tugmalar bosilganda real vaqtda qiymatlarni o'zgartirish va hisoblash
-        function changeTab(type) {
-            ['kunlik', 'haftalik', 'oylik', 'yillik'].forEach(t => {
-                let btn = document.getElementById('btn-' + t);
-                if(t === type) {
-                    btn.className = "flex-1 py-2 bg-purple-600 text-white font-medium text-sm rounded-lg shadow-sm transition";
-                } else {
-                    btn.className = "flex-1 py-2 text-gray-600 font-medium text-sm rounded-lg transition";
-                }
-            });
-
-            // Real vaqtda ma'lumotlarni o'zgartirish simulatsiyasi
-            if(type === 'kunlik') {
-                document.getElementById('stat-period-label').innerText = "Bugun: 30 Iyul, 2026";
-                document.getElementById('stat-total-hours').innerHTML = "7.5 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-avg-daily').innerHTML = "100% <span class='text-xs font-normal text-gray-500'>faollik</span>";
-                document.getElementById('stat-days-came').innerHTML = "1 <span class='text-xs font-normal text-gray-500'>kun</span>";
-                document.getElementById('stat-lates').innerHTML = "0 <span class='text-xs font-normal text-gray-500'>marta</span>";
-            } else if(type === 'haftalik') {
-                document.getElementById('stat-period-label').innerText = "Shu hafta (24 - 30 Iyul)";
-                document.getElementById('stat-total-hours').innerHTML = "42 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-avg-daily').innerHTML = "8.4 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-days-came').innerHTML = "5 <span class='text-xs font-normal text-gray-500'>kun</span>";
-                document.getElementById('stat-lates').innerHTML = "1 <span class='text-xs font-normal text-gray-500'>marta</span>";
-            } else if(type === 'oylik') {
-                document.getElementById('stat-period-label').innerText = "May, 2024";
-                document.getElementById('stat-total-hours').innerHTML = "3 245 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-avg-daily').innerHTML = "7.6 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-days-came').innerHTML = "22 <span class='text-xs font-normal text-gray-500'>kun</span>";
-                document.getElementById('stat-lates').innerHTML = "8 <span class='text-xs font-normal text-gray-500'>marta</span>";
-            } else if(type === 'yillik') {
-                document.getElementById('stat-period-label').innerText = "2024 Yil";
-                document.getElementById('stat-total-hours').innerHTML = "38 400 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-avg-daily').innerHTML = "7.8 <span class='text-xs font-normal text-gray-500'>soat</span>";
-                document.getElementById('stat-days-came').innerHTML = "248 <span class='text-xs font-normal text-gray-500'>kun</span>";
-                document.getElementById('stat-lates').innerHTML = "21 <span class='text-xs font-normal text-gray-500'>marta</span>";
-            }
+        let state = JSON.parse(localStorage.getItem('malika_state')) || { workSec: 0 };
+        
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+            return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa`;
         }
 
-        // Grafik ustunlarini generatsiya qilish
-        const chartContainer = document.getElementById('chart-bars');
-        for(let i=1; i<=30; i++) {
-            let height = Math.floor(Math.random() * 60) + 30;
-            chartContainer.innerHTML += `<div class="flex-1 bg-purple-100 hover:bg-purple-500 transition rounded-t-sm flex flex-col justify-end" style="height: 100%"><div class="bg-purple-600 rounded-t-sm" style="height: ${height}%"></div></div>`;
-        }
-
-        function exportData() {
-            alert("Hisobot PDF / Excel formatida yuklab olindi!");
-        }
+        document.getElementById('stat-work-time').innerText = formatTime(state.workSec);
+        let eff = Math.min(Math.floor((state.workSec / (8 * 3600)) * 100), 100);
+        document.getElementById('stat-efficiency').innerText = `${eff}%`;
     </script>
 </body>
 </html>
