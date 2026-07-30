@@ -34,11 +34,11 @@
         <!-- Sana tanlash paneli (kun [sana] kun va kalendar tartibida) -->
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
             <div class="flex items-center gap-1.5">
-                <button onclick="navigateDay(-1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Bir kun oldinga">
+                <button onclick="navigateTime(-1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Oldingi">
                     <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg> kun
                 </button>
                 <span class="font-bold text-gray-800 text-xs px-1" id="history-date">30-Iyul, 2026</span>
-                <button onclick="navigateDay(1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Bir kun keyinga">
+                <button onclick="navigateTime(1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Keyingi">
                     kun <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
                 </button>
             </div>
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-            <!-- Kapsula Ustunli Diagramma (Faqat ilova ishlagan vaqtlar/oylar/davrlar uchun) -->
+            <!-- Kapsula Ustunli Diagramma -->
             <div id="capsule-chart-section" class="pt-3 hidden">
                 <div class="flex justify-between items-center mb-2">
                     <span class="text-xs font-semibold text-gray-700" id="capsule-title">Ishlangan vaqtlar dinamikasi</span>
@@ -169,29 +169,41 @@
         }
 
         function getDisplayDateText(date) {
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            return date.toLocaleDateString('uz-UZ', options);
+            if (currentTab === 'daily') {
+                return date.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+            } else if (currentTab === 'weekly') {
+                let startOfWeek = new Date(date);
+                startOfWeek.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1)); // Dushanba
+                let endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6); // Yakshanba
+                
+                const opts = { day: 'numeric', month: 'short' };
+                return `${startOfWeek.toLocaleDateString('uz-UZ', opts)} — ${endOfWeek.toLocaleDateString('uz-UZ', opts)}, ${endOfWeek.getFullYear()}`;
+            } else if (currentTab === 'monthly') {
+                return date.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
+            } else if (currentTab === 'yearly') {
+                return `${date.getFullYear()}-yil`;
+            }
         }
 
         function updateView() {
             let dateStr = formatDateKey(currentDate);
             document.getElementById('calendar-picker').value = dateStr;
-
-            if (currentTab === 'daily') {
-                document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
-            } else if (currentTab === 'weekly') {
-                document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil, ${getWeekNumber(currentDate)}-hafta`;
-            } else if (currentTab === 'monthly') {
-                document.getElementById('history-date').innerText = currentDate.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
-            } else if (currentTab === 'yearly') {
-                document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil`;
-            }
+            document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
 
             loadDataForCurrentSelection();
         }
 
-        function navigateDay(direction) {
-            currentDate.setDate(currentDate.getDate() + direction);
+        function navigateTime(direction) {
+            if (currentTab === 'daily') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            } else if (currentTab === 'weekly') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentTab === 'monthly') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentTab === 'yearly') {
+                currentDate.setFullYear(currentDate.getFullYear() + direction);
+            }
             updateView();
         }
 
@@ -232,13 +244,6 @@
             return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa`;
         }
 
-        function getWeekNumber(d) {
-            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
-            let yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
-            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
-        }
-
         function isInRange(targetDate, baseDate, mode) {
             let startDate = getAppStartDate();
             if (targetDate < startDate) return false;
@@ -247,7 +252,7 @@
                 return formatDateKey(targetDate) === formatDateKey(baseDate);
             } else if (mode === 'weekly') {
                 let startOfWeek = new Date(baseDate);
-                startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
+                startOfWeek.setDate(baseDate.getDate() - baseDate.getDay() + (baseDate.getDay() === 0 ? -6 : 1));
                 let endOfWeek = new Date(startOfWeek);
                 endOfWeek.setDate(startOfWeek.getDate() + 6);
                 return targetDate >= startOfWeek && targetDate <= endOfWeek;
@@ -343,7 +348,6 @@
             }
         }
 
-        // Haqiqiy ishlangan va tanaffus vaqtlarini diagrammada ko'rsatish funksiyasi
         function renderCapsuleChart(dataList) {
             const container = document.getElementById('capsule-chart-container');
             container.innerHTML = '';
@@ -353,13 +357,13 @@
 
             if (currentTab === 'weekly') {
                 periods = [
-                    { label: 'Dushanba', dayIdx: 1 },
-                    { label: 'Seshanba', dayIdx: 2 },
-                    { label: 'Chorshanba', dayIdx: 3 },
-                    { label: 'Payshanba', dayIdx: 4 },
+                    { label: 'Dush', dayIdx: 1 },
+                    { label: 'Sesh', dayIdx: 2 },
+                    { label: 'Chor', dayIdx: 3 },
+                    { label: 'Pay', dayIdx: 4 },
                     { label: 'Juma', dayIdx: 5 },
-                    { label: 'Shanba', dayIdx: 6 },
-                    { label: 'Yakshanba', dayIdx: 0 }
+                    { label: 'Shan', dayIdx: 6 },
+                    { label: 'Yak', dayIdx: 0 }
                 ];
             } else if (currentTab === 'monthly') {
                 periods = [
@@ -369,14 +373,13 @@
                     { label: '4-hafta', days: [22, 23, 24, 25, 26, 27, 28, 29, 30, 31] }
                 ];
             } else if (currentTab === 'yearly') {
-                const uzMonths = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+                const uzMonths = ['Yan', 'Fev', 'Mart', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
                 let startMonth = startDate.getFullYear() === currentDate.getFullYear() ? startDate.getMonth() : 0;
                 for (let m = startMonth; m <= 11; m++) {
                     periods.push({ label: uzMonths[m], monthIdx: m });
                 }
             }
 
-            // Maksimal qiymatni topish (proportsional balandlik uchun)
             let maxSec = 1;
             periods.forEach(p => {
                 let pWork = 0, pBreak = 0;
@@ -418,7 +421,7 @@
                 container.innerHTML += `
                     <div class="flex flex-col items-center gap-2 h-full justify-end flex-shrink-0 w-12">
                         <div class="flex items-end justify-center gap-1 w-full h-full pb-1">
-                            <div class="w-2.5 bg-purple-600 rounded-full transition-all duration-500" style="height: ${workH}%" title="Ish vaqti: ${formatTime(pWork)}"></div>
+                            <div class="w-2.5 bg-purple-600 rounded-full transition-all duration-500" style="height: ${workH}%" title="Ish: ${formatTime(pWork)}"></div>
                             <div class="w-2.5 bg-amber-400 rounded-full transition-all duration-500" style="height: ${breakH}%" title="Tanaffus: ${formatTime(pBreak)}"></div>
                         </div>
                         <span class="text-[9px] text-gray-500 font-medium truncate w-full text-center">${p.label}</span>
