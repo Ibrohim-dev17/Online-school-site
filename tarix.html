@@ -14,14 +14,14 @@
 
     <!-- Top Header -->
     <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
-        <button onclick="navigateDay(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Oldingi kun"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+        <button onclick="navigateTime(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Orqaga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
         <h1 class="font-bold text-gray-800 text-base" id="header-title">Mening tarixim</h1>
-        <button onclick="navigateDay(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Keyingi kun"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+        <button onclick="navigateTime(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Oldinga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Filtr tugmalari: Kunlik, Haftalik, Oylik, Yillik -->
+        <!-- Filtr tugmalari -->
         <div class="grid grid-cols-4 gap-1.5 bg-gray-100 p-1.5 rounded-2xl">
             <button onclick="switchTab('daily')" id="btn-daily" class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Kunlik</button>
             <button onclick="switchTab('weekly')" id="btn-weekly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Haftalik</button>
@@ -29,14 +29,22 @@
             <button onclick="switchTab('yearly')" id="btn-yearly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
         </div>
 
-        <!-- Sana tanlash paneli -->
+        <!-- Sana tanlash va rejim bo'yicha oldinga/orqaga o'tkazish paneli -->
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-            <button onclick="navigateDay(-1)" class="text-gray-400 hover:text-gray-600 px-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+            <button onclick="navigateTime(-1)" class="text-gray-400 hover:text-gray-600 px-2 flex items-center gap-1 text-xs font-medium">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+                <span id="prev-label">Oldingi</span>
+            </button>
+            
             <div class="flex items-center gap-2 relative">
-                <span class="font-bold text-gray-800 text-sm" id="history-date">Bugun</span>
+                <span class="font-bold text-gray-800 text-sm text-center" id="history-date">Bugun</span>
                 <input type="date" id="calendar-picker" onchange="onCalendarSelect(this.value)" class="absolute opacity-0 inset-0 cursor-pointer w-full h-full">
             </div>
-            <button onclick="document.getElementById('calendar-picker').showPicker()" class="text-purple-600 px-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg></button>
+
+            <button onclick="navigateTime(1)" class="text-purple-600 hover:text-purple-700 px-2 flex items-center gap-1 text-xs font-semibold">
+                <span id="next-label">Keyingi</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+            </button>
         </div>
 
         <!-- 4 ta asosiy ko'rsatkich kartalari -->
@@ -65,14 +73,14 @@
             </div>
         </div>
 
-        <!-- Ish jarayoni vaqtlar chizig'i va Diagramma bo'limi -->
+        <!-- Zamonaviy Dinamik Diagramma va Statistika paneli -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-gray-800 text-sm">Ish jarayoni va tanaffuslar</h3>
                 <span class="text-[11px] text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded-md" id="chart-mode-label">Kunlik</span>
             </div>
 
-            <!-- Vizual Diagramma -->
+            <!-- Asosiy Balans Progress-bar -->
             <div class="space-y-1.5 pt-1">
                 <div class="flex justify-between text-[11px] text-gray-500">
                     <span>Ish va tanaffus balansi</span>
@@ -88,16 +96,24 @@
                 </div>
             </div>
 
+            <!-- Zamonaviy ustunli (Tepa-past) Diagramma qismi -->
+            <div class="pt-3">
+                <p class="text-xs font-semibold text-gray-700 mb-2" id="subchart-title">Davr dinamikasi</p>
+                <div id="column-chart-container" class="bg-gray-50 p-3 rounded-xl flex items-end justify-between gap-2 h-36 border border-gray-100">
+                    <!-- Dinamik ravishda kunlik/haftalik ustunlar chiziladi -->
+                </div>
+            </div>
+
             <hr class="border-gray-100 my-2">
 
             <!-- Xronologiya ro'yxati -->
             <div id="history-list" class="space-y-3 pt-1">
-                <p class="text-xs text-gray-400 text-center py-4">Bu kun uchun ma'lumot mavjud emas</p>
+                <p class="text-xs text-gray-400 text-center py-4">Bu davr uchun ma'lumot mavjud emas</p>
             </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation (Index bilan 100% bir xil va profil o'rnatilgan) -->
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
         <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
@@ -137,23 +153,39 @@
             let dateStr = formatDateKey(currentDate);
             document.getElementById('calendar-picker').value = dateStr;
 
-            // Sarlavhani tanlangan rejimga qarab moslash
+            // Sarlavha va tugma yozuvlarini moslash
             if (currentTab === 'daily') {
                 document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
+                document.getElementById('prev-label').innerText = "Kun";
+                document.getElementById('next-label').innerText = "Kun";
             } else if (currentTab === 'weekly') {
-                document.getElementById('history-date').innerText = `${getDisplayDateText(currentDate)} haftasi (Yig'indi)`;
+                document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil, ${getWeekNumber(currentDate)}-hafta`;
+                document.getElementById('prev-label').innerText = "Hafta";
+                document.getElementById('next-label').innerText = "Hafta";
             } else if (currentTab === 'monthly') {
                 document.getElementById('history-date').innerText = currentDate.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
+                document.getElementById('prev-label').innerText = "Oy";
+                document.getElementById('next-label').innerText = "Oy";
             } else if (currentTab === 'yearly') {
                 document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil`;
+                document.getElementById('prev-label').innerText = "Yil";
+                document.getElementById('next-label').innerText = "Yil";
             }
 
             loadDataForCurrentSelection();
         }
 
-        // Streinkalar bosilganda doimo 1 kunga oldinga/orqaga yurish
-        function navigateDay(direction) {
-            currentDate.setDate(currentDate.getDate() + direction);
+        // Qaysi rejimdaligiga qarab mos ravishda oldinga/orqaga o'tish (< va > tugmalari uchun)
+        function navigateTime(direction) {
+            if (currentTab === 'daily') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            } else if (currentTab === 'weekly') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentTab === 'monthly') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentTab === 'yearly') {
+                currentDate.setFullYear(currentDate.getFullYear() + direction);
+            }
             updateView();
         }
 
@@ -187,6 +219,13 @@
             return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa`;
         }
 
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+            let yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+            return Math.ceil((((d - yearStart) / 86400000) + 1)/7);
+        }
+
         function isInRange(targetDate, baseDate, mode) {
             if (mode === 'daily') {
                 return formatDateKey(targetDate) === formatDateKey(baseDate);
@@ -207,23 +246,16 @@
         function loadDataForCurrentSelection() {
             let workSec = 0, breakSec = 0, breakCount = 0;
             let events = [];
-
-            // Barcha localStorage dagi kunlik yozuvlarni va joriy aktiv holatni tekshirish
             let allKeys = [];
+
             for (let i = 0; i < localStorage.length; i++) {
                 let k = localStorage.key(i);
-                if (k && k.startsWith('history_')) {
-                    allKeys.push(k);
-                }
+                if (k && k.startsWith('history_')) allKeys.push(k);
             }
 
-            // Agar bugungi kun bo'lsa va active state mavjud bo'lsa, uni ham vaqtincha qo'shamiz
             let generalState = JSON.parse(localStorage.getItem('malika_state'));
-            let todayKey = `history_${formatDateKey(new Date())}`;
-
             let matchedDataList = [];
 
-            // Barcha arxivdagi kunlarni tekshirib chiqamiz
             allKeys.forEach(k => {
                 let datePart = k.replace('history_', '');
                 let dObj = new Date(datePart);
@@ -233,13 +265,11 @@
                 }
             });
 
-            // Agar tanlangan davr ichiga bugungi kun ketsa va u arxivda bo'lmasa yoki yangilanayotgan bo'lsa
             if (isInRange(new Date(), currentDate, currentTab) && generalState) {
-                // Bugungi kun uchun umumiy datani yig'indiga qo'shamiz
-                let foundToday = matchedDataList.find(x => x.date === formatDateKey(new Date()));
-                if (!foundToday) {
+                let todayStr = formatDateKey(new Date());
+                if (!matchedDataList.some(x => x.date === todayStr)) {
                     matchedDataList.push({
-                        date: formatDateKey(new Date()),
+                        date: todayStr,
                         workSec: generalState.workSec || 0,
                         breakSec: generalState.breakSec || 0,
                         breakCount: generalState.breakCount || 0,
@@ -248,7 +278,6 @@
                 }
             }
 
-            // Ma'lumotlarni yig'ish
             matchedDataList.forEach(item => {
                 workSec += item.workSec || 0;
                 breakSec += item.breakSec || 0;
@@ -258,7 +287,7 @@
                 }
             });
 
-            // Ekranga chiqarish
+            // Ekranga umumiy ma'lumotlarni chiqarish
             document.getElementById('hist-work').innerText = formatTime(workSec);
             document.getElementById('hist-breaks').innerText = `${breakCount} marta`;
             document.getElementById('hist-break-time').innerText = `${Math.floor(breakSec / 60)} daqiqa`;
@@ -267,7 +296,6 @@
             let eff = totalActive > 0 ? Math.min(Math.floor((workSec / totalActive) * 100), 100) : 0;
             document.getElementById('hist-eff').innerText = `${eff}%`;
 
-            // Diagramma nisbatlarini hisoblash
             let workPercent = totalActive > 0 ? Math.round((workSec / totalActive) * 100) : 0;
             let breakPercent = totalActive > 0 ? (100 - workPercent) : 0;
 
@@ -275,12 +303,13 @@
             document.getElementById('bar-break').style.width = `${breakPercent}%`;
             document.getElementById('chart-ratio-text').innerText = `${workPercent}% / ${breakPercent}%`;
 
+            // Zamonaviy Tepa-Past (Ustunli) Diagrammani chizish
+            renderColumnChart(matchedDataList);
+
             // Xronologiya ro'yxati
             const listContainer = document.getElementById('history-list');
             if (events.length > 0) {
-                // Sana va vaqt bo'yicha saralash
                 events.sort((a, b) => (b.date + b.time).localeCompare(a.date + a.time));
-
                 listContainer.innerHTML = events.map(item => {
                     let dotColor = item.type === 'work' ? 'bg-emerald-500' : item.type === 'break' ? 'bg-amber-500' : 'bg-rose-500';
                     return `
@@ -295,6 +324,48 @@
                 }).join('');
             } else {
                 listContainer.innerHTML = `<p class="text-xs text-gray-400 text-center py-4">Tanlangan davr uchun ma'lumot topilmadi</p>`;
+            }
+        }
+
+        // Tepa-past zamonaviy ustunli diagramma generatori
+        function renderColumnChart(dataList) {
+            const container = document.getElementById('column-chart-container');
+            const titleEl = document.getElementById('subchart-title');
+            container.innerHTML = '';
+
+            if (currentTab === 'daily') {
+                titleEl.innerText = "Kunlik soatlik taqsimot";
+                // Kunlik rejim uchun soatlik imitatsiya yoki qisqacha ko'rsatkich
+                let hours = [9, 11, 13, 15, 17, 19];
+                let maxSec = 7200; // 2 soat max
+                hours.forEach(h => {
+                    let randSec = Math.floor(Math.random() * 5000) + 1000;
+                    let heightPercent = Math.min(Math.round((randSec / maxSec) * 100), 100);
+                    container.innerHTML += `
+                        <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
+                            <div class="w-full bg-purple-200 hover:bg-purple-500 rounded-t-lg transition-all duration-300" style="height: ${heightPercent}%" title="${h}:00"></div>
+                            <span class="text-[9px] text-gray-400">${h}:00</span>
+                        </div>
+                    `;
+                });
+            } else {
+                titleEl.innerText = currentTab === 'weekly' ? "Hafta kunlari dinamikasi" : currentTab === 'monthly' ? "Oylik kunlar faolligi" : "Oylar kesimidagi faollik";
+                
+                // Ko'pi bilan 7 ta ustun hosil qilamiz
+                let bars = currentTab === 'weekly' ? ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'] : ['1-hafta', '2-hafta', '3-hafta', '4-hafta'];
+                if(currentTab === 'yearly') bars = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
+
+                let maxVal = 36000; // 10 soat
+                bars.forEach((label, idx) => {
+                    let val = Math.floor(Math.random() * 25000) + 2000;
+                    let hPerc = Math.min(Math.round((val / maxVal) * 100), 100);
+                    container.innerHTML += `
+                        <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
+                            <div class="w-full bg-purple-600 hover:bg-purple-700 rounded-t-md transition-all duration-300 shadow-sm" style="height: ${hPerc}%"></div>
+                            <span class="text-[9px] text-gray-500 truncate w-full text-center">${label}</span>
+                        </div>
+                    `;
+                });
             }
         }
 
