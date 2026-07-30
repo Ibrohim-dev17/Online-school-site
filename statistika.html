@@ -16,19 +16,40 @@
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
     <!-- Top Header -->
-    <header class="px-4 py-4 mt-6 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
-        <h1 class="font-bold text-gray-800 text-base">Jamoa Reytingi va Musobaqa</h1>
-        <span class="text-xs font-semibold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-xl" id="current-date-badge">30-Iyul</span>
+    <header class="px-4 py-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
+        <h1 class="font-bold text-gray-800 text-sm">Jamoa Reytingi va Musobaqa</h1>
+        <span class="text-xs font-semibold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-xl" id="current-date-badge">30-Iyul, 2026</span>
     </header>
 
     <!-- Main Content -->
-    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
+    <main class="p-4 space-y-3 max-w-xl mx-auto w-full">
         <!-- Filtr tugmalari (Kunlik, Haftalik, Oylik, Yillik) -->
         <div class="grid grid-cols-4 gap-1.5 bg-gray-100 p-1.5 rounded-2xl">
             <button onclick="switchStatTab('daily')" id="sbtn-daily" class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Kunlik</button>
             <button onclick="switchStatTab('weekly')" id="sbtn-weekly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Haftalik</button>
             <button onclick="switchStatTab('monthly')" id="sbtn-monthly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Oylik</button>
             <button onclick="switchStatTab('yearly')" id="sbtn-yearly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
+        </div>
+
+        <!-- Sana tanlash paneli (Tarix sahifasidagi kabi kun [sana] kun va kalendar) -->
+        <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+            <div class="flex items-center gap-1.5">
+                <button onclick="navigateTime(-1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Oldingi">
+                    <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg> kun
+                </button>
+                <span class="font-bold text-gray-800 text-xs px-1" id="stat-date-label">30-Iyul, 2026</span>
+                <button onclick="navigateTime(1)" class="bg-gray-100 hover:bg-purple-50 hover:text-purple-600 text-gray-600 px-2 py-1.5 rounded-xl text-xs font-bold transition" title="Keyingi">
+                    kun <svg class="w-3.5 h-3.5 inline" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                </button>
+            </div>
+            
+            <div class="relative">
+                <input type="date" id="calendar-picker" onchange="onCalendarSelect(this.value)" class="absolute opacity-0 inset-0 cursor-pointer w-full h-full z-10">
+                <button onclick="document.getElementById('calendar-picker').showPicker()" class="bg-purple-50 text-purple-600 hover:bg-purple-100 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
+                    Kalendar 
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
+                </button>
+            </div>
         </div>
 
         <!-- 2 ta asosiy ko'rsatkich kartalari -->
@@ -53,18 +74,14 @@
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-gray-800 text-sm">Peshqadamlar jadvali</h3>
-                <span class="text-[11px] font-semibold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-lg flex items-center gap-1">
-                    🔥 Jonli musobaqa
-                </span>
             </div>
             
             <div id="leaderboard-list" class="space-y-2 pt-1">
-                <!-- Reyting qatori -->
                 <div class="flex items-center justify-between p-2.5 rounded-xl bg-purple-50/50 border border-purple-100">
                     <div class="flex items-center gap-3">
                         <span class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">1</span>
                         <div>
-                            <h5 class="text-xs font-bold text-gray-800" id="user-name-display">Siz (Chevar)</h5>
+                            <h5 class="text-xs font-bold text-gray-800" id="user-name-display">Malika</h5>
                             <p class="text-[10px] text-gray-400">Faoliyatda</p>
                         </div>
                     </div>
@@ -74,20 +91,9 @@
                 </div>
             </div>
         </div>
-
-        <!-- Musobaqaga qo'shildingiz banneri -->
-        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 p-4 rounded-2xl shadow-md text-white flex justify-between items-center relative overflow-hidden">
-            <div class="space-y-1 z-10">
-                <h4 class="font-bold text-sm">Musobaqaga qo'shildingiz!</h4>
-                <p class="text-[11px] text-purple-100 max-w-[220px]">Ish vaqtini ko'paytirib 1-o'rinni egallang!</p>
-            </div>
-            <div class="bg-white/10 p-3 rounded-2xl backdrop-blur-sm z-10">
-                <svg class="w-8 h-8 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.504-1.125-1.125-1.125h-.75m-7.5 4.5V15.375c0-.621.504-1.125 1.125-1.125h.75m6 0v-9a2.25 2.25 0 0 0-2.25-2.25h-3a2.25 2.25 0 0 0-2.25 2.25v9m6 0H9.75"/></svg>
-            </div>
-        </div>
     </main>
 
-    <!-- Bottom Navigation (Iconlar index va tarix sahifasidagi kabi to'liq mos qilindi) -->
+    <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
         <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
@@ -108,7 +114,62 @@
     </nav>
 
     <script>
+        let currentDate = new Date();
         let currentStatTab = 'daily';
+
+        function formatDateKey(date) {
+            let y = date.getFullYear();
+            let m = String(date.getMonth() + 1).padStart(2, '0');
+            let d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function getDisplayDateText(date) {
+            if (currentStatTab === 'daily') {
+                return date.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+            } else if (currentStatTab === 'weekly') {
+                let startOfWeek = new Date(date);
+                startOfWeek.setDate(date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1));
+                let endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                const opts = { day: 'numeric', month: 'short' };
+                return `${startOfWeek.toLocaleDateString('uz-UZ', opts)} — ${endOfWeek.toLocaleDateString('uz-UZ', opts)}, ${endOfWeek.getFullYear()}`;
+            } else if (currentStatTab === 'monthly') {
+                return date.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
+            } else if (currentStatTab === 'yearly') {
+                return `${date.getFullYear()}-yil`;
+            }
+        }
+
+        function updateView() {
+            let dateStr = formatDateKey(currentDate);
+            document.getElementById('calendar-picker').value = dateStr;
+            let displayTxt = getDisplayDateText(currentDate);
+            document.getElementById('stat-date-label').innerText = displayTxt;
+            document.getElementById('current-date-badge').innerText = displayTxt;
+
+            loadStatData();
+        }
+
+        function navigateTime(direction) {
+            if (currentStatTab === 'daily') {
+                currentDate.setDate(currentDate.getDate() + direction);
+            } else if (currentStatTab === 'weekly') {
+                currentDate.setDate(currentDate.getDate() + (direction * 7));
+            } else if (currentStatTab === 'monthly') {
+                currentDate.setMonth(currentDate.getMonth() + direction);
+            } else if (currentStatTab === 'yearly') {
+                currentDate.setFullYear(currentDate.getFullYear() + direction);
+            }
+            updateView();
+        }
+
+        function onCalendarSelect(val) {
+            if (val) {
+                currentDate = new Date(val);
+                updateView();
+            }
+        }
 
         function formatTimeShort(s) {
             let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
@@ -125,33 +186,35 @@
                     btn.className = "text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition";
                 }
             });
-            loadStatData();
+            updateView();
+        }
+
+        function isInRange(targetDate, baseDate, mode) {
+            if (mode === 'daily') {
+                return formatDateKey(targetDate) === formatDateKey(baseDate);
+            } else if (mode === 'weekly') {
+                let startOfWeek = new Date(baseDate);
+                startOfWeek.setDate(baseDate.getDate() - baseDate.getDay() + (baseDate.getDay() === 0 ? -6 : 1));
+                let endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                return targetDate >= startOfWeek && targetDate <= endOfWeek;
+            } else if (mode === 'monthly') {
+                return targetDate.getFullYear() === baseDate.getFullYear() && targetDate.getMonth() === baseDate.getMonth();
+            } else if (mode === 'yearly') {
+                return targetDate.getFullYear() === baseDate.getFullYear();
+            }
+            return false;
         }
 
         function loadStatData() {
             let workSec = 0, breakSec = 0;
-            let todayStr = new Date().toISOString().split('T')[0];
 
-            // LocalStorage'dan tanlangan davr ma'lumotlarini yig'ish
             for (let i = 0; i < localStorage.length; i++) {
                 let k = localStorage.key(i);
                 if (k && k.startsWith('history_')) {
                     let dStr = k.replace('history_', '');
                     let d = new Date(dStr);
-                    let now = new Date();
-                    let match = false;
-
-                    if (currentStatTab === 'daily' && dStr === todayStr) match = true;
-                    else if (currentStatTab === 'weekly') {
-                        let startOfWeek = new Date(now);
-                        startOfWeek.setDate(now.getDate() - now.getDay() + (now.getDay() === 0 ? -6 : 1));
-                        let endOfWeek = new Date(startOfWeek);
-                        endOfWeek.setDate(startOfWeek.getDate() + 6);
-                        if (d >= startOfWeek && d <= endOfWeek) match = true;
-                    } else if (currentStatTab === 'monthly' && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()) match = true;
-                    else if (currentStatTab === 'yearly' && d.getFullYear() === now.getFullYear()) match = true;
-
-                    if (match) {
+                    if (isInRange(d, currentDate, currentStatTab)) {
                         let val = JSON.parse(localStorage.getItem(k));
                         if (val) {
                             workSec += val.workSec || 0;
@@ -162,7 +225,8 @@
             }
 
             let generalState = JSON.parse(localStorage.getItem('malika_state'));
-            if (generalState && (currentStatTab === 'daily')) {
+            let todayDateObj = new Date();
+            if (generalState && isInRange(todayDateObj, currentDate, currentStatTab)) {
                 workSec += generalState.workSec || 0;
                 breakSec += generalState.breakSec || 0;
             }
@@ -172,9 +236,14 @@
             let eff = totalActive > 0 ? Math.min(Math.floor((workSec / totalActive) * 100), 100) : 0;
             document.getElementById('stat-team-eff').innerText = `${eff}%`;
             document.getElementById('user-work-display').innerText = formatTimeShort(workSec);
+
+            let savedProfile = JSON.parse(localStorage.getItem('malika_profile'));
+            if (savedProfile && savedProfile.name) {
+                document.getElementById('user-name-display').innerText = savedProfile.name;
+            }
         }
 
-        loadStatData();
+        updateView();
     </script>
 </body>
 </html>
