@@ -37,7 +37,7 @@
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
             
-            <!-- Real vaqtdagi sana ko'rsatkich qismi (4 ta quti tepasida) -->
+            <!-- Real vaqtdagi sana ko'rsatkich qismi -->
             <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm">
@@ -53,7 +53,7 @@
                 </span>
             </div>
 
-            <!-- Bir xil o'lchamdagi statistika qutilari -->
+            <!-- Statistika qutilari -->
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
                     <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-users"></i></div>
@@ -201,7 +201,7 @@
             </div>
         </div>
 
-        <!-- SETTINGS VIEW (Sozlamalar) -->
+        <!-- SETTINGS VIEW -->
         <div id="view-reports" class="space-y-4" style="display: none;">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
                 <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-sliders text-purple-600"></i> Tizimni Sozlash</h3>
@@ -225,7 +225,7 @@
             <i class="fa-solid fa-users text-xl"></i>
             <span class="text-[10px] mt-1">Ishchilar</span>
         </button>
-        <button onclick="switchTab('reports')" id="nav-reports-tab" class="flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none">
+        <button onclick="switchTab('reports')" id="nav-reports-tab" class="flex flex-col items-center text-gray-400 hover:text-gray-800 focus:outline-none">
             <i class="fa-solid fa-sliders text-xl"></i>
             <span class="text-[10px] mt-1">Sozlamalar</span>
         </button>
@@ -255,7 +255,6 @@
             }, 2000); 
         });
 
-        // Real vaqtdagi sanani tepaga chiqarish funksiyasi
         function updateRealTimeDateHeader() {
             let dateLabel = document.getElementById('current-date-label');
             if (dateLabel) {
@@ -363,7 +362,7 @@
                 reportsEl.style.display = 'block';
                 navRep.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Sozlamalar";
-                headerSub.innerText = "Tizim va vaqt sozlamalari";
+                headerSub.innerText = "Tizim va vaqt sozlamar";
                 document.getElementById('setting-hourly-rate').value = localStorage.getItem('chevar_hourly_rate');
             }
         }
@@ -417,7 +416,7 @@
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
             
-            // Xato to'g'irlandi: holat real saqlangan qiymatdan olinadi (WORKING, BREAK yoki LEFT)
+            // Ishchi paneldagi tugmalar orqali statusni o'zgartirganda (masalan, ishni tugatganda) holatni aniq olamiz
             let status = malikaState && malikaState.status ? malikaState.status : "WORKING";
             let workSec = malikaState && malikaState.workSec ? malikaState.workSec : 0; 
             let breakCount = malikaState && malikaState.breakCount !== undefined ? malikaState.breakCount : 0;
@@ -430,7 +429,7 @@
                 statusText = "Tanaffusda";
                 badgeClass = "bg-amber-50 text-amber-600";
                 dotClass = "bg-amber-500";
-            } else if (status === 'LEFT') {
+            } else if (status === 'LEFT' || status === 'FINISHED') {
                 statusText = "Ketgan";
                 badgeClass = "bg-rose-50 text-rose-600";
                 dotClass = "bg-rose-500";
@@ -450,7 +449,7 @@
                 weeklySec: workSec * 5,
                 monthlySec: workSec * 22,
                 yearlySec: workSec * 240,
-                breakCount: breakCount // Tanaffuslar soni qo'shildi
+                breakCount: breakCount
             };
         }
 
@@ -463,9 +462,10 @@
             let emp = getEmployeeData();
             let searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.toLowerCase() : '';
 
-            let isWorkingCount = emp.status === 'WORKING' ? 1 : 0;
-            let isBreakCount = emp.status === 'BREAK' ? 1 : 0;
-            let isLeftCount = emp.status === 'LEFT' ? 1 : 0;
+            let isWorkingCount = (emp.status === 'WORKING') ? 1 : 0;
+            let isBreakCount = (emp.status === 'BREAK') ? 1 : 0;
+            // 'LEFT' yoki 'FINISHED' statuslarining barchasi ketganlar qatoriga qo'shiladi
+            let isLeftCount = (emp.status === 'LEFT' || emp.status === 'FINISHED') ? 1 : 0;
 
             document.getElementById('stat-total').innerText = "1";
             document.getElementById('stat-working').innerText = isWorkingCount;
@@ -476,14 +476,17 @@
             if (!listContainer) return;
             listContainer.innerHTML = '';
 
-            if (currentFilter !== 'all' && emp.status !== currentFilter) return;
+            // Filtr tekshiruvi to'g'irlandi
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'LEFT' && emp.status !== 'LEFT' && emp.status !== 'FINISHED') return;
+                if (currentFilter !== 'LEFT' && emp.status !== currentFilter) return;
+            }
 
             if (!emp.name.toLowerCase().includes(searchQuery) && !emp.id.includes(searchQuery)) {
                 listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Topilmadi</p>`;
                 return;
             }
 
-            // Ishchilar ro'yxatida real vaqt ishlagan vaqti va necha marta tanaffus qilgani chiqarildi
             listContainer.innerHTML = `
                 <div onclick="openEmployeeDetail('${emp.id}')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-purple-300 transition">
                     <div class="flex items-center gap-3">
