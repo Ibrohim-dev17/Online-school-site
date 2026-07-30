@@ -19,7 +19,7 @@
         <!-- Header: Profil rasmi, Ism va Salomlashish -->
         <header class="px-4 py-3 bg-white flex items-center justify-between border-b border-gray-100">
             <div class="flex items-center gap-3">
-                <!-- Profil rasmi (Profil sahifasidan keladi) -->
+                <!-- Profil rasmi (Profil sahifasidan avtomatik keladi) -->
                 <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold overflow-hidden border border-purple-200">
                     <span id="header-avatar-initials">M</span>
                     <img id="header-avatar-img" src="" alt="Avatar" class="w-full h-full object-cover hidden">
@@ -34,7 +34,6 @@
 
         <!-- Main Content -->
         <main class="p-3 space-y-3 max-w-xl mx-auto w-full">
-            <!-- Asosiy ishlaydigan taymer yoki boshqaruv qismi namunasi -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 text-center space-y-3">
                 <h3 class="text-xs font-semibold text-gray-400">Ish jarayoni</h3>
                 <div class="text-3xl font-extrabold text-purple-600" id="timer-display">00:00:00</div>
@@ -64,18 +63,15 @@
     </nav>
 
     <script>
-        // Sahifa yuklanganda ism va rasmni localStorage dan o'qib joylash
         window.addEventListener('DOMContentLoaded', () => {
             let savedName = localStorage.getItem('user_name') || 'Malika';
             let savedAvatar = localStorage.getItem('user_avatar');
 
-            // Ismni yangilash
             let nameEl = document.getElementById('user-name-display');
             if (nameEl) {
                 nameEl.innerText = savedName;
             }
 
-            // Rasmni yoki bosh harfni yangilash
             let imgEl = document.getElementById('header-avatar-img');
             let initialEl = document.getElementById('header-avatar-initials');
 
