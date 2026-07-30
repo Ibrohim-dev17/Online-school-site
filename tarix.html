@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chevarxona Pro - Tarix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen justify-between pb-24">
+
+    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
+        <h1 class="font-bold text-gray-800 text-base">Mening tarixim</h1>
+        <i class="fa-regular fa-calendar text-gray-600 text-lg"></i>
+    </header>
+
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+            <span class="font-bold text-gray-700" id="history-date">Bugungi sana</span>
+            <span class="text-xs bg-purple-100 text-purple-600 px-3 py-1 rounded-lg font-semibold">Kunlik</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p class="text-xs text-gray-400">Ish vaqti</p>
+                <h4 class="text-base font-bold text-gray-800" id="hist-work">0 soat 0 daqiqa</h4>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p class="text-xs text-gray-400">Tanaffuslar</p>
+                <h4 class="text-base font-bold text-gray-800" id="hist-breaks">0 marta</h4>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p class="text-xs text-gray-400">Tanaffus vaqti</p>
+                <h4 class="text-base font-bold text-gray-800" id="hist-break-time">0 daqiqa</h4>
+            </div>
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p class="text-xs text-gray-400">Samaradorlik</p>
+                <h4 class="text-base font-bold text-emerald-600" id="hist-eff">0%</h4>
+            </div>
+        </div>
+
+        <!-- Ish jarayoni ro'yxati -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+            <h3 class="font-bold text-gray-700 text-sm">Ish jarayoni</h3>
+            <div id="history-list" class="space-y-3 divide-y divide-gray-100">
+                <p class="text-xs text-gray-400 text-center py-4">Hozircha amallar bajarilmadi</p>
+            </div>
+        </div>
+    </main>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
+        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1">Asosiy</span></a>
+        <a href="tarix.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1 font-medium">Mening tarixim</span></a>
+        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1">Statistika</span></a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-xs mt-1">Sozlamalar</span></a>
+    </nav>
+
+    <script>
+        document.getElementById('history-date').innerText = new Date().toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+        
+        let state = JSON.parse(localStorage.getItem('malika_state')) || { workSec: 0, breakSec: 0, breakCount: 0, history: [] };
+
+        function formatTime(s) {
+            let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
+            return h > 0 ? `${h} soat ${m} daqiqa` : `${m} daqiqa`;
+        }
+
+        document.getElementById('hist-work').innerText = formatTime(state.workSec);
+        document.getElementById('hist-breaks').innerText = `${state.breakCount} marta`;
+        document.getElementById('hist-break-time').innerText = formatTime(state.breakSec);
+        let eff = Math.min(Math.floor((state.workSec / (8 * 3600)) * 100), 100);
+        document.getElementById('hist-eff').innerText = `${eff}%`;
+
+        const listContainer = document.getElementById('history-list');
+        if (state.history.length > 0) {
+            listContainer.innerHTML = state.history.map(item => `
+                <div class="flex justify-between items-center pt-3 text-sm">
+                    <div class="flex items-center gap-3">
+                        <span class="w-2.5 h-2.5 rounded-full ${item.type === 'work' ? 'bg-emerald-500' : item.type === 'break' ? 'bg-amber-500' : 'bg-rose-500'}"></span>
+                        <span class="font-medium text-gray-800">${item.text}</span>
+                    </div>
+                    <span class="text-xs text-gray-400 font-semibold">${item.time}</span>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>
