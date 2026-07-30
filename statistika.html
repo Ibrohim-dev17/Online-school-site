@@ -13,8 +13,8 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header ("Jamoa Reytingi va Statistika" yozuvi biroz pastroqqa tushirildi: mt-6, pt-4) -->
-    <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex justify-between items-center sticky top-0 z-40">
+    <!-- Top Header (Telegram menyusi yopib qo'ymasligi uchun mt-14 qilib pastga tushirildi) -->
+    <header class="px-4 py-3 mt-14 bg-white shadow-sm flex justify-between items-center sticky top-0 z-40">
         <h1 class="font-bold text-gray-800 text-base">Jamoa Reytingi va Musobaqa</h1>
         <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg" id="header-date">Bugun</span>
     </header>
@@ -22,7 +22,7 @@
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
         
-        <!-- Umumiy jamoa ko'rsatkichlari (Dinamik) -->
+        <!-- Umumiy jamoa ko'rsatkichlari -->
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                 <div class="text-purple-600 mb-2"><i class="fa-solid fa-users text-lg"></i></div>
@@ -45,7 +45,7 @@
                 </span>
             </div>
 
-            <!-- Dinamik xodimlar ro'yxati (Faqat mavjud ishchilar chiqadi) -->
+            <!-- Dinamik xodimlar ro'yxati -->
             <div class="space-y-2.5" id="dynamic-ranking-list">
                 <!-- JavaScript orqali to'ldiriladi -->
             </div>
@@ -61,20 +61,18 @@
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation (Sozlamalar -> Profilga o'zgartirildi) -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
         <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] mt-1">Asosiy</span></a>
         <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-[10px] mt-1">Mening tarixim</span></a>
         <a href="statistika.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-[10px] mt-1 font-medium">Statistika</span></a>
-        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-[10px] mt-1">Sozlamalar</span></a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-[10px] mt-1">Profil</span></a>
     </nav>
 
     <script>
-        // Sana matnini chiqarish
         let today = new Date();
         document.getElementById('header-date').innerText = today.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long' });
 
-        // Tarix va asosiy holatdan ma'lumotlarni o'qish
         function loadStats() {
             let state = JSON.parse(localStorage.getItem('malika_state')) || { workSec: 0, breakSec: 0 };
             let workSec = state.workSec || 0;
@@ -86,10 +84,8 @@
             let m = Math.floor((workSec % 3600) / 60);
             let workTimeStr = `${h} soat ${m} daqiqa`;
 
-            // Admin paneldan qo'shilishi mumkin bo'lgan qo'shimcha xodimlarni olish (agar mavjud bo'lsa)
             let extraWorkers = JSON.parse(localStorage.getItem('admin_workers')) || [];
 
-            // Asosiy foydalanuvchi (Siz)
             let workers = [
                 {
                     name: "Malika Abdullayeva (Siz)",
@@ -102,7 +98,6 @@
                 }
             ];
 
-            // Agar admin paneldan boshqa ishchilar qo'shilgan bo'lsa ularni ham qo'shamiz
             extraWorkers.forEach(w => {
                 workers.push({
                     name: w.name,
@@ -115,17 +110,14 @@
                 });
             });
 
-            // Ish vaqti bo'yicha kamayish tartibida saralash (Musobaqa reytingi)
             workers.sort((a, b) => b.workSec - a.workSec);
 
-            // Jamoa o'rtacha samaradorligi
             let totalEff = workers.reduce((acc, curr) => acc + curr.eff, 0);
             let avgTeamEff = workers.length > 0 ? Math.round(totalEff / workers.length) : 0;
 
             document.getElementById('stat-active-workers').innerText = `${workers.length} nafar`;
             document.getElementById('stat-team-eff').innerText = `${avgTeamEff}%`;
 
-            // Ro'yxatni chizish
             const listContainer = document.getElementById('dynamic-ranking-list');
             listContainer.innerHTML = workers.map((w, index) => {
                 let rank = index + 1;
@@ -152,7 +144,6 @@
                 `;
             }).join('');
 
-            // Foydalanuvchining o'rniga qarab rag'bat matnini o'zgartirish
             let myRank = workers.findIndex(w => w.isMe) + 1;
             if (myRank === 1) {
                 document.getElementById('motivation-title').innerText = "🏆 Siz 1-pog'onasiz!";
