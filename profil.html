@@ -36,7 +36,7 @@
 
                 <div>
                     <h2 id="profile-name-title" class="text-base font-bold text-gray-800">Malika</h2>
-                    <p class="text-xs text-gray-400">Chevar / Ustoz</p>
+                    <p class="text-xs text-gray-400">Chevar, 1-sektor</p>
                 </div>
             </div>
 
@@ -77,7 +77,6 @@
     </nav>
 
     <script>
-        // Sahifa yuklanganda saqlangan ma'lumotlarni chiqarish
         window.addEventListener('DOMContentLoaded', () => {
             let savedName = localStorage.getItem('user_name') || 'Malika';
             let savedAvatar = localStorage.getItem('user_avatar');
@@ -96,7 +95,6 @@
             }
         });
 
-        // Ismni saqlash
         function saveProfile() {
             let nameVal = document.getElementById('name-input').value.trim();
             if (nameVal) {
@@ -106,7 +104,6 @@
             }
         }
 
-        // Galareyadan rasm yuklash (Base64 formatiga o'tkazib saqlanadi)
         function handleImageUpload(event) {
             let file = event.target.files[0];
             if (file) {
