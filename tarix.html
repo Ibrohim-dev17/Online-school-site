@@ -14,9 +14,9 @@
 
     <!-- Top Header -->
     <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
-        <button onclick="navigateTime(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Orqaga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
+        <button onclick="navigateTime(-1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Oldingi"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
         <h1 class="font-bold text-gray-800 text-base" id="header-title">Mening tarixim</h1>
-        <button onclick="navigateTime(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Oldinga"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
+        <button onclick="navigateTime(1)" class="text-gray-600 text-lg hover:text-purple-600 transition p-2" title="Keyingi"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg></button>
     </header>
 
     <!-- Main Content -->
@@ -29,22 +29,15 @@
             <button onclick="switchTab('yearly')" id="btn-yearly" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Yillik</button>
         </div>
 
-        <!-- Sana tanlash va rejim bo'yicha oldinga/orqaga o'tkazish paneli -->
+        <!-- Sana tanlash paneli (Asliga qaytarildi: Chapda < strelka, O'rtada sana va yashirin kalendar, O'ngda kalendar ikonchasi) -->
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-            <button onclick="navigateTime(-1)" class="text-gray-400 hover:text-gray-600 px-2 flex items-center gap-1 text-xs font-medium">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
-                <span id="prev-label">Oldingi</span>
-            </button>
-            
+            <button onclick="navigateTime(-1)" class="text-gray-400 hover:text-gray-600 px-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg></button>
             <div class="flex items-center gap-2 relative">
-                <span class="font-bold text-gray-800 text-sm text-center" id="history-date">Bugun</span>
+                <span class="font-bold text-gray-800 text-sm" id="history-date">Bugun</span>
+                <!-- Yashirin kalendar inputi -->
                 <input type="date" id="calendar-picker" onchange="onCalendarSelect(this.value)" class="absolute opacity-0 inset-0 cursor-pointer w-full h-full">
             </div>
-
-            <button onclick="navigateTime(1)" class="text-purple-600 hover:text-purple-700 px-2 flex items-center gap-1 text-xs font-semibold">
-                <span id="next-label">Keyingi</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-            </button>
+            <button onclick="document.getElementById('calendar-picker').showPicker()" class="text-purple-600 px-2" title="Kalendardan tanlash"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg></button>
         </div>
 
         <!-- 4 ta asosiy ko'rsatkich kartalari -->
@@ -73,14 +66,14 @@
             </div>
         </div>
 
-        <!-- Zamonaviy Dinamik Diagramma va Statistika paneli -->
+        <!-- Ish jarayoni vaqtlar chizig'i va Diagramma bo'limi -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="font-bold text-gray-800 text-sm">Ish jarayoni va tanaffuslar</h3>
                 <span class="text-[11px] text-purple-600 font-semibold bg-purple-50 px-2 py-0.5 rounded-md" id="chart-mode-label">Kunlik</span>
             </div>
 
-            <!-- Asosiy Balans Progress-bar -->
+            <!-- Vizual Balans Diagramma -->
             <div class="space-y-1.5 pt-1">
                 <div class="flex justify-between text-[11px] text-gray-500">
                     <span>Ish va tanaffus balansi</span>
@@ -96,11 +89,17 @@
                 </div>
             </div>
 
-            <!-- Zamonaviy ustunli (Tepa-past) Diagramma qismi -->
-            <div class="pt-3">
-                <p class="text-xs font-semibold text-gray-700 mb-2" id="subchart-title">Davr dinamikasi</p>
-                <div id="column-chart-container" class="bg-gray-50 p-3 rounded-xl flex items-end justify-between gap-2 h-36 border border-gray-100">
-                    <!-- Dinamik ravishda kunlik/haftalik ustunlar chiziladi -->
+            <!-- Rasmga o'xshash Zamonaviy Kapsula Ustunli Diagramma (Faqat Haftalik, Oylik, Yillikda chiqadi) -->
+            <div id="capsule-chart-section" class="pt-3 hidden">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xs font-semibold text-gray-700" id="capsule-title">Taqqoslash dinamikasi</span>
+                    <div class="flex items-center gap-3 text-[10px] text-gray-400">
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-200"></span> O'tgan davr</span>
+                        <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-blue-600"></span> Joriy davr</span>
+                    </div>
+                </div>
+                <div id="capsule-chart-container" class="bg-gray-50 p-3 rounded-2xl flex items-end justify-around gap-3 h-40 border border-gray-100">
+                    <!-- Kapsula ustunlar dinamik ravishda shakllanadi -->
                 </div>
             </div>
 
@@ -108,7 +107,7 @@
 
             <!-- Xronologiya ro'yxati -->
             <div id="history-list" class="space-y-3 pt-1">
-                <p class="text-xs text-gray-400 text-center py-4">Bu davr uchun ma'lumot mavjud emas</p>
+                <p class="text-xs text-gray-400 text-center py-4">Bu kun uchun ma'lumot mavjud emas</p>
             </div>
         </div>
     </main>
@@ -153,29 +152,21 @@
             let dateStr = formatDateKey(currentDate);
             document.getElementById('calendar-picker').value = dateStr;
 
-            // Sarlavha va tugma yozuvlarini moslash
+            // Sarlavhani tanlangan rejimga moslash
             if (currentTab === 'daily') {
                 document.getElementById('history-date').innerText = getDisplayDateText(currentDate);
-                document.getElementById('prev-label').innerText = "Kun";
-                document.getElementById('next-label').innerText = "Kun";
             } else if (currentTab === 'weekly') {
                 document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil, ${getWeekNumber(currentDate)}-hafta`;
-                document.getElementById('prev-label').innerText = "Hafta";
-                document.getElementById('next-label').innerText = "Hafta";
             } else if (currentTab === 'monthly') {
                 document.getElementById('history-date').innerText = currentDate.toLocaleDateString('uz-UZ', { month: 'long', year: 'numeric' });
-                document.getElementById('prev-label').innerText = "Oy";
-                document.getElementById('next-label').innerText = "Oy";
             } else if (currentTab === 'yearly') {
                 document.getElementById('history-date').innerText = `${currentDate.getFullYear()}-yil`;
-                document.getElementById('prev-label').innerText = "Yil";
-                document.getElementById('next-label').innerText = "Yil";
             }
 
             loadDataForCurrentSelection();
         }
 
-        // Qaysi rejimdaligiga qarab mos ravishda oldinga/orqaga o'tish (< va > tugmalari uchun)
+        // Strelka bosilganda tanlangan rejimga qarab 1 kun, 1 hafta, 1 oy yoki 1 yilga surish
         function navigateTime(direction) {
             if (currentTab === 'daily') {
                 currentDate.setDate(currentDate.getDate() + direction);
@@ -212,6 +203,14 @@
                 }
             });
             document.getElementById('chart-mode-label').innerText = document.getElementById(`btn-${tab}`).innerText;
+            
+            // Kunlikda rasmga o'xshash kapsula chart yashiriladi, qolganlarida chiqadi
+            let chartSection = document.getElementById('capsule-chart-section');
+            if(tab === 'daily') {
+                chartSection.classList.add('hidden');
+            } else {
+                chartSection.classList.remove('hidden');
+            }
         }
 
         function formatTime(s) {
@@ -287,7 +286,7 @@
                 }
             });
 
-            // Ekranga umumiy ma'lumotlarni chiqarish
+            // Ekranga ma'lumotlarni chiqarish
             document.getElementById('hist-work').innerText = formatTime(workSec);
             document.getElementById('hist-breaks').innerText = `${breakCount} marta`;
             document.getElementById('hist-break-time').innerText = `${Math.floor(breakSec / 60)} daqiqa`;
@@ -303,8 +302,10 @@
             document.getElementById('bar-break').style.width = `${breakPercent}%`;
             document.getElementById('chart-ratio-text').innerText = `${workPercent}% / ${breakPercent}%`;
 
-            // Zamonaviy Tepa-Past (Ustunli) Diagrammani chizish
-            renderColumnChart(matchedDataList);
+            // Agar kunlik bo'lmasa rasmga o'xshash chiroyli kapsula diagrammani chizamiz
+            if(currentTab !== 'daily') {
+                renderCapsuleChart();
+            }
 
             // Xronologiya ro'yxati
             const listContainer = document.getElementById('history-list');
@@ -327,46 +328,31 @@
             }
         }
 
-        // Tepa-past zamonaviy ustunli diagramma generatori
-        function renderColumnChart(dataList) {
-            const container = document.getElementById('column-chart-container');
-            const titleEl = document.getElementById('subchart-title');
+        // Rasmga o'xshash yumaloq kapsula shaklidagi zamonaviy taqqoslash diagrammasi
+        function renderCapsuleChart() {
+            const container = document.getElementById('capsule-chart-container');
             container.innerHTML = '';
 
-            if (currentTab === 'daily') {
-                titleEl.innerText = "Kunlik soatlik taqsimot";
-                // Kunlik rejim uchun soatlik imitatsiya yoki qisqacha ko'rsatkich
-                let hours = [9, 11, 13, 15, 17, 19];
-                let maxSec = 7200; // 2 soat max
-                hours.forEach(h => {
-                    let randSec = Math.floor(Math.random() * 5000) + 1000;
-                    let heightPercent = Math.min(Math.round((randSec / maxSec) * 100), 100);
-                    container.innerHTML += `
-                        <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
-                            <div class="w-full bg-purple-200 hover:bg-purple-500 rounded-t-lg transition-all duration-300" style="height: ${heightPercent}%" title="${h}:00"></div>
-                            <span class="text-[9px] text-gray-400">${h}:00</span>
-                        </div>
-                    `;
-                });
-            } else {
-                titleEl.innerText = currentTab === 'weekly' ? "Hafta kunlari dinamikasi" : currentTab === 'monthly' ? "Oylik kunlar faolligi" : "Oylar kesimidagi faollik";
-                
-                // Ko'pi bilan 7 ta ustun hosil qilamiz
-                let bars = currentTab === 'weekly' ? ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'] : ['1-hafta', '2-hafta', '3-hafta', '4-hafta'];
-                if(currentTab === 'yearly') bars = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
+            let labels = [];
+            if (currentTab === 'weekly') labels = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'];
+            else if (currentTab === 'monthly') labels = ['1-hafta', '2-hafta', '3-hafta', '4-hafta'];
+            else if (currentTab === 'yearly') labels = ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'];
 
-                let maxVal = 36000; // 10 soat
-                bars.forEach((label, idx) => {
-                    let val = Math.floor(Math.random() * 25000) + 2000;
-                    let hPerc = Math.min(Math.round((val / maxVal) * 100), 100);
-                    container.innerHTML += `
-                        <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
-                            <div class="w-full bg-purple-600 hover:bg-purple-700 rounded-t-md transition-all duration-300 shadow-sm" style="height: ${hPerc}%"></div>
-                            <span class="text-[9px] text-gray-500 truncate w-full text-center">${label}</span>
+            labels.forEach((lbl, idx) => {
+                // Tasodifiy taqqoslash balandliklari (Rasmga o'xshash ko'rinish uchun o'tgan davr kulrang, joriy davr ko'k kapsula)
+                let hGray = Math.floor(Math.random() * 60) + 30;
+                let hBlue = Math.floor(Math.random() * 70) + 25;
+
+                container.innerHTML += `
+                    <div class="flex flex-col items-center gap-2 h-full justify-end flex-1">
+                        <div class="flex items-end justify-center gap-1 w-full h-full pb-1">
+                            <div class="w-2.5 bg-gray-200 rounded-full transition-all duration-500" style="height: ${hGray}%" title="O'tgan"></div>
+                            <div class="w-2.5 bg-blue-600 rounded-full transition-all duration-500 shadow-sm" style="height: ${hBlue}%" title="Joriy"></div>
                         </div>
-                    `;
-                });
-            }
+                        <span class="text-[9px] text-gray-500 font-medium truncate">${lbl}</span>
+                    </div>
+                `;
+            });
         }
 
         updateView();
