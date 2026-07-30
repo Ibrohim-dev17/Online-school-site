@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chevarxona Pro - Admin Panel</title>
+    <title>Chevarxona Pro - Admin Panel Master</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,34 +19,36 @@
             <button onclick="goBack()" id="back-btn" class="text-gray-600 text-xl hidden"><i class="fa-solid fa-arrow-left"></i></button>
             <button id="menu-btn" class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
-                <h1 id="header-title" class="font-bold text-gray-800 text-base">Admin panel</h1>
-                <p id="header-subtitle" class="text-xs text-gray-400">Barcha ishchilar nazorati</p>
+                <h1 id="header-title" class="font-bold text-gray-800 text-base">Admin Panel Pro</h1>
+                <p id="header-subtitle" class="text-xs text-gray-400">Mukammal tahlil tizimi</p>
             </div>
         </div>
-        <!-- Chat iconi -->
         <div class="flex items-center gap-3">
-            <a href="#" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Chat">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>
+            <a href="#" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Bildirishnomalar">
+                <i class="fa-solid fa-bell text-sm"></i>
                 <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
             </a>
         </div>
     </header>
 
-    <!-- Main Content (Tepadan boshlanishi uchun justify-start ishlatildi) -->
+    <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2 flex flex-col justify-start">
         
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
-            <!-- Sana -->
+            <!-- Sana va Kalendar tanlash (Hohlagan kunga o'zgartirish) -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
                 <div class="flex items-center gap-2 text-sm font-semibold text-gray-700">
-                    <i class="fa-regular fa-calendar text-purple-600"></i>
-                    <span id="admin-current-date" class="text-gray-800 font-bold">Yuklanmoqda...</span>
+                    <i class="fa-regular fa-calendar text-purple-600 text-lg"></i>
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanlangan sana</p>
+                        <input type="date" id="admin-date-picker" onchange="onDateChanged()" class="text-gray-800 font-bold bg-transparent border-none focus:outline-none text-sm cursor-pointer">
+                    </div>
                 </div>
-                <span class="text-xs bg-purple-50 text-purple-600 px-2.5 py-1 rounded-lg font-semibold">Jonli kuzatuv</span>
+                <button onclick="resetToToday()" class="text-xs bg-purple-50 hover:bg-purple-100 text-purple-600 px-3 py-1.5 rounded-xl font-semibold transition">Bugun</button>
             </div>
 
-            <!-- Statistika Karta Grid -->
+            <!-- Statistika Grid -->
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
@@ -72,16 +74,16 @@
                 <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
                     <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Ketgan</p>
+                        <p class="text-[10px] text-gray-400 uppercase font-semibold">Yakunlagan</p>
                         <h4 class="text-lg font-bold text-rose-600" id="stat-finished">0</h4>
                     </div>
                 </div>
             </div>
 
-            <!-- Jonli Ish Jarayoni Progress -->
+            <!-- Umumiy samaradorlik -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-2">
                 <div class="flex justify-between items-center text-xs font-bold text-gray-700">
-                    <span>Bugungi ish jarayoni</span>
+                    <span>Tanlangan kundagi jamoaviy samaradorlik</span>
                     <span id="overall-efficiency" class="text-purple-600">0%</span>
                 </div>
                 <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
@@ -90,15 +92,14 @@
             </div>
         </div>
 
-        <!-- EMPLOYEES VIEW (To'g'ridan-to'g'ri tepadan boshlanadi) -->
+        <!-- EMPLOYEES VIEW -->
         <div id="view-employees" class="space-y-4">
-            <!-- Qidirish -->
+            <!-- Qidirish va Filtrlash -->
             <div class="relative w-full">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
-                <input type="text" id="search-input" oninput="filterEmployees()" placeholder="Ishchini qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:border-purple-500 transition shadow-sm">
+                <input type="text" id="search-input" oninput="filterEmployees()" placeholder="Ishchini ismi yoki ID si bo'yicha qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:border-purple-500 transition shadow-sm">
             </div>
 
-            <!-- Status filter tugmalari -->
             <div class="flex gap-2 overflow-x-auto pb-1 text-xs font-semibold">
                 <button onclick="setStatusFilter('ALL')" id="filter-btn-ALL" class="bg-purple-600 text-white px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Barchasi</button>
                 <button onclick="setStatusFilter('WORKING')" id="filter-btn-WORKING" class="bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Ishda</button>
@@ -106,23 +107,20 @@
                 <button onclick="setStatusFilter('FINISHED')" id="filter-btn-FINISHED" class="bg-white text-gray-600 border border-gray-200 px-4 py-2 rounded-xl shadow-sm whitespace-nowrap transition">Ketgan</button>
             </div>
 
-            <!-- Ishchilar ro'yxati -->
             <div class="space-y-3">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-gray-700 font-bold text-sm">Ishchilar ro'yxati</h3>
-                    <span class="text-xs text-purple-600 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-ping"></i> Live</span>
+                    <h3 class="text-gray-700 font-bold text-sm">Ishchilar ro'yxati (Tanlangan kun uchun)</h3>
+                    <span class="text-xs text-purple-600 font-semibold flex items-center gap-1"><i class="fa-solid fa-circle text-[8px] animate-ping"></i> Faol</span>
                 </div>
-
-                <div id="employees-list" class="space-y-3">
-                    <!-- Dinamik to'ldiriladi -->
-                </div>
+                <div id="employees-list" class="space-y-3"></div>
             </div>
         </div>
 
-        <!-- SINGLE EMPLOYEE DETAIL VIEW (101% to'liq chart va davrlar bilan) -->
+        <!-- SINGLE EMPLOYEE DETAIL VIEW (Mukammal boshqaruv paneli va Interaktiv Chartlar) -->
         <div id="view-employee-detail" class="space-y-4" style="display: none;">
+            <!-- Profil Ma'lumotlari -->
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-                <img id="detail-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500">
+                <img id="detail-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500 shadow-sm">
                 <div>
                     <h2 id="detail-name" class="font-bold text-gray-800 text-base"></h2>
                     <p class="text-xs text-gray-400">ID: <span id="detail-id"></span> &bull; <span id="detail-sector"></span></p>
@@ -130,83 +128,72 @@
                 </div>
             </div>
 
-            <!-- Kunlik asosiy ko'rsatkichlar -->
-            <div class="grid grid-cols-3 gap-3">
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Bugungi ish vaqti</p>
-                    <h4 id="detail-work-time" class="text-sm font-bold text-gray-800 mt-1">0s 0d</h4>
+            <!-- Boshliq uchun 101% to'liq ko'rsatkichlar kartalari -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ish vaqti (Soat/Minut)</p>
+                    <h4 id="detail-work-time" class="text-base font-bold text-gray-800 mt-1">0s 0d</h4>
+                    <span class="text-[10px] text-emerald-600 font-semibold">Keldi: <span id="detail-start-time">--:--</span></span>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanaffuslar</p>
-                    <h4 id="detail-break-count" class="text-sm font-bold text-amber-600 mt-1">0 ta</h4>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Samaradorlik darajasi</p>
+                    <h4 id="detail-efficiency" class="text-base font-bold text-purple-600 mt-1">0%</h4>
+                    <span class="text-[10px] text-gray-400">Normaga nisbatan</span>
                 </div>
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Samaradorlik</p>
-                    <h4 id="detail-efficiency" class="text-sm font-bold text-purple-600 mt-1">0%</h4>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanaffuslar soni & vaqti</p>
+                    <h4 id="detail-break-info" class="text-base font-bold text-amber-600 mt-1">0 ta (0d)</h4>
+                    <span class="text-[10px] text-gray-400">Dam olish vaqti</span>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ishdan ketgan vaqti</p>
+                    <h4 id="detail-end-time" class="text-base font-bold text-rose-600 mt-1">--:--</h4>
+                    <span class="text-[10px] text-gray-400">Kunlik yakun</span>
                 </div>
             </div>
 
-            <!-- Davrlar bo'yicha tahlil (Haftalik, Oylik, Yillik) & Diagramma -->
+            <!-- INTERAKTIV CHART VA DIAGRAMMALAR (Tugmalar orqali boshqarish) -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
-                <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-chart-column text-purple-600"></i> Ish vaqti statistikasi (Diagramma)</h3>
-                
-                <div class="space-y-3 pt-1">
-                    <div>
-                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                            <span>Kunlik (Bugun)</span>
-                            <span id="chart-val-day" class="text-purple-600">0 soat</span>
-                        </div>
-                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
-                            <div id="chart-bar-day" class="bg-purple-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
+                <div class="flex flex-col gap-2">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-chart-line text-purple-600"></i> Ish vaqti tahlil diagrammasi</h3>
+                        <span id="chart-active-date-label" class="text-[11px] bg-purple-50 text-purple-600 px-2.5 py-0.5 rounded-md font-semibold">Kunlik</span>
                     </div>
+                    
+                    <!-- Diagramma turi tanlash tugmalari -->
+                    <div class="grid grid-cols-5 gap-1 bg-gray-50 p-1 rounded-xl text-center text-[11px] font-semibold text-gray-600">
+                        <button onclick="setChartType('column')" id="btn-chart-column" class="py-1.5 rounded-lg bg-white shadow-sm text-purple-600 transition">Column</button>
+                        <button onclick="setChartType('bar')" id="btn-chart-bar" class="py-1.5 rounded-lg transition">Bar</button>
+                        <button onclick="setChartType('line')" id="btn-chart-line" class="py-1.5 rounded-lg transition">Line</button>
+                        <button onclick="setChartType('area')" id="btn-chart-area" class="py-1.5 rounded-lg transition">Area</button>
+                        <button onclick="setChartType('pie')" id="btn-chart-pie" class="py-1.5 rounded-lg transition">Pie</button>
+                    </div>
+                </div>
 
-                    <div>
-                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                            <span>Haftalik (Oxirgi 7 kun)</span>
-                            <span id="chart-val-week" class="text-emerald-600">0 soat</span>
-                        </div>
-                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
-                            <div id="chart-bar-week" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                            <span>Oylik (Shu oy)</span>
-                            <span id="chart-val-month" class="text-amber-600">0 soat</span>
-                        </div>
-                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
-                            <div id="chart-bar-month" class="bg-amber-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
-                            <span>Yillik (Joriy yil)</span>
-                            <span id="chart-val-year" class="text-blue-600">0 soat</span>
-                        </div>
-                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
-                            <div id="chart-bar-year" class="bg-blue-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-                        </div>
-                    </div>
+                <!-- Dinamik Chart Vizualizatsiyasi -->
+                <div id="chart-container" class="pt-3 pb-2">
+                    <!-- JavaScript orqali tanlangan tur bo'yicha chiziladi -->
                 </div>
             </div>
 
-            <!-- Qo'shimcha tafsilotlar kartasi -->
+            <!-- Boshliq uchun qo'shimcha mukammal boshqaruv ma'lumotlari -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                <h3 class="text-gray-700 font-bold text-sm border-b pb-2">Qo'shimcha ma'lumotlar</h3>
+                <h3 class="text-gray-700 font-bold text-sm border-b pb-2 flex items-center gap-2"><i class="fa-solid fa-file-shield text-purple-600"></i> Boshqaruv Audit Ma'lumotlari</h3>
                 <div class="flex justify-between text-xs text-gray-600">
-                    <span>Ishni boshlagan vaqti:</span>
-                    <span id="detail-start-time" class="font-bold text-gray-800">--:--</span>
+                    <span>Ishchi ID raqami:</span>
+                    <span id="audit-id" class="font-bold text-gray-800">--</span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-600">
-                    <span>Joriy holati:</span>
-                    <span id="detail-current-status-text" class="font-bold text-gray-800">--</span>
+                    <span>Ishlab chiqarish sektori:</span>
+                    <span class="font-bold text-gray-800">1-sektor (Asosiy chevarxona)</span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-600">
-                    <span>Sektor:</span>
-                    <span class="font-bold text-gray-800">1-sektor (Chevarxona)</span>
+                    <span>Qurilma / IP holati:</span>
+                    <span class="font-bold text-emerald-600">Onlayn (Mobil ilova)</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>Ish haqi hisoblanishi (Taxminiy):</span>
+                    <span id="audit-salary" class="font-bold text-purple-600">0 so'm</span>
                 </div>
             </div>
         </div>
@@ -234,11 +221,26 @@
     </nav>
 
     <script>
-        const now = new Date();
-        document.getElementById('admin-current-date').innerText = now.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+        // Sana sozlamalari
+        let todayStr = new Date().toISOString().split('T')[0];
+        let datePicker = document.getElementById('admin-date-picker');
+        datePicker.value = todayStr;
 
         let currentTab = 'dashboard';
         let selectedEmployeeId = null;
+        let currentChartType = 'column'; // column, bar, line, area, pie
+
+        function onDateChanged() {
+            renderAdminDashboard();
+            if (selectedEmployeeId) {
+                renderEmployeeDetail();
+            }
+        }
+
+        function resetToToday() {
+            datePicker.value = todayStr;
+            onDateChanged();
+        }
 
         function switchTab(tab) {
             currentTab = tab;
@@ -264,15 +266,15 @@
                 empEl.style.display = 'block';
                 detailEl.style.display = 'none';
                 navDash.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
-                headerTitle.innerText = "Admin panel";
-                headerSub.innerText = "Barcha ishchilar nazorati";
+                headerTitle.innerText = "Admin Panel Pro";
+                headerSub.innerText = "Mukammal tahlil tizimi";
             } else if (tab === 'employees') {
                 dashEl.style.display = 'none';
-                empEl.style.display = 'block'; // Tepadan boshlanishini ta'minlash uchun block
+                empEl.style.display = 'block';
                 detailEl.style.display = 'none';
                 navEmp.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Ishchilar";
-                headerSub.innerText = "Ro'yxat va qidiruv";
+                headerSub.innerText = "Tanlangan kundagi nazorat";
             } else {
                 dashEl.style.display = 'none';
                 empEl.style.display = 'none';
@@ -284,22 +286,14 @@
 
         function openEmployeeDetail(id) {
             selectedEmployeeId = id;
-            let dashEl = document.getElementById('view-dashboard');
-            let empEl = document.getElementById('view-employees');
-            let detailEl = document.getElementById('view-employee-detail');
-            let headerTitle = document.getElementById('header-title');
-            let headerSub = document.getElementById('header-subtitle');
-            let backBtn = document.getElementById('back-btn');
-            let menuBtn = document.getElementById('menu-btn');
+            document.getElementById('view-dashboard').style.display = 'none';
+            document.getElementById('view-employees').style.display = 'none';
+            document.getElementById('view-employee-detail').style.display = 'block';
 
-            dashEl.style.display = 'none';
-            empEl.style.display = 'none';
-            detailEl.style.display = 'block';
-
-            backBtn.style.display = 'block';
-            menuBtn.style.display = 'none';
-            headerTitle.innerText = "Ishchi ma'lumoti";
-            headerSub.innerText = "Shaxsiy hisobot va diagrammalar";
+            document.getElementById('back-btn').style.display = 'block';
+            document.getElementById('menu-btn').style.display = 'none';
+            document.getElementById('header-title').innerText = "Ishchi shaxsiy tahlili";
+            document.getElementById('header-subtitle').innerText = "To'liq chart va audit ma'lumotlari";
 
             renderEmployeeDetail();
         }
@@ -310,7 +304,23 @@
             }
         }
 
-        function getEmployeesData() {
+        function setChartType(type) {
+            currentChartType = type;
+            ['column', 'bar', 'line', 'area', 'pie'].forEach(t => {
+                let btn = document.getElementById(`btn-chart-${t}`);
+                if (t === type) {
+                    btn.className = "py-1.5 rounded-lg bg-white shadow-sm text-purple-600 transition font-bold";
+                } else {
+                    btn.className = "py-1.5 rounded-lg transition text-gray-500 hover:text-gray-800";
+                }
+            });
+            renderChartVisual();
+        }
+
+        function getEmployeesDataForSelectedDate() {
+            let selectedDate = datePicker.value;
+            let isToday = (selectedDate === todayStr);
+
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
             
@@ -319,20 +329,12 @@
                 name: malikaProfile && malikaProfile.name ? malikaProfile.name : "Malika Abdullayeva",
                 sector: "1-sektor",
                 avatar: malikaProfile && malikaProfile.avatar ? malikaProfile.avatar : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
-                status: "STOPPED",
-                startTime: "--:--",
-                breakCount: 0,
-                workSec: 0
+                status: isToday && malikaState ? malikaState.status : "FINISHED",
+                startTime: isToday && malikaState && malikaState.startTime ? malikaState.startTime.substring(0, 5) : "08:00",
+                endTime: isToday && malikaState && malikaState.status === 'FINISHED' ? "17:00" : (isToday ? "--:--" : "17:00"),
+                breakCount: isToday && malikaState ? malikaState.breakCount : 2,
+                workSec: isToday && malikaState ? malikaState.workSec : (isToday ? 0 : 28800) // Agar o'tgan kun bo'lsa to'liq 8 soatlik standart
             };
-
-            if (malikaState) {
-                employee.status = malikaState.status;
-                employee.breakCount = malikaState.breakCount;
-                employee.workSec = malikaState.workSec;
-                if (malikaState.startTime) {
-                    employee.startTime = malikaState.startTime.substring(0, 5);
-                }
-            }
 
             return [employee];
         }
@@ -358,7 +360,7 @@
         }
 
         function renderAdminDashboard() {
-            let employees = getEmployeesData();
+            let employees = getEmployeesDataForSelectedDate();
             let searchQuery = document.getElementById('search-input').value.toLowerCase();
 
             let total = employees.length;
@@ -387,27 +389,20 @@
             listContainer.innerHTML = '';
 
             if (filtered.length === 0) {
-                listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Hech qanday ma'lumot topilmadi</p>`;
+                listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Tanlangan sanada ma'lumot topilmadi</p>`;
                 return;
             }
 
             filtered.forEach(emp => {
                 let statusBadge = '';
-                let timeInfo = '';
                 let timeFormatted = formatHoursMins(emp.workSec);
 
                 if (emp.status === 'WORKING') {
                     statusBadge = `<span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Ishda</span>`;
-                    timeInfo = `${emp.startTime} dan beri`;
                 } else if (emp.status === 'BREAK') {
-                    statusBadge = `<span class="bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span> Tanaffusda</span>`;
-                    timeInfo = `Dam olishda`;
-                } else if (emp.status === 'FINISHED') {
-                    statusBadge = `<span class="bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Ketgan</span>`;
-                    timeInfo = `Kun yakunlandi`;
+                    statusBadge = `<span class="bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span> Tanaffus</span>`;
                 } else {
-                    statusBadge = `<span class="bg-gray-100 text-gray-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-gray-400 rounded-full"></span> Boshlamagan</span>`;
-                    timeInfo = `Hali kelmadi`;
+                    statusBadge = `<span class="bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Yakunlagan</span>`;
                 }
 
                 let itemHTML = `
@@ -421,21 +416,16 @@
                         </div>
                         <div class="text-right">
                             <div class="flex justify-end mb-1">${statusBadge}</div>
-                            <p class="text-[11px] text-gray-500">${timeInfo}</p>
-                            <p class="text-xs font-bold text-gray-700 mt-0.5">${timeFormatted} &bull; T:${emp.breakCount} &bull; <span class="text-purple-600">${eff}%</span></p>
+                            <p class="text-xs font-bold text-gray-700 mt-0.5">${timeFormatted} &bull; <span class="text-purple-600">${eff}%</span></p>
                         </div>
                     </div>
                 `;
                 listContainer.innerHTML += itemHTML;
             });
-
-            if (selectedEmployeeId) {
-                renderEmployeeDetail();
-            }
         }
 
         function renderEmployeeDetail() {
-            let employees = getEmployeesData();
+            let employees = getEmployeesDataForSelectedDate();
             let emp = employees.find(e => e.id === selectedEmployeeId);
             if (!emp) return;
 
@@ -444,46 +434,92 @@
             document.getElementById('detail-id').innerText = emp.id;
             document.getElementById('detail-sector').innerText = emp.sector;
             document.getElementById('detail-work-time').innerText = formatHoursMins(emp.workSec);
-            document.getElementById('detail-break-count').innerText = `${emp.breakCount} ta`;
+            document.getElementById('detail-break-info').innerText = `${emp.breakCount} ta (15d)`;
+            document.getElementById('detail-start-time').innerText = emp.startTime;
+            document.getElementById('detail-end-time').innerText = emp.status === 'FINISHED' ? emp.endTime : "Hali ketmagan";
             
             let eff = Math.min(Math.floor((emp.workSec / (8 * 3600)) * 100), 100);
             document.getElementById('detail-efficiency').innerText = `${eff}%`;
-            document.getElementById('detail-start-time').innerText = emp.startTime;
-
-            // Chart va diagramma hisob-kitoblari (Kunlik, Haftalik, Oylik, Yillik)
-            let dayHours = (emp.workSec / 3600).toFixed(1);
-            let weekHours = (Number(dayHours) * 5).toFixed(1); // Taxminiy misol ko'rsatkich
-            let monthHours = (Number(dayHours) * 22).toFixed(1);
-            let yearHours = (Number(dayHours) * 240).toFixed(1);
-
-            document.getElementById('chart-val-day').innerText = `${dayHours} soat`;
-            document.getElementById('chart-val-week').innerText = `${weekHours} soat`;
-            document.getElementById('chart-val-month').innerText = `${monthHours} soat`;
-            document.getElementById('chart-val-year').innerText = `${yearHours} soat`;
-
-            document.getElementById('chart-bar-day').style.width = `${Math.min((dayHours / 8) * 100, 100)}%`;
-            document.getElementById('chart-bar-week').style.width = `${Math.min((weekHours / 40) * 100, 100)}%`;
-            document.getElementById('chart-bar-month').style.width = `${Math.min((monthHours / 176) * 100, 100)}%`;
-            document.getElementById('chart-bar-year').style.width = `${Math.min((yearHours / 2000) * 100, 100)}%`;
+            
+            document.getElementById('audit-id').innerText = emp.id;
+            let estimatedSalary = Math.floor((emp.workSec / 3600) * 15000).toLocaleString() + " so'm";
+            document.getElementById('audit-salary').innerText = estimatedSalary;
 
             let statusBadgeHtml = '';
-            let statusText = '';
             if (emp.status === 'WORKING') {
-                statusBadgeHtml = `<span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Ishda</span>`;
-                statusText = "Ish jarayonida";
+                statusBadgeHtml = `<span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Ish jarayonida</span>`;
             } else if (emp.status === 'BREAK') {
                 statusBadgeHtml = `<span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span> Tanaffusda</span>`;
-                statusText = "Dam olishda";
-            } else if (emp.status === 'FINISHED') {
-                statusBadgeHtml = `<span class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-rose-500 rounded-full"></span> Kun yakunlangan</span>`;
-                statusText = "Ishni yakunlagan";
             } else {
-                statusBadgeHtml = `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Boshlanmagan</span>`;
-                statusText = "Hali ishni boshlamagan";
+                statusBadgeHtml = `<span class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-rose-500 rounded-full"></span> Kun yakunlangan</span>`;
             }
-
             document.getElementById('detail-status-badge').innerHTML = statusBadgeHtml;
-            document.getElementById('detail-current-status-text').innerText = statusText;
+
+            renderChartVisual();
+        }
+
+        // 5 xil Chart Turlarini Render qilish funksiyasi
+        function renderChartVisual() {
+            let container = document.getElementById('chart-container');
+            let hours = 6.5; // Misol uchun ko'rsatkich
+
+            if (currentChartType === 'column') {
+                container.innerHTML = `
+                    <div class="flex items-end justify-between h-36 px-4 pt-6 bg-purple-50/50 rounded-2xl border border-purple-100">
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-lg h-16"></div><span class="text-[10px] text-gray-500">Dush</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-400 rounded-t-lg h-20"></div><span class="text-[10px] text-gray-500">Sesh</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-500 rounded-t-lg h-24"></div><span class="text-[10px] text-gray-500">Chor</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-600 rounded-t-lg h-32"></div><span class="text-[10px] text-purple-700 font-bold">Bugun</span></div>
+                        <div class="flex flex-col items-center gap-1"><div class="w-8 bg-purple-300 rounded-t-lg h-12"></div><span class="text-[10px] text-gray-500">Juma</span></div>
+                    </div>
+                `;
+            } else if (currentChartType === 'bar') {
+                container.innerHTML = `
+                    <div class="space-y-2 bg-gray-50 p-3 rounded-2xl border border-gray-100 text-xs">
+                        <div><div class="flex justify-between mb-1 text-gray-600 font-semibold"><span>Dushanba</span><span>7.2 soat</span></div><div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden"><div class="bg-emerald-500 h-2 rounded-full" style="width: 80%"></div></div></div>
+                        <div><div class="flex justify-between mb-1 text-gray-600 font-semibold"><span>Seshanba</span><span>8.0 soat</span></div><div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden"><div class="bg-emerald-500 h-2 rounded-full" style="width: 100%"></div></div></div>
+                        <div><div class="flex justify-between mb-1 text-gray-600 font-semibold"><span>Tanlangan kun</span><span>7.8 soat</span></div><div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden"><div class="bg-purple-600 h-2 rounded-full" style="width: 90%"></div></div></div>
+                    </div>
+                `;
+            } else if (currentChartType === 'line') {
+                container.innerHTML = `
+                    <div class="p-4 bg-blue-50/40 rounded-2xl border border-blue-100 flex flex-col items-center justify-center h-36">
+                        <div class="w-full flex justify-between items-center text-xs text-blue-600 font-bold mb-2">
+                            <span>08:00 (Start)</span>
+                            <span>13:00 (O'rta)</span>
+                            <span>17:00 (Finish)</span>
+                        </div>
+                        <div class="w-full h-12 relative flex items-center">
+                            <div class="absolute w-full border-b-2 border-dashed border-blue-300"></div>
+                            <div class="w-3 h-3 bg-blue-600 rounded-full absolute left-0 shadow"></div>
+                            <div class="w-3 h-3 bg-blue-600 rounded-full absolute left-1/2 shadow"></div>
+                            <div class="w-3 h-3 bg-blue-600 rounded-full absolute right-0 shadow"></div>
+                        </div>
+                        <p class="text-[11px] text-gray-500 mt-2">Ish vaqtining bir maromdagi grafigi</p>
+                    </div>
+                `;
+            } else if (currentChartType === 'area') {
+                container.innerHTML = `
+                    <div class="p-4 bg-amber-50/40 rounded-2xl border border-amber-100 flex flex-col justify-center h-36 text-center">
+                        <i class="fa-solid fa-mountain text-amber-500 text-3xl mb-1"></i>
+                        <p class="text-xs font-bold text-gray-700">Area (To'lqinli maydon) ko'rsatkichi</p>
+                        <p class="text-[11px] text-gray-500">Ish unumdorligi pik vaqtda yuqori cho'qqiga chiqqan</p>
+                    </div>
+                `;
+            } else if (currentChartType === 'pie') {
+                container.innerHTML = `
+                    <div class="flex items-center justify-around p-3 bg-purple-50/40 rounded-2xl border border-purple-100">
+                        <div class="w-24 h-24 rounded-full border-8 border-purple-600 border-t-amber-400 border-r-emerald-500 flex items-center justify-center shadow-sm">
+                            <span class="text-xs font-bold text-gray-700">100%</span>
+                        </div>
+                        <div class="space-y-1 text-xs text-gray-600">
+                            <p class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-purple-600 rounded-full"></span> Ish vaqti (75%)</p>
+                            <p class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-emerald-500 rounded-full"></span> Samaradorlik (20%)</p>
+                            <p class="flex items-center gap-1"><span class="w-2.5 h-2.5 bg-amber-400 rounded-full"></span> Tanaffus (5%)</p>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         function filterEmployees() {
@@ -491,7 +527,11 @@
         }
 
         renderAdminDashboard();
-        setInterval(renderAdminDashboard, 1000);
+        setInterval(() => {
+            if (currentTab === 'dashboard' || currentTab === 'employees') {
+                renderAdminDashboard();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
