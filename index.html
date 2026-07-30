@@ -5,187 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chevarxona Pro - Asosiy</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #edeef2; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .phone-frame { width: 100%; max-width: 410px; height: 844px; background: #f8f9fc; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; overflow-y: auto; display: flex; flex-direction: column; justify-content: space-between; border: 8px solid #1e1e1e; }
-        .phone-frame::-webkit-scrollbar { display: none; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
     </style>
 </head>
-<body>
+<body class="flex flex-col min-h-screen justify-between pb-20">
 
-<div class="phone-frame">
-    <div>
-        <!-- HEADER -->
-        <div class="bg-white px-6 pt-8 pb-5 rounded-b-[32px] shadow-sm">
-            <div class="flex justify-between items-center mb-4">
-                <div class="flex items-center gap-3">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" class="w-12 h-12 rounded-full object-cover border-2 border-purple-500" alt="Avatar">
-                    <div>
-                        <h1 class="text-base font-bold text-gray-900">Salom, Malika! 👋</h1>
-                        <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
-                    </div>
-                </div>
-                <div class="relative w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center cursor-pointer shadow-sm">
-                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
-                    <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-purple-600 rounded-full"></span>
-                </div>
-            </div>
-
-            <!-- Date box -->
-            <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-3.5 rounded-2xl flex justify-between items-center shadow-lg shadow-purple-200">
-                <div class="flex items-center gap-2.5">
-                    <svg class="w-5 h-5 text-purple-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                    <span class="text-sm font-semibold" id="header-date">20 May, 2024</span>
-                </div>
-                <span class="bg-white/20 px-3 py-1 rounded-xl text-xs font-medium backdrop-blur-md">Dushanba</span>
+    <!-- Top Header -->
+    <header class="p-4 bg-white shadow-sm flex justify-between items-center sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
+            <div>
+                <h1 class="font-bold text-gray-800 text-lg">Salom, Malika! 👋</h1>
+                <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
             </div>
         </div>
+        <div class="flex items-center gap-3">
+            <div class="relative cursor-pointer">
+                <i class="fa-regular fa-bell text-xl text-gray-700"></i>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-purple-600 rounded-full"></span>
+            </div>
+            <a href="profil.html">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500" alt="Profil">
+            </a>
+        </div>
+    </header>
 
-        <!-- CONTENT -->
-        <div class="px-5 mt-4 space-y-4 pb-24">
-            <!-- Joriy holat -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+    <!-- Main Content -->
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
+        <!-- Date Card -->
+        <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-3">
+                <i class="fa-regular fa-calendar-days text-xl"></i>
+                <span id="current-date" class="font-medium">20 May, 2024</span>
+            </div>
+            <span class="bg-white/20 px-3 py-1 rounded-lg text-sm font-medium">Dushanba</span>
+        </div>
+
+        <!-- Joriy holat -->
+        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
                 <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" id="status-dot"></span>
-                        <span class="text-[11px] font-bold text-emerald-600 uppercase tracking-wider" id="status-label">Joriy holat</span>
-                    </div>
-                    <h2 class="text-xl font-extrabold text-gray-900" id="status-title">Ishda</h2>
-                    <p class="text-xs text-gray-400 mt-0.5" id="status-desc">09:02 da ishga kelgansiz</p>
-                </div>
-                <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <h4 class="text-xs text-emerald-600 font-semibold uppercase">Joriy holat</h4>
+                    <h2 class="text-lg font-bold text-gray-800" id="status-text">Ishda</h2>
+                    <p class="text-xs text-gray-500" id="start-time-text">09:02 da ishga kelgansiz</p>
                 </div>
             </div>
+            <i class="fa-solid fa-vest text-4xl text-emerald-400"></i>
+        </div>
 
-            <!-- Tezkor amallar -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-gray-900 text-sm">Tezkor amallar</h3>
-                    <span class="text-xs text-purple-600 font-semibold cursor-pointer">Qo'llanma</span>
-                </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button onclick="handleAction('Ishda', 'Ishga keldi')" class="bg-[#e8f8f0] hover:bg-[#d8f4e6] text-emerald-700 p-4 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition active:scale-95">
-                        <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md shadow-emerald-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                        </div>
-                        <span class="text-xs font-bold">Ishga keldim</span>
-                    </button>
-                    <button onclick="handleAction('Tanaffusda', 'Tanaffusga chiqdi')" class="bg-[#fef3e6] hover:bg-[#fdecd2] text-amber-700 p-4 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition active:scale-95">
-                        <div class="w-10 h-10 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
-                        <span class="text-xs font-bold">Tanaffusga chiqdim</span>
-                    </button>
-                    <button onclick="handleAction('Ishda', 'Tanaffusdan qaytdi')" class="bg-[#eaf2ff] hover:bg-[#dce9ff] text-blue-700 p-4 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition active:scale-95">
-                        <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center shadow-md shadow-blue-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                        </div>
-                        <span class="text-xs font-bold">Tanaffusdan qaytdim</span>
-                    </button>
-                    <button onclick="handleAction('Ketgan', 'Ishni tugatdi')" class="bg-[#fde8e8] hover:bg-[#fcd5d5] text-rose-700 p-4 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition active:scale-95">
-                        <div class="w-10 h-10 rounded-full bg-rose-500 text-white flex items-center justify-center shadow-md shadow-rose-200">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect width="6" height="6" x="9" y="9" rx="1"/></svg>
-                        </div>
-                        <span class="text-xs font-bold">Ishni tugatdim</span>
-                    </button>
-                </div>
+        <!-- Tezkor amallar -->
+        <div>
+            <h3 class="text-gray-700 font-bold mb-3">Tezkor amallar</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="updateAction('Ishda', 'emerald', '09:02 da ishga kelgansiz')" class="bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-play"></i></div>
+                    <span class="font-bold text-emerald-900">Ishga keldim</span>
+                </button>
+                <button onclick="updateAction('Tanaffusda', 'amber', 'Tanaffus vaqti boshlandi')" class="bg-amber-50 hover:bg-amber-100 border border-amber-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-mug-hot"></i></div>
+                    <span class="font-bold text-amber-900">Tanaffusga chiqdim</span>
+                </button>
+                <button onclick="updateAction('Ishda (Qaytdi)', 'blue', 'Tanaffusdan qaytdingiz')" class="bg-blue-50 hover:bg-blue-100 border border-blue-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-rotate-right"></i></div>
+                    <span class="font-bold text-blue-900">Tanaffusdan qaytdim</span>
+                </button>
+                <button onclick="updateAction('Ish tugadi', 'rose', 'Ish yakunlandi')" class="bg-rose-50 hover:bg-rose-100 border border-rose-200 p-4 rounded-2xl text-left transition flex flex-col justify-between h-28">
+                    <div class="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-stop"></i></div>
+                    <span class="font-bold text-rose-900">Ishni tugatdim</span>
+                </button>
             </div>
+        </div>
 
-            <!-- Bugungi ko'rsatkichlar -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="font-bold text-gray-900 text-sm">Bugungi ko'rsatkichlar</h3>
-                    <span class="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Jonli
-                    </span>
+        <!-- Bugungi ko'rsatkichlar (Real vaqtda hisoblagich) -->
+        <div>
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-gray-700 font-bold">Bugungi ko'rsatkichlar</h3>
+                <span class="text-xs bg-emerald-100 text-emerald-600 px-2 py-0.5 rounded-full font-semibold flex items-center gap-1"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span> Jonli</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-purple-600 mb-2"><i class="fa-regular fa-clock text-lg"></i></div>
+                    <p class="text-xs text-gray-400">Ish vaqti</p>
+                    <h4 class="text-lg font-bold text-gray-800" id="live-work-time">5 soat 28 daqiqa</h4>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-gray-50/80 p-3.5 rounded-xl border border-gray-100">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
-                            <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Ish vaqti
-                        </div>
-                        <p class="text-base font-extrabold text-gray-900" id="work-time-stat">5 soat 28 daqiqa</p>
-                    </div>
-                    <div class="bg-gray-50/80 p-3.5 rounded-xl border border-gray-100">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
-                            <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 8h1a4 4 0 010 8h-1m-2-8H6a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2V10a2 2 0 00-2-2z"/></svg> Tanaffuslar
-                        </div>
-                        <p class="text-base font-extrabold text-gray-900" id="break-count-stat">1 marta</p>
-                    </div>
-                    <div class="bg-gray-50/80 p-3.5 rounded-xl border border-gray-100">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
-                            <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg> Tanaffus vaqti
-                        </div>
-                        <p class="text-base font-extrabold text-gray-900" id="break-time-stat">1 soat 13 daqiqa</p>
-                    </div>
-                    <div class="bg-gray-50/80 p-3.5 rounded-xl border border-gray-100">
-                        <div class="flex items-center gap-2 text-gray-400 text-xs mb-1">
-                            <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Reja bajarilishi
-                        </div>
-                        <p class="text-base font-extrabold text-purple-600">78%</p>
-                    </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-amber-600 mb-2"><i class="fa-solid fa-mug-hot text-lg"></i></div>
+                    <p class="text-xs text-gray-400">Tanaffuslar</p>
+                    <h4 class="text-lg font-bold text-gray-800">1 marta</h4>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-blue-600 mb-2"><i class="fa-solid fa-stopwatch text-lg"></i></div>
+                    <p class="text-xs text-gray-400">Tanaffus vaqti</p>
+                    <h4 class="text-lg font-bold text-gray-800">1 soat 13 daqiqa</h4>
+                </div>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-emerald-600 mb-2"><i class="fa-solid fa-chart-line text-lg"></i></div>
+                    <p class="text-xs text-gray-400">Reja bajarilishi</p>
+                    <h4 class="text-lg font-bold text-gray-800" id="live-efficiency">78%</h4>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- NAVIGATION -->
-    <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-3 flex justify-between items-center rounded-t-3xl shadow-2xl z-20">
-        <a href="index.html" class="flex flex-col items-center gap-1 text-purple-600">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-            <span class="text-[10px] font-bold">Asosiy</span>
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
+        <a href="index.html" class="flex flex-col items-center text-purple-600">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-xs mt-1 font-medium">Asosiy</span>
         </a>
-        <a href="history.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-purple-600 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span class="text-[10px] font-medium">Mening tarixim</span>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-user-gear text-lg"></i>
+            <span class="text-xs mt-1">Mening tarixim</span>
         </a>
-        <a href="statistics.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-purple-600 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-            <span class="text-[10px] font-medium">Statistika</span>
+        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-chart-simple text-lg"></i>
+            <span class="text-xs mt-1">Statistika</span>
         </a>
-        <a href="profile.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-purple-600 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 9 9 0 010-3.18 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-            <span class="text-[10px] font-medium">Sozlamalar</span>
+        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <i class="fa-solid fa-gear text-lg"></i>
+            <span class="text-xs mt-1">Sozlamalar</span>
         </a>
-    </div>
-</div>
+    </nav>
 
-<script>
-    function handleAction(status, actionName) {
-        const now = new Date();
-        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-        
-        // UI o'zgarishi
-        document.getElementById('status-title').innerText = status === 'Ketgan' ? 'Ish tugadi' : status;
-        document.getElementById('status-desc').innerText = `${timeStr} da holat yangilandi`;
-        
-        const dot = document.getElementById('status-dot');
-        const label = document.getElementById('status-label');
-        if(status === 'Ishda') {
-            dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
-            label.className = "text-[11px] font-bold text-emerald-600 uppercase tracking-wider";
-            label.innerText = "Joriy holat";
-        } else if(status === 'Tanaffusda') {
-            dot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse";
-            label.className = "text-[11px] font-bold text-amber-600 uppercase tracking-wider";
-            label.innerText = "Tanaffusda";
-        } else {
-            dot.className = "w-2.5 h-2.5 rounded-full bg-rose-500";
-            label.className = "text-[11px] font-bold text-rose-600 uppercase tracking-wider";
-            label.innerText = "Yakunlandi";
+    <script>
+        // Real vaqtda o'zgaruvchan funksiyalar
+        function updateAction(status, color, desc) {
+            document.getElementById('status-text').innerText = status;
+            document.getElementById('start-time-text').innerText = desc;
         }
 
-        // LocalStorage ga yozish (Admin panel o'qib olishi uchun)
-        localStorage.setItem('malikaStatus', status);
-        localStorage.setItem('malikaTime', timeStr);
-        
-        // Tarix uchun ma'lumot qo'shish
-        let history = JSON.parse(localStorage.getItem('malikaHistory') || '[]');
-        history.push({ time: timeStr, text: actionName });
-        localStorage.setItem('malikaHistory', JSON.stringify(history));
-    }
-</script>
+        // Ish vaqtini real vaqtda sekundma-sekund oshirib borish simulyatsiyasi
+        let seconds = 5 * 3600 + 28 * 60;
+        setInterval(() => {
+            seconds++;
+            let h = Math.floor(seconds / 3600);
+            let m = Math.floor((seconds % 3600) / 60);
+            document.getElementById('live-work-time').innerText = `${h} soat ${m} daqiqa`;
+        }, 1000);
+    </script>
 </body>
 </html>
