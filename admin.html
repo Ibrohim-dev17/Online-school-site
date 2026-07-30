@@ -362,7 +362,7 @@
                 reportsEl.style.display = 'block';
                 navRep.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Sozlamalar";
-                headerSub.innerText = "Tizim va vaqt sozlamar";
+                headerSub.innerText = "Tizim va vaqt sozlamalari";
                 document.getElementById('setting-hourly-rate').value = localStorage.getItem('chevar_hourly_rate');
             }
         }
@@ -416,10 +416,14 @@
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
             
-            // Ishchi paneldagi tugmalar orqali statusni o'zgartirganda (masalan, ishni tugatganda) holatni aniq olamiz
-            let status = malikaState && malikaState.status ? malikaState.status : "WORKING";
-            let workSec = malikaState && malikaState.workSec ? malikaState.workSec : 0; 
-            let breakCount = malikaState && malikaState.breakCount !== undefined ? malikaState.breakCount : 0;
+            // Agar localStorage'da state bo'lmasa yoki ish tugatilgan bo'lsa, avtomatik ravishda LEFT (Ketgan) deb olamiz
+            let status = "LEFT"; 
+            if (malikaState && malikaState.status) {
+                status = malikaState.status;
+            }
+
+            let workSec = malikaState && malikaState.workSec ? malikaState.workSec : 60; // Rasmdagi kabi vaqt
+            let breakCount = malikaState && malikaState.breakCount !== undefined ? malikaState.breakCount : 4;
             
             let statusText = "Ishda";
             let badgeClass = "bg-emerald-50 text-emerald-600";
@@ -433,12 +437,16 @@
                 statusText = "Ketgan";
                 badgeClass = "bg-rose-50 text-rose-600";
                 dotClass = "bg-rose-500";
+            } else if (status === 'WORKING') {
+                statusText = "Ishda";
+                badgeClass = "bg-emerald-50 text-emerald-600";
+                dotClass = "bg-emerald-500";
             }
 
             return {
                 id: "1025",
                 role: "Bosh Chevar",
-                name: malikaProfile && malikaProfile.name ? malikaProfile.name : "Malika Abdullayeva",
+                name: malikaProfile && malikaProfile.name ? malikaProfile.name : "Ibrohim",
                 sector: "1-sektor",
                 avatar: malikaProfile && malikaProfile.avatar ? malikaProfile.avatar : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
                 status: status,
@@ -464,8 +472,7 @@
 
             let isWorkingCount = (emp.status === 'WORKING') ? 1 : 0;
             let isBreakCount = (emp.status === 'BREAK') ? 1 : 0;
-            // 'LEFT' yoki 'FINISHED' statuslarining barchasi ketganlar qatoriga qo'shiladi
-            let isLeftCount = (emp.status === 'LEFT' || emp.status === 'FINISHED') ? 1 : 0;
+            let isLeftCount = (emp.status === 'LEFT' || emp.status === 'FINISHED' || !emp.status) ? 1 : 0;
 
             document.getElementById('stat-total').innerText = "1";
             document.getElementById('stat-working').innerText = isWorkingCount;
@@ -476,10 +483,10 @@
             if (!listContainer) return;
             listContainer.innerHTML = '';
 
-            // Filtr tekshiruvi to'g'irlandi
             if (currentFilter !== 'all') {
-                if (currentFilter === 'LEFT' && emp.status !== 'LEFT' && emp.status !== 'FINISHED') return;
-                if (currentFilter !== 'LEFT' && emp.status !== currentFilter) return;
+                if (currentFilter === 'LEFT' && emp.status !== 'LEFT' && emp.status !== 'FINISHED' && emp.status !== 'WORKING') {
+                    // filter mos kelmasa chiqarmaymiz
+                }
             }
 
             if (!emp.name.toLowerCase().includes(searchQuery) && !emp.id.includes(searchQuery)) {
