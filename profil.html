@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chevarxona Pro - Profil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
@@ -13,64 +12,182 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header -->
-    <header class="p-4 mt-12 bg-white shadow-sm flex justify-between items-center sticky top-12 z-40">
-        <h1 class="font-bold text-gray-800 text-base">Mening profilim</h1>
-        <a href="admin.html" class="text-xs bg-purple-50 text-purple-600 px-3 py-1 rounded-lg font-semibold">Admin Panel</a>
+    <!-- Top Header (Ortiqcha bo'shliqlar olib tashlandi, sarlavha "Mening profilim" qilindi) -->
+    <header class="px-4 py-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-40">
+        <h1 class="font-bold text-gray-800 text-sm">Mening profilim</h1>
+        <span class="text-xs font-semibold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-xl flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Faol
+        </span>
     </header>
 
     <!-- Main Content -->
-    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
-        <!-- Profil karta -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-14 h-14 rounded-full object-cover border-2 border-purple-500">
-                <div>
-                    <h3 class="font-bold text-gray-800 text-base">Malika Abdullayeva</h3>
-                    <p class="text-xs text-gray-400">ID: 1025 • Chevar, 1-sektor</p>
-                </div>
-            </div>
-            <span class="text-xs bg-emerald-100 text-emerald-600 px-2.5 py-1 rounded-full font-semibold">Faol</span>
-        </div>
-
-        <!-- Sozlamalar menyusi -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 divide-y divide-gray-100 overflow-hidden">
-            <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer">
-                <div class="flex items-center gap-3 text-gray-700">
-                    <i class="fa-regular fa-bell text-purple-600"></i>
-                    <span class="text-sm font-medium">Bildirishnomalar</span>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            </div>
-            <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer">
-                <div class="flex items-center gap-3 text-gray-700">
-                    <i class="fa-regular fa-circle-question text-purple-600"></i>
-                    <span class="text-sm font-medium">Yordam va qo'llanma</span>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            </div>
-            <div class="p-4 flex items-center justify-between hover:bg-gray-50 cursor-pointer">
-                <div class="flex items-center gap-3 text-gray-700">
-                    <i class="fa-solid fa-circle-info text-purple-600"></i>
-                    <span class="text-sm font-medium">Ilova haqida</span>
-                </div>
-                <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+    <main class="p-3 space-y-3 max-w-xl mx-auto w-full">
+        <!-- Foydalanuvchi haqida qisqacha ma'lumot kartasi -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200" alt="Avatar" class="w-14 h-14 rounded-2xl object-cover border-2 border-purple-100">
+            <div>
+                <h3 class="font-bold text-gray-800 text-sm" id="profile-name">Malika Abdullayeva</h3>
+                <p class="text-[11px] text-gray-400 mt-0.5">ID: 1025</p>
+                <p class="text-[11px] font-medium text-purple-600 mt-0.5">Chevar, 1-sektor</p>
             </div>
         </div>
 
-        <!-- Chiqish tugmasi -->
-        <button onclick="localStorage.clear(); alert('Ma\'lumotlar tozalandi!'); location.reload();" class="w-full bg-rose-50 text-rose-600 font-semibold py-3 rounded-2xl text-sm border border-rose-100 hover:bg-rose-100 transition">
-            Ma'lumotlarni tozalash / Chiqish
-        </button>
+        <!-- Ichki sahifalarga o'tish tugmalari (Umumiy, Statistika, Sozlamalar) -->
+        <div class="grid grid-cols-3 gap-1.5 bg-gray-100 p-1.5 rounded-2xl">
+            <button onclick="switchTab('umumiy')" id="ptab-umumiy" class="bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition">Umumiy</button>
+            <button onclick="switchTab('statistika')" id="ptab-statistika" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Statistika</button>
+            <button onclick="switchTab('sozlamalar')" id="ptab-sozlamalar" class="text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition">Sozlamalar</button>
+        </div>
+
+        <!-- UMUMIY TAB KONTenti -->
+        <div id="content-umumiy" class="space-y-3">
+            <div class="flex justify-between items-center px-1">
+                <h4 class="font-bold text-gray-800 text-xs">Bu oy natijalari</h4>
+                <a href="#" class="text-purple-600 text-[11px] font-semibold hover:underline">Batafsil ></a>
+            </div>
+
+            <!-- 4 ta natija kartalari -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div class="text-purple-600 mb-1.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/></svg>
+                    </div>
+                    <p class="text-[10px] text-gray-400">Ish soatlari</p>
+                    <h5 class="text-xs font-bold text-gray-800">162 soat</h5>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div class="text-purple-600 mb-1.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                    </div>
+                    <p class="text-[10px] text-gray-400">O'rtacha kunlik</p>
+                    <h5 class="text-xs font-bold text-gray-800">7.4 soat</h5>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div class="text-emerald-500 mb-1.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+                    </div>
+                    <p class="text-[10px] text-gray-400">Kelgan kunlar</p>
+                    <h5 class="text-xs font-bold text-gray-800">22 kun</h5>
+                </div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between">
+                    <div class="text-rose-500 mb-1.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/></svg>
+                    </div>
+                    <p class="text-[10px] text-gray-400">Kechikishlar</p>
+                    <h5 class="text-xs font-bold text-gray-800">1 marta</h5>
+                </div>
+            </div>
+
+            <!-- Samaradorlik Banneri -->
+            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-2xl shadow-sm text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="text-3xl">🏆</div>
+                    <div>
+                        <h5 class="font-bold text-xs flex items-center gap-1">Zo'r ishlayapsiz! 🎉</h5>
+                        <p class="text-[11px] text-purple-100 mt-0.5">Bu oy samaradorligingiz <span class="font-bold text-white">94%</span></p>
+                    </div>
+                </div>
+                <svg class="w-4 h-4 text-purple-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+            </div>
+
+            <!-- Menyu ro'yxati -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-50">
+                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/></svg></span>
+                        <span class="text-xs font-semibold text-gray-700">Bildirishnomalar</span>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                </button>
+                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M98.79 15.75H12a2.25 2.25 0 0 1-2.25-2.25V6.75A2.25 2.25 0 0 1 12 4.5h10.5a2.25 2.25 0 0 1 2.25 2.25v6.75a2.25 2.25 0 0 1-2.25 2.25Z"/></svg><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"/></svg></span>
+                        <span class="text-xs font-semibold text-gray-700">Yordam</span>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                </button>
+                <button class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 transition text-left">
+                    <div class="flex items-center gap-3">
+                        <span class="text-gray-400"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"/></svg></span>
+                        <span class="text-xs font-semibold text-gray-700">Ilova haqida</span>
+                    </div>
+                    <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- STATISTIKA TAB KONTenti -->
+        <div id="content-statistika" class="hidden space-y-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 text-center py-6">
+                <p class="text-xs text-gray-400">To'liq oylik hisobotlar va tahlillar tez orada qo'shiladi.</p>
+            </div>
+        </div>
+
+        <!-- SOZLAMALAR TAB KONTenti -->
+        <div id="content-sozlamalar" class="hidden space-y-3">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <h5 class="font-bold text-xs text-gray-800">Shaxsiy ma'lumotlarni o'zgartirish</h5>
+                <div class="space-y-2">
+                    <div>
+                        <label class="text-[10px] text-gray-400">Ism familiya</label>
+                        <input type="text" id="edit-name" value="Malika Abdullayeva" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs font-semibold text-gray-800 focus:outline-none focus:border-purple-500">
+                    </div>
+                    <button onclick="saveProfile()" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">Saqlash</button>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1">Asosiy</span></a>
-        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1">Mening tarixim</span></a>
-        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1">Statistika</span></a>
-        <a href="profil.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-xs mt-1 font-medium">Sozlamalar</span></a>
+        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+            <span class="text-[10px] mt-1">Asosiy</span>
+        </a>
+        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            <span class="text-[10px] mt-1">Mening tarixim</span>
+        </a>
+        <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+            <span class="text-[10px] mt-1">Statistika</span>
+        </a>
+        <a href="profil.html" class="flex flex-col items-center text-purple-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/></svg>
+            <span class="text-[10px] mt-1 font-medium">Profil</span>
+        </a>
     </nav>
 
+    <script>
+        function switchTab(tab) {
+            ['umumiy', 'statistika', 'sozlamalar'].forEach(t => {
+                let btn = document.getElementById(`ptab-${t}`);
+                let content = document.getElementById(`content-${t}`);
+                if (t === tab) {
+                    btn.className = "bg-purple-600 text-white py-2 rounded-xl text-xs font-semibold shadow-sm transition";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "text-gray-500 py-2 rounded-xl text-xs font-semibold hover:bg-white transition";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        function saveProfile() {
+            let name = document.getElementById('edit-name').value;
+            if (name) {
+                document.getElementById('profile-name').innerText = name;
+                localStorage.setItem('malika_profile', JSON.stringify({ name: name }));
+                alert("Ma'lumotlar saqlandi!");
+            }
+        }
+
+        // Load saved profile data if exists
+        let saved = JSON.parse(localStorage.getItem('malika_profile'));
+        if (saved && saved.name) {
+            document.getElementById('profile-name').innerText = saved.name;
+            document.getElementById('edit-name').value = saved.name;
+        }
+    </script>
 </body>
 </html>
