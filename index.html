@@ -11,14 +11,14 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f9fc; }
     </style>
 </head>
-<body class="flex flex-col min-h-screen justify-between pb-20">
+<body class="flex flex-col min-h-screen justify-between pb-24">
 
     <!-- Top Header -->
     <header class="p-4 bg-white shadow-sm flex justify-between items-center sticky top-0 z-50">
         <div class="flex items-center gap-3">
             <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
-                <h1 class="font-bold text-gray-800 text-lg">Salom, Malika! 👋</h1>
+                <h1 class="font-bold text-gray-800 text-base">Salom, Malika! 👋</h1>
                 <p class="text-xs text-gray-400">Bugun ham samarali kun bo'lsin</p>
             </div>
         </div>
@@ -125,20 +125,18 @@
             <i class="fa-solid fa-chart-simple text-lg"></i>
             <span class="text-xs mt-1">Statistika</span>
         </a>
-        <a href="#" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
+        <a href="sozlamalar.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600">
             <i class="fa-solid fa-gear text-lg"></i>
             <span class="text-xs mt-1">Sozlamalar</span>
         </a>
     </nav>
 
     <script>
-        // Real vaqtda o'zgaruvchan funksiyalar
         function updateAction(status, color, desc) {
             document.getElementById('status-text').innerText = status;
             document.getElementById('start-time-text').innerText = desc;
         }
 
-        // Ish vaqtini real vaqtda sekundma-sekund oshirib borish simulyatsiyasi
         let seconds = 5 * 3600 + 28 * 60;
         setInterval(() => {
             seconds++;
