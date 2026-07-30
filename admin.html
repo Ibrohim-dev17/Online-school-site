@@ -36,32 +36,33 @@
         
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
+            <!-- Bir xil o'lchamdagi (h-24, flex, flex-col justify-center) statistika qutilari -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-users"></i></div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Jami ishchilar</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
+                    <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-users"></i></div>
+                    <div class="overflow-hidden">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Jami ishchilar</p>
                         <h4 class="text-xl font-extrabold text-gray-800" id="stat-total">1</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-user-check"></i></div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ishda</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
+                    <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-user-check"></i></div>
+                    <div class="overflow-hidden">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Ishda</p>
                         <h4 class="text-xl font-extrabold text-emerald-600" id="stat-working">0</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-mug-hot"></i></div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Tanaffusda</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
+                    <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-mug-hot"></i></div>
+                    <div class="overflow-hidden">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Tanaffusda</p>
                         <h4 class="text-xl font-extrabold text-amber-600" id="stat-break">0</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shadow-sm"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ketgan</p>
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
+                    <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                    <div class="overflow-hidden">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Ketgan</p>
                         <h4 class="text-xl font-extrabold text-rose-600" id="stat-left">0</h4>
                     </div>
                 </div>
@@ -104,6 +105,7 @@
                 <div class="flex justify-between items-center bg-gray-50 p-3 rounded-xl border border-gray-100">
                     <div class="flex items-center gap-2.5">
                         <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <!-- Real vaqtdagi joriy sana avtomatik turishi uchun input qiymati real vaqtga bog'landi -->
                         <input type="date" id="employee-date-picker" onchange="onDateChange(this.value)" class="bg-transparent text-xs font-bold text-gray-800 focus:outline-none cursor-pointer">
                     </div>
                     <span id="selected-day-name" class="text-[10px] bg-purple-100 text-purple-700 px-2.5 py-1 rounded-lg font-bold">Bugun</span>
@@ -227,9 +229,9 @@
         window.addEventListener('DOMContentLoaded', () => {
             let todayStr = new Date().toISOString().split('T')[0];
             let datePicker = document.getElementById('employee-date-picker');
-            if (datePicker) datePicker.value = todayStr;
+            if (datePicker) datePicker.value = todayStr; // Real vaqtdagi sana avtomatik qo'yildi
             renderAdminDashboard();
-            setInterval(renderAdminDashboard, 2000); // Real vaqt rejimida har 2 sekundda yangilab turadi
+            setInterval(renderAdminDashboard, 2000); 
         });
 
         function updateHourlyRateSetting(val) {
@@ -384,7 +386,6 @@
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
             
-            // Agar localStorage'da hali ma'lumot bo'lmasa, default WORKING holat beramiz
             let status = malikaState && malikaState.status ? malikaState.status : "WORKING";
             let workSec = malikaState && malikaState.workSec ? malikaState.workSec : 0; 
             
