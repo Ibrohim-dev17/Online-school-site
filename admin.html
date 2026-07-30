@@ -17,7 +17,6 @@
     <header class="px-4 pb-4 pt-14 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto rounded-b-2xl">
         <div class="flex items-center gap-3">
             <button onclick="goBack()" id="back-btn" class="text-gray-600 text-xl hidden"><i class="fa-solid fa-arrow-left"></i></button>
-            <button id="menu-btn" class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
                 <h1 id="header-title" class="font-bold text-gray-800 text-base">Admin Panel Pro</h1>
                 <p id="header-subtitle" class="text-xs text-gray-400">Asosiy boshqaruv paneli</p>
@@ -92,12 +91,6 @@
                 <div class="relative w-full">
                     <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
                     <input type="text" id="search-input" oninput="filterEmployees()" placeholder="Ishchini ismi yoki ID si bo'yicha qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-3 rounded-2xl text-sm focus:outline-none focus:border-purple-500 transition shadow-sm">
-                </div>
-                <div class="grid grid-cols-4 gap-1.5 bg-gray-100 p-1.5 rounded-2xl text-center text-xs font-semibold">
-                    <button onclick="setFilter('all')" id="filter-btn-all" class="py-2 rounded-xl bg-white text-purple-600 shadow-sm transition">Barchasi</button>
-                    <button onclick="setFilter('WORKING')" id="filter-btn-WORKING" class="py-2 rounded-xl text-gray-500 transition">Ishda</button>
-                    <button onclick="setFilter('BREAK')" id="filter-btn-BREAK" class="py-2 rounded-xl text-gray-500 transition">Tanaffusda</button>
-                    <button onclick="setFilter('LEFT')" id="filter-btn-LEFT" class="py-2 rounded-xl text-gray-500 transition">Ketgan</button>
                 </div>
             </div>
 
@@ -235,7 +228,6 @@
         let currentTab = 'dashboard';
         let selectedEmployeeId = null;
         let currentPeriod = 'daily'; 
-        let currentFilter = 'all'; 
         let currentChartType = 1; 
 
         if (!localStorage.getItem('chevar_hourly_rate')) {
@@ -269,21 +261,6 @@
             if (selectedEmployeeId) {
                 renderEmployeeDetail();
             }
-        }
-
-        function setFilter(filter) {
-            currentFilter = filter;
-            ['all', 'WORKING', 'BREAK', 'LEFT'].forEach(f => {
-                let btn = document.getElementById(`filter-btn-${f}`);
-                if (btn) {
-                    if (f === filter) {
-                        btn.className = "py-2 rounded-xl bg-white text-purple-600 shadow-sm transition font-bold";
-                    } else {
-                        btn.className = "py-2 rounded-xl text-gray-500 transition";
-                    }
-                }
-            });
-            renderAdminDashboard();
         }
 
         function setChartType(type) {
@@ -324,19 +301,26 @@
             let headerTitle = document.getElementById('header-title');
             let headerSub = document.getElementById('header-subtitle');
             let backBtn = document.getElementById('back-btn');
-            let menuBtn = document.getElementById('menu-btn');
             let headerRight = document.getElementById('header-right-action');
 
             navDash.className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
             navEmp.className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
             navRep.className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
             backBtn.style.display = 'none';
-            menuBtn.style.display = 'block';
 
             dashEl.style.display = 'none';
             empEl.style.display = 'none';
             detailEl.style.display = 'none';
             reportsEl.style.display = 'none';
+
+            // Barcha sahifalarda chat SVG ikonkasi turgandek qilib sozlandi
+            let chatSvgHtml = `
+                <a href="#" class="relative w-12 h-12 bg-gradient-to-tr from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl flex items-center justify-center transition shadow-lg shadow-purple-500/25" title="Chat">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <span class="absolute top-2.5 right-2.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
+                </a>
+            `;
+            headerRight.innerHTML = chatSvgHtml;
 
             if (tab === 'dashboard') {
                 dashEl.style.display = 'block';
@@ -344,49 +328,19 @@
                 navDash.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Admin Panel Pro";
                 headerSub.innerText = "Asosiy boshqaruv paneli";
-                
-                // Dashboard uchun chat belgisi
-                headerRight.innerHTML = `
-                    <a href="#" class="relative w-12 h-12 bg-gradient-to-tr from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl flex items-center justify-center transition shadow-lg shadow-purple-500/25" title="Chat">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        <span class="absolute top-2.5 right-2.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
-                    </a>
-                `;
                 renderAdminDashboard();
             } else if (tab === 'employees') {
                 empEl.style.display = 'block';
                 navEmp.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Ishchilar";
                 headerSub.innerText = "Barcha xodimlar ro'yxati";
-
-                // Ishchilar bo'limi uchun yuqorida Qidiruv (lupa) belgisi
-                headerRight.innerHTML = `
-                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center shadow-sm cursor-pointer" onclick="focusSearchInput()" title="Qidirish">
-                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
-                    </div>
-                `;
                 renderAdminDashboard();
             } else if (tab === 'reports') {
                 reportsEl.style.display = 'block';
                 navRep.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Sozlamalar";
                 headerSub.innerText = "Tizim va vaqt sozlamalari";
-
-                headerRight.innerHTML = `
-                    <a href="#" class="relative w-12 h-12 bg-gradient-to-tr from-purple-600 to-indigo-500 hover:from-purple-700 hover:to-indigo-600 text-white rounded-2xl flex items-center justify-center transition shadow-lg shadow-purple-500/25" title="Chat">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        <span class="absolute top-2.5 right-2.5 w-3 h-3 bg-emerald-400 border-2 border-white rounded-full"></span>
-                    </a>
-                `;
                 document.getElementById('setting-hourly-rate').value = localStorage.getItem('chevar_hourly_rate');
-            }
-        }
-
-        function focusSearchInput() {
-            let input = document.getElementById('search-input');
-            if (input) {
-                input.focus();
-                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
@@ -397,7 +351,6 @@
             document.getElementById('view-employee-detail').style.display = 'block';
 
             document.getElementById('back-btn').style.display = 'block';
-            document.getElementById('menu-btn').style.display = 'none';
             document.getElementById('header-title').innerText = "Ishchi shaxsiy tahlili";
             document.getElementById('header-subtitle').innerText = "Audit va Real-time ma'lumotlar";
 
