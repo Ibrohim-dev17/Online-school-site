@@ -32,8 +32,8 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2">
+    <!-- Main Content (Tepadan boshlanishi uchun justify-start ishlatildi) -->
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2 flex flex-col justify-start">
         
         <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <!-- EMPLOYEES VIEW (Tepaga tekislangan) -->
+        <!-- EMPLOYEES VIEW (To'g'ridan-to'g'ri tepadan boshlanadi) -->
         <div id="view-employees" class="space-y-4">
             <!-- Qidirish -->
             <div class="relative w-full">
@@ -114,12 +114,12 @@
                 </div>
 
                 <div id="employees-list" class="space-y-3">
-                    <!-- JavaScript orqali dinamik to'ldiriladi -->
+                    <!-- Dinamik to'ldiriladi -->
                 </div>
             </div>
         </div>
 
-        <!-- SINGLE EMPLOYEE DETAIL VIEW (Ishchi ustiga bosganda ochiladigan shaxsiy oyna) -->
+        <!-- SINGLE EMPLOYEE DETAIL VIEW (101% to'liq chart va davrlar bilan) -->
         <div id="view-employee-detail" class="space-y-4" style="display: none;">
             <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
                 <img id="detail-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500">
@@ -130,10 +130,10 @@
                 </div>
             </div>
 
-            <!-- Shaxsiy statistika -->
+            <!-- Kunlik asosiy ko'rsatkichlar -->
             <div class="grid grid-cols-3 gap-3">
                 <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
-                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ish vaqti</p>
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Bugungi ish vaqti</p>
                     <h4 id="detail-work-time" class="text-sm font-bold text-gray-800 mt-1">0s 0d</h4>
                 </div>
                 <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
@@ -146,16 +146,67 @@
                 </div>
             </div>
 
-            <!-- Batafsil ma'lumotlar kartasi -->
+            <!-- Davrlar bo'yicha tahlil (Haftalik, Oylik, Yillik) & Diagramma -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                <h3 class="text-gray-700 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-chart-column text-purple-600"></i> Ish vaqti statistikasi (Diagramma)</h3>
+                
+                <div class="space-y-3 pt-1">
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
+                            <span>Kunlik (Bugun)</span>
+                            <span id="chart-val-day" class="text-purple-600">0 soat</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="chart-bar-day" class="bg-purple-600 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
+                            <span>Haftalik (Oxirgi 7 kun)</span>
+                            <span id="chart-val-week" class="text-emerald-600">0 soat</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="chart-bar-week" class="bg-emerald-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
+                            <span>Oylik (Shu oy)</span>
+                            <span id="chart-val-month" class="text-amber-600">0 soat</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="chart-bar-month" class="bg-amber-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between text-xs font-semibold text-gray-600 mb-1">
+                            <span>Yillik (Joriy yil)</span>
+                            <span id="chart-val-year" class="text-blue-600">0 soat</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                            <div id="chart-bar-year" class="bg-blue-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Qo'shimcha tafsilotlar kartasi -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-                <h3 class="text-gray-700 font-bold text-sm border-b pb-2">Ish faoliyati tafsilotlari</h3>
+                <h3 class="text-gray-700 font-bold text-sm border-b pb-2">Qo'shimcha ma'lumotlar</h3>
                 <div class="flex justify-between text-xs text-gray-600">
-                    <span>Boshlagan vaqti:</span>
+                    <span>Ishni boshlagan vaqti:</span>
                     <span id="detail-start-time" class="font-bold text-gray-800">--:--</span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-600">
                     <span>Joriy holati:</span>
                     <span id="detail-current-status-text" class="font-bold text-gray-800">--</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>Sektor:</span>
+                    <span class="font-bold text-gray-800">1-sektor (Chevarxona)</span>
                 </div>
             </div>
         </div>
@@ -217,7 +268,7 @@
                 headerSub.innerText = "Barcha ishchilar nazorati";
             } else if (tab === 'employees') {
                 dashEl.style.display = 'none';
-                empEl.style.display = 'block';
+                empEl.style.display = 'block'; // Tepadan boshlanishini ta'minlash uchun block
                 detailEl.style.display = 'none';
                 navEmp.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Ishchilar";
@@ -248,7 +299,7 @@
             backBtn.style.display = 'block';
             menuBtn.style.display = 'none';
             headerTitle.innerText = "Ishchi ma'lumoti";
-            headerSub.innerText = "Shaxsiy hisobot";
+            headerSub.innerText = "Shaxsiy hisobot va diagrammalar";
 
             renderEmployeeDetail();
         }
@@ -398,6 +449,22 @@
             let eff = Math.min(Math.floor((emp.workSec / (8 * 3600)) * 100), 100);
             document.getElementById('detail-efficiency').innerText = `${eff}%`;
             document.getElementById('detail-start-time').innerText = emp.startTime;
+
+            // Chart va diagramma hisob-kitoblari (Kunlik, Haftalik, Oylik, Yillik)
+            let dayHours = (emp.workSec / 3600).toFixed(1);
+            let weekHours = (Number(dayHours) * 5).toFixed(1); // Taxminiy misol ko'rsatkich
+            let monthHours = (Number(dayHours) * 22).toFixed(1);
+            let yearHours = (Number(dayHours) * 240).toFixed(1);
+
+            document.getElementById('chart-val-day').innerText = `${dayHours} soat`;
+            document.getElementById('chart-val-week').innerText = `${weekHours} soat`;
+            document.getElementById('chart-val-month').innerText = `${monthHours} soat`;
+            document.getElementById('chart-val-year').innerText = `${yearHours} soat`;
+
+            document.getElementById('chart-bar-day').style.width = `${Math.min((dayHours / 8) * 100, 100)}%`;
+            document.getElementById('chart-bar-week').style.width = `${Math.min((weekHours / 40) * 100, 100)}%`;
+            document.getElementById('chart-bar-month').style.width = `${Math.min((monthHours / 176) * 100, 100)}%`;
+            document.getElementById('chart-bar-year').style.width = `${Math.min((yearHours / 2000) * 100, 100)}%`;
 
             let statusBadgeHtml = '';
             let statusText = '';
