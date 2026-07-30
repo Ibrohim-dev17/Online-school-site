@@ -31,13 +31,13 @@
     </header>
 
     <!-- Main Content -->
-    <main class="px-3 pt-2 pb-3 space-y-3 max-w-xl mx-auto w-full flex flex-col justify-start">
+    <main class="px-3 pt-2 pb-3 space-y-2.5 max-w-xl mx-auto w-full flex flex-col justify-start">
         
         <!-- DASHBOARD VIEW -->
-        <div id="view-dashboard" class="space-y-3">
+        <div id="view-dashboard" class="space-y-2.5">
             
-            <!-- Real vaqtdagi sana ko'rsatkich qismi -->
-            <div class="bg-white px-4 py-3 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+            <!-- Real vaqtdagi sana ko'rsatkich qismi (Bo'shliq kamaytirildi) -->
+            <div class="bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm">
                         <i class="fa-regular fa-calendar-days"></i>
@@ -52,44 +52,56 @@
                 </span>
             </div>
 
-            <!-- Filter Tugmalari (Faqat Dashboard bo'limida) -->
-            <div class="flex gap-2 overflow-x-auto pb-1">
-                <button onclick="filterStatus('all')" id="filter-btn-all" class="px-3.5 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Barchasi</button>
-                <button onclick="filterStatus('WORKING')" id="filter-btn-working" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ishda</button>
-                <button onclick="filterStatus('BREAK')" id="filter-btn-break" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Tanaffusda</button>
-                <button onclick="filterStatus('LEFT')" id="filter-btn-left" class="px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ketgan</button>
-            </div>
-
-            <!-- Statistika qutilari -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
-                    <div class="w-11 h-11 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-users"></i></div>
+            <!-- Statistika qutilari (4ta quti) -->
+            <div class="grid grid-cols-2 gap-2.5">
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 h-20">
+                    <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shadow-sm shrink-0"><i class="fa-solid fa-users"></i></div>
                     <div class="overflow-hidden">
                         <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Jami ishchilar</p>
-                        <h4 class="text-xl font-extrabold text-gray-800" id="stat-total">1</h4>
+                        <h4 class="text-lg font-extrabold text-gray-800" id="stat-total">1</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
-                    <div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-user-check"></i></div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 h-20">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base shadow-sm shrink-0"><i class="fa-solid fa-user-check"></i></div>
                     <div class="overflow-hidden">
                         <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Ishda</p>
-                        <h4 class="text-xl font-extrabold text-emerald-600" id="stat-working">0</h4>
+                        <h4 class="text-lg font-extrabold text-emerald-600" id="stat-working">0</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
-                    <div class="w-11 h-11 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-mug-hot"></i></div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 h-20">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-base shadow-sm shrink-0"><i class="fa-solid fa-mug-hot"></i></div>
                     <div class="overflow-hidden">
                         <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Tanaffusda</p>
-                        <h4 class="text-xl font-extrabold text-amber-600" id="stat-break">0</h4>
+                        <h4 class="text-lg font-extrabold text-amber-600" id="stat-break">0</h4>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3.5 h-24">
-                    <div class="w-11 h-11 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center text-lg shadow-sm shrink-0"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
+                <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3 h-20">
+                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-base shadow-sm shrink-0"><i class="fa-solid fa-person-walking-arrow-right"></i></div>
                     <div class="overflow-hidden">
                         <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider truncate">Ketgan</p>
-                        <h4 class="text-xl font-extrabold text-rose-600" id="stat-left">0</h4>
+                        <h4 class="text-lg font-extrabold text-rose-600" id="stat-left">0</h4>
                     </div>
                 </div>
+            </div>
+
+            <!-- 4 ta quti tagida: Qidirish oynasi -->
+            <div class="relative w-full pt-1">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-4 text-gray-400 text-sm"></i>
+                <input type="text" id="dashboard-search-input" oninput="filterEmployees()" placeholder="Ishchini ismi yoki ID si bo'yicha qidirish..." class="w-full bg-white border border-gray-200 pl-10 pr-4 py-2.5 rounded-xl text-xs focus:outline-none focus:border-purple-500 transition shadow-sm">
+            </div>
+
+            <!-- Qidirish oynasining tagida: Filter Tugmalari -->
+            <div class="flex gap-2 overflow-x-auto pb-1 pt-1">
+                <button onclick="filterStatus('all')" id="filter-btn-all" class="px-3 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Barchasi</button>
+                <button onclick="filterStatus('WORKING')" id="filter-btn-working" class="px-3 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ishda</button>
+                <button onclick="filterStatus('BREAK')" id="filter-btn-break" class="px-3 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Tanaffusda</button>
+                <button onclick="filterStatus('LEFT')" id="filter-btn-left" class="px-3 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition">Ketgan</button>
+            </div>
+
+            <!-- Filter va qidiruv ostida: Ishchilar ro'yxati -->
+            <div class="space-y-2 pt-1">
+                <h3 class="text-gray-700 font-bold text-xs uppercase tracking-wider">Ishchilar ro'yxati</h3>
+                <div id="dashboard-employees-list" class="space-y-2.5"></div>
             </div>
         </div>
 
@@ -299,9 +311,9 @@
             ['all', 'WORKING', 'BREAK', 'LEFT'].forEach(s => {
                 let btn = document.getElementById(`filter-btn-${s.toLowerCase()}`);
                 if (s === status) {
-                    btn.className = "px-3.5 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
+                    btn.className = "px-3 py-1.5 bg-purple-600 text-white rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
                 } else {
-                    btn.className = "px-3.5 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
+                    btn.className = "px-3 py-1.5 bg-white text-gray-600 border border-gray-200 rounded-xl text-xs font-semibold whitespace-nowrap shadow-sm transition";
                 }
             });
             renderAdminDashboard();
@@ -461,7 +473,16 @@
 
         function renderAdminDashboard() {
             let emp = getEmployeeData();
-            let searchQuery = document.getElementById('search-input') ? document.getElementById('search-input').value.toLowerCase() : '';
+            
+            // Dashboard qidiruv va Ishchilar bo'limi qidiruvlarini aniqlash
+            let dashSearchInput = document.getElementById('dashboard-search-input');
+            let empSearchInput = document.getElementById('search-input');
+            let searchQuery = '';
+            if (currentTab === 'dashboard' && dashSearchInput) {
+                searchQuery = dashSearchInput.value.toLowerCase();
+            } else if (currentTab === 'employees' && empSearchInput) {
+                searchQuery = empSearchInput.value.toLowerCase();
+            }
 
             let isWorkingCount = (emp.status === 'WORKING') ? 1 : 0;
             let isBreakCount = (emp.status === 'BREAK') ? 1 : 0;
@@ -477,34 +498,49 @@
             if (statBreak) statBreak.innerText = isBreakCount;
             if (statLeft) statLeft.innerText = isLeftCount;
 
-            let listContainer = document.getElementById('employees-list');
-            if (!listContainer) return;
-            listContainer.innerHTML = '';
+            // Ro'yxat elementlarini render qilish (Dashboard va Ishchilar sahifalari uchun)
+            let renderList = (containerId) => {
+                let listContainer = document.getElementById(containerId);
+                if (!listContainer) return;
+                listContainer.innerHTML = '';
 
-            let matchesSearch = emp.name.toLowerCase().includes(searchQuery) || emp.id.includes(searchQuery);
+                let matchesSearch = emp.name.toLowerCase().includes(searchQuery) || emp.id.includes(searchQuery);
+                let matchesStatus = true;
 
-            if (!matchesSearch) {
-                listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Topilmadi</p>`;
-                return;
-            }
+                // Dashboardda status filtri ishlaydi
+                if (containerId === 'dashboard-employees-list' && currentStatusFilter !== 'all') {
+                    if (emp.status !== currentStatusFilter) {
+                        if (!(currentStatusFilter === 'LEFT' && (emp.status === 'FINISHED' || !emp.status))) {
+                            matchesStatus = false;
+                        }
+                    }
+                }
 
-            // Ishchilar bo'limida barcha ishchilar chiqadi (filtr faqat dashboardda ishlaydi)
-            listContainer.innerHTML = `
-                <div onclick="openEmployeeDetail('${emp.id}')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-purple-300 transition">
-                    <div class="flex items-center gap-3">
-                        <img src="${emp.avatar}" class="w-11 h-11 rounded-full object-cover border border-gray-200">
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-sm">${emp.name}</h4>
-                            <p class="text-xs text-gray-400">ID: ${emp.id} &bull; ${emp.role}</p>
-                            <p class="text-[11px] text-amber-600 font-semibold mt-0.5"><i class="fa-solid fa-mug-hot"></i> Tanaffuslar: ${emp.breakCount} marta</p>
+                if (!matchesSearch || !matchesStatus) {
+                    listContainer.innerHTML = `<p class="text-center text-xs text-gray-400 py-4">Topilmadi</p>`;
+                    return;
+                }
+
+                listContainer.innerHTML = `
+                    <div onclick="openEmployeeDetail('${emp.id}')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-purple-300 transition">
+                        <div class="flex items-center gap-3">
+                            <img src="${emp.avatar}" class="w-11 h-11 rounded-full object-cover border border-gray-200">
+                            <div>
+                                <h4 class="font-bold text-gray-800 text-sm">${emp.name}</h4>
+                                <p class="text-xs text-gray-400">ID: ${emp.id} &bull; ${emp.role}</p>
+                                <p class="text-[11px] text-amber-600 font-semibold mt-0.5"><i class="fa-solid fa-mug-hot"></i> Tanaffuslar: ${emp.breakCount} marta</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>
+                            <p class="text-xs font-bold text-gray-700 mt-1">${formatHoursMins(emp.dailySec)}</p>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <span class="${emp.badgeClass} px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-1.5 h-1.5 ${emp.dotClass} rounded-full animate-pulse"></span> ${emp.statusText}</span>
-                        <p class="text-xs font-bold text-gray-700 mt-1">${formatHoursMins(emp.dailySec)}</p>
-                    </div>
-                </div>
-            `;
+                `;
+            };
+
+            renderList('dashboard-employees-list');
+            renderList('employees-list');
         }
 
         function renderEmployeeDetail() {
