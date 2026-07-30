@@ -22,30 +22,25 @@
                 <p class="text-xs text-gray-400">Barcha ishchilar nazorati</p>
             </div>
         </div>
+        <!-- Qo'ng'iroq o'rniga Chat iconi -->
         <div class="flex items-center gap-3">
-            <div class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm cursor-pointer">
-                <i class="fa-regular fa-bell text-lg"></i>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full"></span>
-            </div>
+            <a href="#" class="relative w-10 h-10 bg-purple-50 hover:bg-purple-100 text-purple-600 rounded-full flex items-center justify-center transition shadow-sm" title="Chat">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 0 1-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z"/></svg>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-purple-600 rounded-full"></span>
+            </a>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2">
         
-        <!-- Sana va Filtrlar -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
-            <div class="flex justify-between items-center text-sm font-semibold text-gray-700">
-                <button class="text-gray-400 hover:text-purple-600"><i class="fa-solid fa-chevron-left"></i></button>
-                <span id="admin-current-date" class="text-purple-600 font-bold">20 May, 2024</span>
-                <button class="text-gray-400 hover:text-purple-600"><i class="fa-regular fa-calendar"></i></button>
+        <!-- Sana ko'rsatkich (Kun, hafta, oy olib tashlandi) -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+            <div class="flex items-center gap-2 text-sm font-semibold text-gray-700">
+                <i class="fa-regular fa-calendar text-purple-600"></i>
+                <span id="admin-current-date" class="text-gray-800 font-bold">Yuklanmoqda...</span>
             </div>
-            <div class="grid grid-cols-4 gap-1 bg-gray-50 p-1 rounded-xl text-center text-xs font-semibold">
-                <button class="bg-purple-600 text-white py-2 rounded-lg shadow-sm">Kunlik</button>
-                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Haftalik</button>
-                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Oylik</button>
-                <button class="text-gray-500 py-2 hover:bg-white rounded-lg transition">Yillik</button>
-            </div>
+            <span class="text-xs bg-purple-50 text-purple-600 px-2.5 py-1 rounded-lg font-semibold">Jonli kuzatuv</span>
         </div>
 
         <!-- Statistika Karta Grid -->
@@ -143,7 +138,11 @@
     </nav>
 
     <script>
-        // Sinov uchun bazadagi xodimlar bazasi (Agar localStorage bo'sh bo'lsa shular chiqadi)
+        // Hozirgi sanani chiqarish
+        const now = new Date();
+        document.getElementById('admin-current-date').innerText = now.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        // Standart ishchilar bazasi
         let defaultEmployees = [
             { id: "1025", name: "Malika Abdullayeva", sector: "1-sektor", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100", status: "WORKING", startTime: "09:02", breakCount: 1, workSec: 19584 },
             { id: "1026", name: "Ziyodulla To'xtayev", sector: "2-sektor", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100", status: "BREAK", startTime: "11:45", breakCount: 1, workSec: 15120 },
@@ -151,7 +150,7 @@
             { id: "1028", name: "Shahnoza Karimova", sector: "3-sektor", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100", status: "FINISHED", startTime: "09:05", breakCount: 1, workSec: 27000 }
         ];
 
-        // Asosiy ilovadan (index.html) Malikaning real ma'lumotlarini o'qib olish
+        // Asosiy sahifadagi (index.html) real vaqt ma'lumotlarini o'qib olish
         function getEmployeesData() {
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
@@ -189,14 +188,13 @@
 
         function formatHoursMins(s) {
             let h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60);
-            return `${h}:${m < 10 ? '0' : ''}${m}`;
+            return `${h}s ${m}d`;
         }
 
         function renderAdminDashboard() {
             let employees = getEmployeesData();
             let searchQuery = document.getElementById('search-input').value.toLowerCase();
 
-            // Statistikani hisoblash
             let total = employees.length;
             let working = employees.filter(e => e.status === 'WORKING').length;
             let breakCount = employees.filter(e => e.status === 'BREAK').length;
@@ -207,12 +205,10 @@
             document.getElementById('stat-break').innerText = breakCount;
             document.getElementById('stat-finished').innerText = finished;
 
-            // Umumiy progress
             let avgEff = Math.round(employees.reduce((acc, e) => acc + Math.min(Math.floor((e.workSec / (8 * 3600)) * 100), 100), 0) / total);
             document.getElementById('overall-efficiency').innerText = `${avgEff}%`;
             document.getElementById('overall-progress-bar').style.width = `${avgEff}%`;
 
-            // Filtr va Qidiruv
             let filtered = employees.filter(e => {
                 let matchesSearch = e.name.toLowerCase().includes(searchQuery) || e.id.includes(searchQuery);
                 if (currentStatusFilter === 'ALL') return matchesSearch;
@@ -236,10 +232,10 @@
                 let timeFormatted = formatHoursMins(emp.workSec);
 
                 if (emp.status === 'WORKING') {
-                    statusBadge = `<span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> Ishda</span>`;
+                    statusBadge = `<span class="bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span> Ishda</span>`;
                     timeInfo = `${emp.startTime} dan beri`;
                 } else if (emp.status === 'BREAK') {
-                    statusBadge = `<span class="bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Tanaffusda</span>`;
+                    statusBadge = `<span class="bg-amber-50 text-amber-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-amber-500 rounded-full animate-pulse"></span> Tanaffusda</span>`;
                     timeInfo = `Dam olishda`;
                 } else {
                     statusBadge = `<span class="bg-rose-50 text-rose-600 px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-rose-500 rounded-full"></span> Ketgan</span>`;
@@ -270,11 +266,10 @@
             renderAdminDashboard();
         }
 
-        // Sahifa ochilganda yuklash
         renderAdminDashboard();
         
-        // Har 3 sekundda ma'lumotlarni yangilab turish (Jonli kuzatish uchun)
-        setInterval(renderAdminDashboard, 3000);
+        // Har 1 sekundda asosiy sahifadagi o'zgarishlarni real vaqtda yangilab turish
+        setInterval(renderAdminDashboard, 1000);
     </script>
 </body>
 </html>
