@@ -11,9 +11,9 @@
         .tab-content.active { display: block; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans max-w-md mx-auto min-h-screen relative pb-20 shadow-xl">
+<body class="bg-gray-100 font-sans max-w-md mx-auto min-h-screen relative pb-24 shadow-xl">
 
-    <!-- ASOSIY SAHIFA (Tab 1) -->
+    <!-- ASOSIY SAHIFA -->
     <div id="tab-asosiy" class="tab-content active p-4">
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
@@ -22,41 +22,46 @@
                 <p class="text-xs text-gray-500">Bugun ham samarali kun bo'lsin</p>
             </div>
             <div class="flex items-center gap-2">
-                <span class="bg-purple-100 text-purple-700 text-xs px-2.5 py-1 rounded-full font-medium" id="current-date">20 May, 2024</span>
+                <span class="bg-purple-100 text-purple-700 text-xs px-2.5 py-1 rounded-full font-medium" id="header-date">20 May, 2024</span>
                 <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border-2 border-purple-500">
             </div>
         </div>
 
-        <!-- Status Card -->
-        <div class="bg-purple-50 border border-purple-200 rounded-2xl p-4 mb-4 relative overflow-hidden">
-            <div class="flex justify-between items-start">
+        <!-- Joriy holat kartochkasi -->
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-4 mb-4 shadow-sm">
+            <div class="flex justify-between items-center">
                 <div>
-                    <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">Joriy holat</span>
-                    <h2 class="text-xl font-extrabold text-gray-900 mt-1" id="status-title">Ishda</h2>
+                    <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 uppercase tracking-wider mb-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Joriy holat
+                    </div>
+                    <h2 class="text-xl font-extrabold text-gray-900" id="status-title">Ishda</h2>
                     <p class="text-xs text-gray-600 mt-0.5" id="status-time">09:02 da ishga kelgansiz</p>
                 </div>
-                <div class="text-3xl">🪡</div>
+                <!-- Rasmdagi tikuv mashinasi SVG iconi -->
+                <div class="bg-white p-3 rounded-2xl shadow-sm text-emerald-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 5H9L8 4zM4 19h16a1 1 0 001-1v-2a1 1 0 00-1-1H4a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                </div>
             </div>
         </div>
 
-        <!-- Tezkor amallar -->
+        <!-- Tezkor amallar (Barcha tugmalar ishlaydi) -->
         <div class="mb-5">
             <h3 class="text-sm font-bold text-gray-700 mb-3">Tezkor amallar</h3>
             <div class="grid grid-cols-2 gap-3">
-                <button onclick="changeStatus('Ishda', '09:02 da ishga kelgansiz')" class="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
-                    <i class="fa-solid fa-play text-lg mb-1"></i>
+                <button onclick="handleAction('Ishda', 'Ishga keldi')" class="bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span class="text-xs font-bold">Ishga keldim</span>
                 </button>
-                <button onclick="changeStatus('Tanaffusda', '1 saat 30 daqiqa tanaffus')" class="bg-amber-500 hover:bg-amber-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
-                    <i class="fa-solid fa-mug-hot text-lg mb-1"></i>
+                <button onclick="handleAction('Tanaffusda', 'Tanaffusga chiqdi')" class="bg-amber-500 hover:bg-amber-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span class="text-xs font-bold">Tanaffusga chiqdim</span>
                 </button>
-                <button onclick="changeStatus('Ishda (Qaytgan)', 'Tanaffusdan qaytdingiz')" class="bg-blue-500 hover:bg-blue-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
-                    <i class="fa-solid fa-rotate-right text-lg mb-1"></i>
+                <button onclick="handleAction('Ishda', 'Tanaffusdan qaytdi')" class="bg-blue-500 hover:bg-blue-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     <span class="text-xs font-bold">Tanaffusdan qaytdim</span>
                 </button>
-                <button onclick="changeStatus('Tugatildi', 'Ish yakunlandi')" class="bg-rose-500 hover:bg-rose-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
-                    <i class="fa-solid fa-stop text-lg mb-1"></i>
+                <button onclick="handleAction('Tugatildi', 'Ishni tugatdi')" class="bg-rose-500 hover:bg-rose-600 text-white p-3.5 rounded-2xl flex flex-col items-center justify-center shadow-md transition active:scale-95">
+                    <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
                     <span class="text-xs font-bold">Ishni tugatdim</span>
                 </button>
             </div>
@@ -66,90 +71,61 @@
         <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
             <div class="flex justify-between items-center mb-3">
                 <h3 class="text-sm font-bold text-gray-700">Bugungi ko'rsatkichlar</h3>
-                <span class="text-emerald-500 text-xs font-bold bg-emerald-50 px-2 py-0.5 rounded-full"><i class="fa-solid fa-circle text-[8px]"></i> Jonli</span>
+                <span class="text-emerald-500 text-xs font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-circle text-[6px]"></i> Jonli</span>
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div class="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                        <i class="fa-regular fa-clock"></i> Ish vaqti
-                    </div>
-                    <div class="text-base font-extrabold text-gray-800">5 soat 28 daqiqa</div>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs mb-1"><i class="fa-regular fa-clock"></i> Ish vaqti</div>
+                    <div class="text-base font-extrabold text-gray-800" id="stat-work-time">5 soat 28 daqiqa</div>
                 </div>
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div class="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                        <i class="fa-solid fa-mug-saucer"></i> Tanaffuslar
-                    </div>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs mb-1"><i class="fa-solid fa-mug-saucer"></i> Tanaffuslar</div>
                     <div class="text-base font-extrabold text-gray-800">1 marta</div>
                 </div>
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div class="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                        <i class="fa-solid fa-stopwatch"></i> Tanaffus vaqti
-                    </div>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs mb-1"><i class="fa-solid fa-stopwatch"></i> Tanaffus vaqti</div>
                     <div class="text-base font-extrabold text-gray-800">1 soat 13 daqiqa</div>
                 </div>
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-100">
-                    <div class="flex items-center gap-2 text-gray-500 text-xs mb-1">
-                        <i class="fa-solid fa-chart-line"></i> Reja bajarilishi
-                    </div>
+                    <div class="flex items-center gap-2 text-gray-400 text-xs mb-1"><i class="fa-solid fa-chart-line"></i> Reja bajarilishi</div>
                     <div class="text-base font-extrabold text-purple-600">78%</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MENING TARIXIM (Tab 2) -->
+    <!-- MENING TARIXIM -->
     <div id="tab-tarix" class="tab-content p-4">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Mening tarixim</h2>
-        <div class="flex gap-2 bg-gray-200 p-1 rounded-xl mb-4 text-xs font-semibold text-gray-600 text-center">
+        <div class="flex gap-1 bg-gray-200 p-1 rounded-xl mb-4 text-xs font-semibold text-gray-600 text-center">
             <div class="flex-1 bg-white py-2 rounded-lg shadow-sm text-purple-700">Kunlik</div>
             <div class="flex-1 py-2">Haftalik</div>
             <div class="flex-1 py-2">Oylik</div>
             <div class="flex-1 py-2">Yillik</div>
         </div>
-        
-        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 flex justify-between items-center">
-            <span class="text-xs font-bold text-gray-600">20 May, 2024</span>
-            <i class="fa-regular fa-calendar text-purple-600"></i>
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 flex justify-between items-center text-sm font-bold text-gray-700">
+            <span id="history-date">20 May, 2024</span>
+            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
-
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400">Ish vaqti</p>
-                <p class="text-lg font-extrabold text-gray-800 mt-1">7 soat 24 daqiqa</p>
-            </div>
-            <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100">
-                <p class="text-xs text-gray-400">Tanaffuslar</p>
-                <p class="text-lg font-extrabold text-gray-800 mt-1">2 marta</p>
-            </div>
-        </div>
-
         <div class="bg-white p-4 rounded-2xl shadow-sm">
-            <h3 class="text-sm font-bold text-gray-700 mb-3">Ish jarayoni</h3>
-            <div class="space-y-3 text-xs">
+            <h3 class="text-sm font-bold text-gray-700 mb-3">Bugungi tafsilotlar</h3>
+            <div class="space-y-3 text-xs" id="history-log-list">
                 <div class="flex items-center gap-3"><span class="text-emerald-500 font-bold">09:01</span> <span class="text-gray-600">Ishga keldi</span></div>
-                <div class="flex items-center gap-3"><span class="text-amber-500 font-bold">11:58</span> <span class="text-gray-600">Tanaffusga chiqdi</span></div>
-                <div class="flex items-center gap-3"><span class="text-blue-500 font-bold">12:17</span> <span class="text-gray-600">Tanaffusdan qaytdi</span></div>
-                <div class="flex items-center gap-3"><span class="text-rose-500 font-bold">18:05</span> <span class="text-gray-600">Ishni tugatdi</span></div>
             </div>
         </div>
     </div>
 
-    <!-- STATISTIKA (Tab 3) -->
+    <!-- STATISTIKA -->
     <div id="tab-statistika" class="tab-content p-4">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">Statistika va Samaradorlik</h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Statistika</h2>
         <div class="bg-purple-600 text-white p-5 rounded-2xl shadow-lg mb-4">
             <p class="text-xs text-purple-200">Oylik umumiy samaradorlik</p>
             <h3 class="text-3xl font-extrabold mt-1">96%</h3>
-            <p class="text-xs text-purple-100 mt-2">Ajoyib natija! O'tgan oydagiga qaraganda +4% yuqori.</p>
-        </div>
-        <div class="bg-white p-4 rounded-2xl shadow-sm space-y-3">
-            <div class="flex justify-between text-sm"><span class="text-gray-500">O'rtacha ish vaqti:</span> <span class="font-bold">7.4 soat</span></div>
-            <div class="flex justify-between text-sm"><span class="text-gray-500">Qolgan kunlar:</span> <span class="font-bold">22 kun</span></div>
-            <div class="flex justify-between text-sm"><span class="text-gray-500">Kechikishlar:</span> <span class="font-bold text-rose-500">1 marta</span></div>
+            <p class="text-xs text-purple-100 mt-2">Ajoyib natija! O'tgan oydagiga qaraganda yuqori.</p>
         </div>
     </div>
 
-    <!-- SOZLAMALAR (Tab 4) -->
+    <!-- SOZLAMALAR / PROFIL -->
     <div id="tab-sozlamalar" class="tab-content p-4">
         <h2 class="text-lg font-bold text-gray-800 mb-4">Mening profilim</h2>
         <div class="bg-white p-4 rounded-2xl shadow-sm flex items-center gap-4 mb-4">
@@ -160,40 +136,48 @@
                 <span class="inline-block bg-emerald-100 text-emerald-600 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1">Faol</span>
             </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm overflow-hidden text-sm">
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden text-sm font-medium">
             <a href="admin.html" class="flex justify-between items-center p-4 border-b border-gray-100 text-purple-600 font-bold">
                 <span><i class="fa-solid fa-user-shield mr-2"></i> Admin panelga o'tish</span>
                 <i class="fa-solid fa-chevron-right text-xs"></i>
             </a>
-            <div class="flex justify-between items-center p-4 border-b border-gray-100 text-gray-700">
-                <span>Bildirishnomalar</span> <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            </div>
-            <div class="flex justify-between items-center p-4 border-b border-gray-100 text-gray-700">
-                <span>Yordam</span> <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            </div>
-            <div class="flex justify-between items-center p-4 text-gray-700">
-                <span>Ilova haqida</span> <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
-            </div>
+            <div class="p-4 border-b border-gray-100 text-gray-700">Bildirishnomalar</div>
+            <div class="p-4 border-b border-gray-100 text-gray-700">Yordam</div>
+            <div class="p-4 text-gray-700">Ilova haqida</div>
         </div>
     </div>
 
-    <!-- Pastki Navigatsiya Paneli -->
+    <!-- Pastki Navigatsiya -->
     <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white border-t border-gray-200 flex justify-around py-3 px-2 shadow-lg">
         <button onclick="switchTab('asosiy', this)" class="nav-btn text-purple-600 flex flex-col items-center text-xs font-semibold">
-            <i class="fa-solid fa-house text-lg"></i> Asosiy
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            Asosiy
         </button>
         <button onclick="switchTab('tarix', this)" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold">
-            <i class="fa-solid fa-clock-rotate-left text-lg"></i> Mening tarixim
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Mening tarixim
         </button>
         <button onclick="switchTab('statistika', this)" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold">
-            <i class="fa-solid fa-chart-pie text-lg"></i> Statistika
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            Statistika
         </button>
         <button onclick="switchTab('sozlamalar', this)" class="nav-btn text-gray-400 flex flex-col items-center text-xs font-semibold">
-            <i class="fa-solid fa-gear text-lg"></i> Sozlamalar
+            <svg class="w-6 h-6 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+            Sozlamalar
         </button>
     </div>
 
     <script>
+        // Hozirgi sana va real vaqtni chiqarish
+        function updateDateTime() {
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const dateStr = now.toLocaleDateString('uz-UZ', options);
+            document.getElementById('header-date').innerText = dateStr;
+            document.getElementById('history-date').innerText = dateStr;
+        }
+        updateDateTime();
+
         function switchTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
@@ -206,21 +190,31 @@
             btn.classList.add('text-purple-600');
         }
 
-        function changeStatus(status, desc) {
-            document.getElementById('status-title').innerText = status;
-            document.getElementById('status-time').innerText = desc;
+        // Tugmalar bosilganda real soatni olish va Adminga uzatish
+        function handleAction(status, actionText) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             
-            // Holatni localStorage ga yozamiz (admin.html ko'rishi uchun)
+            document.getElementById('status-title').innerText = status;
+            document.getElementById('status-time').innerText = `${timeString} da ${actionText.toLowerCase()}`;
+
+            // LocalStorage ga yozish (Admin panel o'qib olishi uchun)
             const employeeData = {
                 name: "Malika Abdullayeva",
                 id: "1025",
                 sector: "1-sektor",
                 status: status,
-                time: desc,
+                time: `${timeString} dan beri`,
+                actionLog: `${timeString} - ${actionText}`,
                 efficiency: "78%"
             };
+            
+            let logs = JSON.parse(localStorage.getItem("employeeLogs")) || [];
+            logs.unshift(employeeData);
+            localStorage.setItem("employeeLogs", JSON.stringify(logs));
             localStorage.setItem("malikaStatus", JSON.stringify(employeeData));
-            alert("Holat muvaffaqiyatli yangilandi va Adminga yuborildi!");
+
+            alert(`Muvaffaqiyatli saqlandi! Vaqt: ${timeString}`);
         }
     </script>
 </body>
