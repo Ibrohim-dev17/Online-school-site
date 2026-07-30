@@ -16,7 +16,8 @@
     <!-- Admin Header -->
     <header class="px-4 pb-4 pt-14 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full max-w-xl mx-auto rounded-b-2xl">
         <div class="flex items-center gap-3">
-            <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
+            <button onclick="goBack()" id="back-btn" class="text-gray-600 text-xl hidden"><i class="fa-solid fa-arrow-left"></i></button>
+            <button id="menu-btn" class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
                 <h1 id="header-title" class="font-bold text-gray-800 text-base">Admin panel</h1>
                 <p id="header-subtitle" class="text-xs text-gray-400">Barcha ishchilar nazorati</p>
@@ -34,7 +35,7 @@
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2">
         
-        <!-- DASHBOARD VIEW (Faqat Dashboard tanlanganda ko'rinadi) -->
+        <!-- DASHBOARD VIEW -->
         <div id="view-dashboard" class="space-y-4">
             <!-- Sana -->
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
@@ -89,7 +90,7 @@
             </div>
         </div>
 
-        <!-- EMPLOYEES VIEW / MAIN LIST (Dashboard va Ishchilar oynasida umumiy ishlaydi) -->
+        <!-- EMPLOYEES VIEW (Tepaga tekislangan) -->
         <div id="view-employees" class="space-y-4">
             <!-- Qidirish -->
             <div class="relative w-full">
@@ -114,6 +115,47 @@
 
                 <div id="employees-list" class="space-y-3">
                     <!-- JavaScript orqali dinamik to'ldiriladi -->
+                </div>
+            </div>
+        </div>
+
+        <!-- SINGLE EMPLOYEE DETAIL VIEW (Ishchi ustiga bosganda ochiladigan shaxsiy oyna) -->
+        <div id="view-employee-detail" class="space-y-4" style="display: none;">
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
+                <img id="detail-avatar" src="" class="w-16 h-16 rounded-full object-cover border-2 border-purple-500">
+                <div>
+                    <h2 id="detail-name" class="font-bold text-gray-800 text-base"></h2>
+                    <p class="text-xs text-gray-400">ID: <span id="detail-id"></span> &bull; <span id="detail-sector"></span></p>
+                    <div id="detail-status-badge" class="mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Shaxsiy statistika -->
+            <div class="grid grid-cols-3 gap-3">
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Ish vaqti</p>
+                    <h4 id="detail-work-time" class="text-sm font-bold text-gray-800 mt-1">0s 0d</h4>
+                </div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Tanaffuslar</p>
+                    <h4 id="detail-break-count" class="text-sm font-bold text-amber-600 mt-1">0 ta</h4>
+                </div>
+                <div class="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase font-semibold">Samaradorlik</p>
+                    <h4 id="detail-efficiency" class="text-sm font-bold text-purple-600 mt-1">0%</h4>
+                </div>
+            </div>
+
+            <!-- Batafsil ma'lumotlar kartasi -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
+                <h3 class="text-gray-700 font-bold text-sm border-b pb-2">Ish faoliyati tafsilotlari</h3>
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>Boshlagan vaqti:</span>
+                    <span id="detail-start-time" class="font-bold text-gray-800">--:--</span>
+                </div>
+                <div class="flex justify-between text-xs text-gray-600">
+                    <span>Joriy holati:</span>
+                    <span id="detail-current-status-text" class="font-bold text-gray-800">--</span>
                 </div>
             </div>
         </div>
@@ -144,42 +186,79 @@
         const now = new Date();
         document.getElementById('admin-current-date').innerText = now.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long', year: 'numeric' });
 
-        let currentTab = 'dashboard'; // Boshlang'ich oyna - Dashboard
+        let currentTab = 'dashboard';
+        let selectedEmployeeId = null;
 
         function switchTab(tab) {
             currentTab = tab;
+            selectedEmployeeId = null;
+            
             let dashEl = document.getElementById('view-dashboard');
             let empEl = document.getElementById('view-employees');
+            let detailEl = document.getElementById('view-employee-detail');
             let navDash = document.getElementById('nav-dashboard');
             let navEmp = document.getElementById('nav-employees');
             let headerTitle = document.getElementById('header-title');
             let headerSub = document.getElementById('header-subtitle');
+            let backBtn = document.getElementById('back-btn');
+            let menuBtn = document.getElementById('menu-btn');
 
-            // Tugmalar rangini o'zgartirish
             navDash.className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
             navEmp.className = "flex flex-col items-center text-gray-400 hover:text-purple-600 focus:outline-none";
+            backBtn.style.display = 'none';
+            menuBtn.style.display = 'block';
 
             if (tab === 'dashboard') {
                 dashEl.style.display = 'block';
-                empEl.style.display = 'block'; // Dashboardda ham ishchilar ro'yxati ko'rinib turadi
+                empEl.style.display = 'block';
+                detailEl.style.display = 'none';
                 navDash.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Admin panel";
                 headerSub.innerText = "Barcha ishchilar nazorati";
             } else if (tab === 'employees') {
-                dashEl.style.display = 'none'; // Statistika va sanani yashirish
-                empEl.style.display = 'block'; // Faqat ishchilar oynasi
+                dashEl.style.display = 'none';
+                empEl.style.display = 'block';
+                detailEl.style.display = 'none';
                 navEmp.className = "flex flex-col items-center text-purple-600 focus:outline-none font-semibold";
                 headerTitle.innerText = "Ishchilar";
                 headerSub.innerText = "Ro'yxat va qidiruv";
             } else {
                 dashEl.style.display = 'none';
                 empEl.style.display = 'none';
+                detailEl.style.display = 'none';
                 headerTitle.innerText = tab.charAt(0).toUpperCase() + tab.slice(1);
                 headerSub.innerText = "Tez kunda...";
             }
         }
 
-        // Faqat bitta real ishchi (Siz) ma'lumotlarini o'qish
+        function openEmployeeDetail(id) {
+            selectedEmployeeId = id;
+            let dashEl = document.getElementById('view-dashboard');
+            let empEl = document.getElementById('view-employees');
+            let detailEl = document.getElementById('view-employee-detail');
+            let headerTitle = document.getElementById('header-title');
+            let headerSub = document.getElementById('header-subtitle');
+            let backBtn = document.getElementById('back-btn');
+            let menuBtn = document.getElementById('menu-btn');
+
+            dashEl.style.display = 'none';
+            empEl.style.display = 'none';
+            detailEl.style.display = 'block';
+
+            backBtn.style.display = 'block';
+            menuBtn.style.display = 'none';
+            headerTitle.innerText = "Ishchi ma'lumoti";
+            headerSub.innerText = "Shaxsiy hisobot";
+
+            renderEmployeeDetail();
+        }
+
+        function goBack() {
+            if (selectedEmployeeId) {
+                switchTab('employees');
+            }
+        }
+
         function getEmployeesData() {
             let malikaState = JSON.parse(localStorage.getItem('malika_state'));
             let malikaProfile = JSON.parse(localStorage.getItem('malika_profile'));
@@ -264,7 +343,6 @@
             filtered.forEach(emp => {
                 let statusBadge = '';
                 let timeInfo = '';
-                
                 let timeFormatted = formatHoursMins(emp.workSec);
 
                 if (emp.status === 'WORKING') {
@@ -282,7 +360,7 @@
                 }
 
                 let itemHTML = `
-                    <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between">
+                    <div onclick="openEmployeeDetail('${emp.id}')" class="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between cursor-pointer hover:border-purple-300 transition">
                         <div class="flex items-center gap-3">
                             <img src="${emp.avatar}" class="w-11 h-11 rounded-full object-cover border border-gray-200">
                             <div>
@@ -299,6 +377,46 @@
                 `;
                 listContainer.innerHTML += itemHTML;
             });
+
+            if (selectedEmployeeId) {
+                renderEmployeeDetail();
+            }
+        }
+
+        function renderEmployeeDetail() {
+            let employees = getEmployeesData();
+            let emp = employees.find(e => e.id === selectedEmployeeId);
+            if (!emp) return;
+
+            document.getElementById('detail-avatar').src = emp.avatar;
+            document.getElementById('detail-name').innerText = emp.name;
+            document.getElementById('detail-id').innerText = emp.id;
+            document.getElementById('detail-sector').innerText = emp.sector;
+            document.getElementById('detail-work-time').innerText = formatHoursMins(emp.workSec);
+            document.getElementById('detail-break-count').innerText = `${emp.breakCount} ta`;
+            
+            let eff = Math.min(Math.floor((emp.workSec / (8 * 3600)) * 100), 100);
+            document.getElementById('detail-efficiency').innerText = `${eff}%`;
+            document.getElementById('detail-start-time').innerText = emp.startTime;
+
+            let statusBadgeHtml = '';
+            let statusText = '';
+            if (emp.status === 'WORKING') {
+                statusBadgeHtml = `<span class="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Ishda</span>`;
+                statusText = "Ish jarayonida";
+            } else if (emp.status === 'BREAK') {
+                statusBadgeHtml = `<span class="bg-amber-50 text-amber-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span> Tanaffusda</span>`;
+                statusText = "Dam olishda";
+            } else if (emp.status === 'FINISHED') {
+                statusBadgeHtml = `<span class="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-rose-500 rounded-full"></span> Kun yakunlangan</span>`;
+                statusText = "Ishni yakunlagan";
+            } else {
+                statusBadgeHtml = `<span class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5"><span class="w-2 h-2 bg-gray-400 rounded-full"></span> Boshlanmagan</span>`;
+                statusText = "Hali ishni boshlamagan";
+            }
+
+            document.getElementById('detail-status-badge').innerHTML = statusBadgeHtml;
+            document.getElementById('detail-current-status-text').innerText = statusText;
         }
 
         function filterEmployees() {
