@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chevarxona Pro - Jamoa Statistikasi</title>
+    <title>Chevarxona Pro - Jamoa Reytingi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,134 +13,157 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header -->
-    <header class="p-4 mt-4 bg-white shadow-sm flex justify-between items-center sticky top-0 z-40">
-        <h1 class="font-bold text-gray-800 text-base">Jamoa Reytingi va Statistika</h1>
-        <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg">Bugungi kun</span>
+    <!-- Top Header ("Jamoa Reytingi va Statistika" yozuvi biroz pastroqqa tushirildi: mt-6, pt-4) -->
+    <header class="px-4 pt-4 pb-3 mt-6 bg-white shadow-sm flex justify-between items-center sticky top-0 z-40">
+        <h1 class="font-bold text-gray-800 text-base">Jamoa Reytingi va Musobaqa</h1>
+        <span class="text-xs text-purple-600 font-semibold bg-purple-50 px-2.5 py-1 rounded-lg" id="header-date">Bugun</span>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
         
-        <!-- Umumiy jamoa ko'rsatkichlari -->
+        <!-- Umumiy jamoa ko'rsatkichlari (Dinamik) -->
         <div class="grid grid-cols-2 gap-3">
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                 <div class="text-purple-600 mb-2"><i class="fa-solid fa-users text-lg"></i></div>
                 <p class="text-xs text-gray-400">Faol xodimlar</p>
-                <h4 class="text-base font-bold text-gray-800">12 nafar</h4>
+                <h4 class="text-base font-bold text-gray-800" id="stat-active-workers">1 nafar</h4>
             </div>
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                 <div class="text-emerald-600 mb-2"><i class="fa-solid fa-chart-line text-lg"></i></div>
-                <p class="text-xs text-gray-400">Jamoa o'rtacha samaradorligi</p>
-                <h4 class="text-base font-bold text-emerald-600">92%</h4>
+                <p class="text-xs text-gray-400">Jamoa samaradorligi</p>
+                <h4 class="text-base font-bold text-emerald-600" id="stat-team-eff">0%</h4>
             </div>
         </div>
 
-        <!-- Peshqadamlar va solishtiruv bo'limi -->
+        <!-- Peshqadamlar va Musobaqa Bloki -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
             <div class="flex justify-between items-center">
-                <h3 class="font-bold text-gray-700 text-sm">Bugungi eng yaxshi chevarlar</h3>
-                <span class="text-xs text-purple-600 font-semibold">Top reyting</span>
+                <h3 class="font-bold text-gray-700 text-sm">Peshqadamlar jadvali</h3>
+                <span class="text-xs text-purple-600 font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-fire text-amber-500"></i> Jonli musobaqa
+                </span>
             </div>
 
-            <!-- Xodimlar reytingi ro'yxati -->
-            <div class="space-y-2.5" id="ranking-list">
-                <!-- 1-o'rin -->
-                <div class="flex items-center justify-between p-3 bg-amber-50/50 border border-amber-100 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-amber-400 text-white font-bold text-xs flex items-center justify-center shadow-sm">1</span>
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-xs">Zarnigor Karimova</h4>
-                            <p class="text-[10px] text-gray-400">Ish vaqti: 8 soat 10 daqiqa</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs font-bold text-emerald-600">98%</span>
-                        <p class="text-[9px] text-gray-400">Samaradorlik</p>
-                    </div>
-                </div>
-
-                <!-- 2-o'rin -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-100 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-gray-300 text-white font-bold text-xs flex items-center justify-center shadow-sm">2</span>
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-xs">Dilfuza Sobirova</h4>
-                            <p class="text-[10px] text-gray-400">Ish vaqti: 7 soat 50 daqiqa</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs font-bold text-emerald-600">95%</span>
-                        <p class="text-[9px] text-gray-400">Samaradorlik</p>
-                    </div>
-                </div>
-
-                <!-- 3-o'rin (Siz yoki boshqa xodim - Malika Abdullayeva) -->
-                <div class="flex items-center justify-between p-3 bg-purple-50/70 border border-purple-200 rounded-xl shadow-xs ring-1 ring-purple-400">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shadow-sm">3</span>
-                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="w-10 h-10 rounded-full object-cover border border-purple-400">
-                        <div>
-                            <h4 class="font-bold text-purple-900 text-xs">Malika Abdullayeva (Siz)</h4>
-                            <p class="text-[10px] text-purple-600" id="my-work-stat">Ish vaqti: 7 soat 24 daqiqa</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs font-bold text-purple-700" id="my-eff-stat">94%</span>
-                        <p class="text-[9px] text-purple-500">Samaradorlik</p>
-                    </div>
-                </div>
-
-                <!-- 4-o'rin -->
-                <div class="flex items-center justify-between p-3 bg-gray-50 border border-gray-100 rounded-xl">
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-full bg-gray-200 text-gray-600 font-bold text-xs flex items-center justify-center">4</span>
-                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <h4 class="font-bold text-gray-800 text-xs">Gulnora Tursunova</h4>
-                            <p class="text-[10px] text-gray-400">Ish vaqti: 6 soat 45 daqiqa</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-xs font-bold text-emerald-600">89%</span>
-                        <p class="text-[9px] text-gray-400">Samaradorlik</p>
-                    </div>
-                </div>
+            <!-- Dinamik xodimlar ro'yxati (Faqat mavjud ishchilar chiqadi) -->
+            <div class="space-y-2.5" id="dynamic-ranking-list">
+                <!-- JavaScript orqali to'ldiriladi -->
             </div>
         </div>
 
-        <!-- Rag'batlantirish Bloki -->
+        <!-- Musobaqa Rag'batlantirish Bloki -->
         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex items-center justify-between shadow-sm">
             <div class="space-y-1">
-                <h4 class="font-bold text-sm">Top 3 talikdasiz!</h4>
-                <p class="text-xs text-purple-100">Kun yakunigacha 1-o'ringa chiqishga oz qoldi.</p>
+                <h4 class="font-bold text-sm" id="motivation-title">Musobaqaga qo'shildingiz!</h4>
+                <p class="text-xs text-purple-100" id="motivation-desc">Ish vaqtini ko'paytirib 1-o'rinni egallang!</p>
             </div>
-            <i class="fa-solid fa-trophy text-2xl text-amber-300"></i>
+            <i class="fa-solid fa-trophy text-2xl text-amber-300 animate-bounce"></i>
         </div>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around py-3 px-2 z-50">
-        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-xs mt-1">Asosiy</span></a>
-        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-xs mt-1">Mening tarixim</span></a>
-        <a href="statistika.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-xs mt-1 font-medium">Statistika</span></a>
-        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-xs mt-1">Sozlamalar</span></a>
+        <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] mt-1">Asosiy</span></a>
+        <a href="tarix.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-user-gear text-lg"></i><span class="text-[10px] mt-1">Mening tarixim</span></a>
+        <a href="statistika.html" class="flex flex-col items-center text-purple-600"><i class="fa-solid fa-chart-simple text-lg"></i><span class="text-[10px] mt-1 font-medium">Statistika</span></a>
+        <a href="profil.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><i class="fa-solid fa-gear text-lg"></i><span class="text-[10px] mt-1">Sozlamalar</span></a>
     </nav>
 
     <script>
-        // Real vaqtda localStorage dagi o'zingizning ma'lumotlaringizni reytingdagi o'zingizga bog'lash
-        let state = JSON.parse(localStorage.getItem('malika_state'));
-        if (state && state.workSec > 0) {
-            let h = Math.floor(state.workSec / 3600);
-            let m = Math.floor((state.workSec % 3600) / 60);
-            let totalActive = state.workSec + (state.breakSec || 0);
-            let eff = totalActive > 0 ? Math.min(Math.floor((state.workSec / totalActive) * 100), 100) : 94;
+        // Sana matnini chiqarish
+        let today = new Date();
+        document.getElementById('header-date').innerText = today.toLocaleDateString('uz-UZ', { day: 'numeric', month: 'long' });
 
-            document.getElementById('my-work-stat').innerText = `Ish vaqti: ${h} soat ${m} daqiqa`;
-            document.getElementById('my-eff-stat').innerText = `${eff}%`;
+        // Tarix va asosiy holatdan ma'lumotlarni o'qish
+        function loadStats() {
+            let state = JSON.parse(localStorage.getItem('malika_state')) || { workSec: 0, breakSec: 0 };
+            let workSec = state.workSec || 0;
+            let breakSec = state.breakSec || 0;
+            let totalActiveTime = workSec + breakSec;
+            let efficiency = totalActiveTime > 0 ? Math.min(Math.floor((workSec / totalActive) * 100), 100) : 0;
+
+            let h = Math.floor(workSec / 3600);
+            let m = Math.floor((workSec % 3600) / 60);
+            let workTimeStr = `${h} soat ${m} daqiqa`;
+
+            // Admin paneldan qo'shilishi mumkin bo'lgan qo'shimcha xodimlarni olish (agar mavjud bo'lsa)
+            let extraWorkers = JSON.parse(localStorage.getItem('admin_workers')) || [];
+
+            // Asosiy foydalanuvchi (Siz)
+            let workers = [
+                {
+                    name: "Malika Abdullayeva (Siz)",
+                    role: "Chevar, 1-sektor",
+                    img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100",
+                    workSec: workSec,
+                    workStr: workTimeStr,
+                    eff: efficiency,
+                    isMe: true
+                }
+            ];
+
+            // Agar admin paneldan boshqa ishchilar qo'shilgan bo'lsa ularni ham qo'shamiz
+            extraWorkers.forEach(w => {
+                workers.push({
+                    name: w.name,
+                    role: w.role || "Chevar",
+                    img: w.img || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100",
+                    workSec: w.workSec || 0,
+                    workStr: w.workStr || "0 soat",
+                    eff: w.eff || 0,
+                    isMe: false
+                });
+            });
+
+            // Ish vaqti bo'yicha kamayish tartibida saralash (Musobaqa reytingi)
+            workers.sort((a, b) => b.workSec - a.workSec);
+
+            // Jamoa o'rtacha samaradorligi
+            let totalEff = workers.reduce((acc, curr) => acc + curr.eff, 0);
+            let avgTeamEff = workers.length > 0 ? Math.round(totalEff / workers.length) : 0;
+
+            document.getElementById('stat-active-workers').innerText = `${workers.length} nafar`;
+            document.getElementById('stat-team-eff').innerText = `${avgTeamEff}%`;
+
+            // Ro'yxatni chizish
+            const listContainer = document.getElementById('dynamic-ranking-list');
+            listContainer.innerHTML = workers.map((w, index) => {
+                let rank = index + 1;
+                let badgeColor = rank === 1 ? 'bg-amber-400 text-white shadow-amber-200' : rank === 2 ? 'bg-gray-300 text-white' : rank === 3 ? 'bg-amber-600 text-white' : 'bg-gray-100 text-gray-600';
+                let cardStyle = w.isMe 
+                    ? 'bg-purple-50/80 border border-purple-200 ring-1 ring-purple-400 shadow-xs' 
+                    : 'bg-gray-50 border border-gray-100';
+
+                return `
+                    <div class="flex items-center justify-between p-3 ${cardStyle} rounded-xl transition-all">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full ${badgeColor} font-bold text-xs flex items-center justify-center shadow-sm">${rank}</span>
+                            <img src="${w.img}" class="w-10 h-10 rounded-full object-cover border border-white shadow-sm">
+                            <div>
+                                <h4 class="font-bold ${w.isMe ? 'text-purple-900' : 'text-gray-800'} text-xs">${w.name}</h4>
+                                <p class="text-[10px] text-gray-400">Ish vaqti: ${w.workStr}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold ${w.isMe ? 'text-purple-700' : 'text-emerald-600'}">${w.eff}%</span>
+                            <p class="text-[9px] text-gray-400">Samaradorlik</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Foydalanuvchining o'rniga qarab rag'bat matnini o'zgartirish
+            let myRank = workers.findIndex(w => w.isMe) + 1;
+            if (myRank === 1) {
+                document.getElementById('motivation-title').innerText = "🏆 Siz 1-pog'onasiz!";
+                document.getElementById('motivation-desc').innerText = "Ajoyib natija! Peshqadamlikni qo'ldan boy bermang.";
+            } else {
+                document.getElementById('motivation-title').innerText = `Hozirda ${myRank}-o'rindasiz`;
+                document.getElementById('motivation-desc').innerText = "1-o'ringa chiqish uchun ish vaqtini oshiring!";
+            }
         }
+
+        loadStats();
     </script>
 </body>
 </html>
