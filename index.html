@@ -12,8 +12,8 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Top Header (z-50 va to'liq bg-white orqali boshqa elementlar ostidan chiqib qolishi oldi olindi) -->
-    <header class="p-4 mt-12 bg-white shadow-md flex justify-between items-center sticky top-0 z-50">
+    <!-- Top Header (Eng tepaga yopishtirildi va mt-12 olib tashlandi) -->
+    <header class="p-4 bg-white shadow-md flex justify-between items-center sticky top-0 z-50 w-full">
         <div class="flex items-center gap-3">
             <button class="text-gray-600 text-xl"><i class="fa-solid fa-bars"></i></button>
             <div>
@@ -38,7 +38,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="p-4 space-y-4 max-w-xl mx-auto w-full">
+    <main class="p-4 space-y-4 max-w-xl mx-auto w-full mt-2">
         <!-- Date Card -->
         <div class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-2xl flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
@@ -262,7 +262,7 @@
             }
             state.status = 'WORKING';
             const timeStr = new Date().toTimeString().substring(0, 8);
-            state.history.unshift({ time: timeStr, text: 'Tanaffusdan qaytdi', type: 'work' });
+            state.history.unshift({ time: timeStr, text: 'Tanaffusdan qaytdi', type: 'work'}},
             saveData();
             renderUI();
         }
