@@ -12,44 +12,51 @@
 </head>
 <body class="flex flex-col min-h-screen justify-between pb-24">
 
-    <!-- Header -->
-    <header class="px-4 py-4 bg-white shadow-sm flex items-center justify-between sticky top-0 z-50 w-full max-w-xl mx-auto border-b border-gray-100">
-        <div>
-            <h1 class="font-bold text-gray-800 text-base">Ishchilar Boshqaruvi</h1>
-            <p class="text-[11px] text-gray-400">Yangi xodim qo'shish va ma'lumotlar</p>
+    <!-- Top Header -->
+    <header class="px-4 py-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-50 w-full max-w-xl mx-auto border-b border-gray-100">
+        <div class="flex items-center gap-3">
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" class="w-10 h-10 rounded-full object-cover border border-purple-200" alt="Admin">
+                <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></span>
+            </div>
+            <div>
+                <h1 class="font-bold text-gray-800 text-sm">Ishchilar bo‘limi</h1>
+                <p class="text-[10px] text-purple-600 font-medium">Boshqaruv</p>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="p-4 space-y-4 max-w-xl mx-auto w-full flex-1">
         
-        <!-- Ishchi qo'shish formasi -->
-        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Yangi ishchi qo'shish</h3>
+        <!-- Yangi ishchi qo'shish formasi -->
+        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Yangi ishchi qo‘shish</h3>
             <form onsubmit="addWorker(event)" class="space-y-3">
                 <div>
                     <label class="block text-[11px] font-medium text-gray-600 mb-1">Ishchining F.I.O</label>
-                    <input type="text" id="worker-name" placeholder="Masalan: Malika Karimova" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:outline-none focus:border-purple-500">
+                    <input type="text" id="worker-name" placeholder="Masalan: Malika Karimova" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-800 focus:outline-none focus:border-purple-500 transition">
                 </div>
                 <div>
-                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Login (Tizimga kirish uchun)</label>
-                    <input type="text" id="worker-login" placeholder="Masalan: malika" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:outline-none focus:border-purple-500">
+                    <label class="block text-[11px] font-medium text-gray-600 mb-1">Login (Kirish uchun)</label>
+                    <input type="text" id="worker-login" placeholder="Masalan: malika" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-800 focus:outline-none focus:border-purple-500 transition">
                 </div>
                 <div>
                     <label class="block text-[11px] font-medium text-gray-600 mb-1">Parol</label>
-                    <input type="text" id="worker-pass" placeholder="Masalan: 12345" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs text-gray-800 focus:outline-none focus:border-purple-500">
+                    <input type="text" id="worker-pass" placeholder="Masalan: 1234" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2.5 text-xs text-gray-800 focus:outline-none focus:border-purple-500 transition">
                 </div>
-                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 rounded-xl text-xs transition shadow-sm">Ishchini ro'yxatga olish</button>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-2.5 rounded-xl text-xs transition shadow-sm">Ishchini qo‘shish</button>
             </form>
         </div>
 
-        <!-- Ishchilar ro'yxati -->
-        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Mavjud ishchilar ro'yxati</h3>
+        <!-- Mavjud ishchilar ro'yxati -->
+        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
+            <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Ro‘yxatdagi ishchilar</h3>
             <div id="workers-list" class="space-y-2">
                 <!-- Dinamik qo'shiladi -->
             </div>
         </div>
+
     </main>
 
     <!-- Bottom Navigation -->
@@ -78,7 +85,7 @@
             const container = document.getElementById('workers-list');
             
             if (workers.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-400">Hozircha ishchilar qo'shilmagan.</p>`;
+                container.innerHTML = `<p class="text-xs text-gray-400">Hozircha ishchilar qo‘shilmagan.</p>`;
                 return;
             }
 
@@ -103,7 +110,6 @@
 
             let workers = getWorkers();
             
-            // Loginda takrorlanish bo'lmasligini tekshirish
             if (workers.some(w => w.login === login)) {
                 alert("Bu login band! Boshqa login kiriting.");
                 return;
@@ -117,11 +123,11 @@
             document.getElementById('worker-pass').value = '';
 
             renderWorkers();
-            alert("Ishchi muvaffaqiyatli qo'shildi!");
+            alert("Ishchi muvaffaqiyatli qo‘shildi!");
         }
 
         function deleteWorker(index) {
-            if (confirm("Haqiqatan ham bu ishchini o'chirmoqchimisiz?")) {
+            if (confirm("Haqiqatan ham bu ishchini o‘chirmoqchimisiz?")) {
                 let workers = getWorkers();
                 workers.splice(index, 1);
                 localStorage.setItem('chevarxona_workers', JSON.stringify(workers));
