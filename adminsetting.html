@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chevarxona Pro - Ishchilar</title>
+    <title>Chevarxona Pro - Sozlamalar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
@@ -13,76 +13,32 @@
 <body class="flex flex-col min-h-screen justify-between pb-20">
 
     <header class="px-4 py-3 bg-white shadow-sm flex items-center justify-between sticky top-0 z-50">
-        <h1 class="font-bold text-gray-800 text-xs">Ishchilar bo‘limi</h1>
+        <h1 class="font-bold text-gray-800 text-xs">Sozlamalar</h1>
     </header>
 
     <main class="p-4 space-y-4 flex-1">
-        <!-- Yangi ishchi qo'shish -->
         <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-xs font-bold text-gray-800">Yangi ishchi qo‘shish</h3>
-            <form onsubmit="addWorker(event)" class="space-y-2.5">
-                <input type="text" id="w-name" placeholder="F.I.O (Masalan: Malika)" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-purple-500">
-                <input type="text" id="w-login" placeholder="Login" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-purple-500">
-                <input type="text" id="w-pass" placeholder="Parol" required class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-purple-500">
-                <button type="submit" class="w-full bg-purple-600 text-white font-medium py-2 rounded-xl text-xs shadow-md shadow-purple-200">Qo‘shish</button>
-            </form>
-        </div>
-
-        <!-- Ro'yxat -->
-        <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-3">
-            <h3 class="text-xs font-bold text-gray-800">Ishchilar ro‘yxati</h3>
-            <div id="workers-list" class="space-y-2"></div>
+            <h3 class="text-xs font-bold text-gray-800">Baza ma'lumotlari</h3>
+            <button onclick="clearData()" class="w-full bg-rose-50 text-rose-600 font-medium py-2.5 rounded-xl text-xs">Barcha ma'lumotlarni tozalash</button>
         </div>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2.5 px-1 z-50 shadow-lg">
         <a href="admindashboard.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><span class="text-[9px] mt-1">Dashboard</span></a>
-        <a href="adminishchilar.html" class="flex flex-col items-center text-purple-600"><span class="text-[9px] mt-1 font-semibold">Ishchilar</span></a>
+        <a href="adminishchilar.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><span class="text-[9px] mt-1">Ishchilar</span></a>
         <a href="statistika.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><span class="text-[9px] mt-1">Statistika</span></a>
-        <a href="adminsetting.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600"><span class="text-[9px] mt-1">Sozlamalar</span></a>
+        <a href="adminsetting.html" class="flex flex-col items-center text-purple-600"><span class="text-[9px] mt-1 font-semibold">Sozlamalar</span></a>
     </nav>
 
     <script>
-        function getW() { return JSON.parse(localStorage.getItem('chevarxona_workers')) || []; }
-        
-        function render() {
-            const list = getW();
-            const el = document.getElementById('workers-list');
-            if(list.length === 0) {
-                el.innerHTML = `<p class="text-[11px] text-gray-400">Ishchilar yo'q</p>`;
-                return;
+        function clearData() {
+            if(confirm("Haqiqatan ham barcha ma'lumotlarni o'chirmoqchimisiz?")) {
+                localStorage.removeItem('chevarxona_workers');
+                alert("Tozalandi!");
+                window.location.href = 'admindashboard.html';
             }
-            el.innerHTML = list.map((w, i) => `
-                <div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-xl border border-gray-100 text-xs">
-                    <div><b>${w.name}</b> <span class="text-purple-600">(${w.login})</span></div>
-                    <button onclick="del(${i})" class="text-rose-500 font-bold">O'chirish</button>
-                </div>
-            `).join('');
         }
-
-        function addWorker(e) {
-            e.preventDefault();
-            let list = getW();
-            list.push({
-                name: document.getElementById('w-name').value,
-                login: document.getElementById('w-login').value,
-                pass: document.getElementById('w-pass').value
-            });
-            localStorage.setItem('chevarxona_workers', JSON.stringify(list));
-            document.getElementById('w-name').value = '';
-            document.getElementById('w-login').value = '';
-            document.getElementById('w-pass').value = '';
-            render();
-        }
-
-        function del(i) {
-            let list = getW();
-            list.splice(i, 1);
-            localStorage.setItem('chevarxona_workers', JSON.stringify(list));
-            render();
-        }
-        render();
     </script>
 </body>
 </html>
