@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
@@ -291,6 +291,503 @@
                 renderUI();
             }
         }, 1000);
+    </script>
+</body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O'quv Markazi Boshqaruv Tizimi</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #e5e7eb;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        sidebar {
+            width: 260px;
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-area {
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 20px 10px;
+        }
+
+        .nav-links li {
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+
+        .nav-links li:hover, .nav-links li.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        header {
+            padding: 20px 30px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .content-body {
+            padding: 30px;
+            flex: 1;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards & Tables */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        input, select {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f9fafb;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-success { background-color: #d1fae5; color: #065f46; }
+        .badge-danger { background-color: #fee2e2; color: #991b1b; }
+
+        .flex-row {
+            display: flex;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <sidebar>
+        <div class="logo-area">🎓 O'quv Markazi</div>
+        <ul class="nav-links">
+            <li class="active" onclick="switchTab('groups', this)">Guruhlar</li>
+            <li onclick="switchTab('students', this)">O'quvchilar</li>
+            <li onclick="switchTab('attendance', this)">Davomat</li>
+            <li onclick="switchTab('payments', this)">To'lovlar</li>
+        </ul>
+    </sidebar>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header id="page-title">Guruhlarni Boshqarish</header>
+        
+        <div class="content-body">
+            
+            <!-- GROUPS TAB -->
+            <div id="groups" class="tab-content active">
+                <div class="card">
+                    <h3>Yangi Guruh Qo'shish</h3>
+                    <br>
+                    <input type="text" id="groupName" placeholder="Guruh nomi (Masalan: English Kids)">
+                    <input type="text" id="groupTime" placeholder="Dars vaqti (Masalan: 14:00 - 15:30)">
+                    <button class="btn" onclick="addGroup()">Guruh Qo'shish</button>
+                </div>
+
+                <div class="card">
+                    <h3>Mavjud Guruhlar</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Guruh Nomi</th>
+                                <th>Dars Vaqti</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupsTable">
+                            <!-- Dinamik qo'shiladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- STUDENTS TAB -->
+            <div id="students" class="tab-content">
+                <div class="card">
+                    <h3>Yangi O'quvchi Qo'shish</h3>
+                    <br>
+                    <input type="text" id="studentName" placeholder="O'quvchining F.I.O">
+                    <input type="text" id="studentPhone" placeholder="Telefon raqami">
+                    <select id="studentGroup">
+                        <!-- Guruhlar ro'yxati -->
+                    </select>
+                    <button class="btn" onclick="addStudent()">O'quvchini Qo'shish</button>
+                </div>
+
+                <div class="card">
+                    <h3>O'quvchilar Ro'yxati</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>F.I.O</th>
+                                <th>Telefon</th>
+                                <th>Guruh</th>
+                                <th>Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTable">
+                            <!-- Dinamik qo'shiladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ATTENDANCE TAB -->
+            <div id="attendance" class="tab-content">
+                <div class="card">
+                    <h3>Davomatni Tekshirish</h3>
+                    <br>
+                    <select id="attGroupSelect" onchange="loadAttendanceList()">
+                        <option value="">Guruhni tanlang</option>
+                    </select>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>O'quvchi</th>
+                                <th>Holat</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable">
+                            <tr><td colspan="2">Avval guruhni tanlang</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PAYMENTS TAB -->
+            <div id="payments" class="tab-content">
+                <div class="card">
+                    <h3>Oylik To'lovlar Nazorati</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>O'quvchi</th>
+                                <th>Guruh</th>
+                                <th>Holat</th>
+                                <th>Amal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTable">
+                            <!-- Dinamik qo'shiladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Ma'lumotlar bazasi (LocalStorage orqali saqlanadi)
+        let db = JSON.parse(localStorage.getItem('edu_db')) || {
+            groups: [],
+            students: [],
+            attendance: {},
+            payments: {}
+        };
+
+        function saveData() {
+            localStorage.setItem('edu_db', JSON.stringify(db));
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-links li').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+
+            const titles = {
+                'groups': 'Guruhlarni Boshqarish',
+                'students': "O'quvchilarni Boshqarish",
+                'attendance': 'Davomat Nazorati',
+                'payments': "O'ylik To'lovlar"
+            };
+            document.getElementById('page-title').innerText = titles[tabId];
+
+            if(tabId === 'students') updateGroupSelects();
+            if(tabId === 'attendance') updateAttendanceGroupSelects();
+            if(tabId === 'payments') renderPayments();
+        }
+
+        // Guruh qo'shish
+        function addGroup() {
+            const name = document.getElementById('groupName').value;
+            const time = document.getElementById('groupTime').value;
+            if(!name || !time) return alert("Barcha maydonlarni to'ldiring!");
+
+            db.groups.push({ id: Date.now(), name, time });
+            saveData();
+            renderGroups();
+            document.getElementById('groupName').value = '';
+            document.getElementById('groupTime').value = '';
+        }
+
+        function renderGroups() {
+            const tbody = document.getElementById('groupsTable');
+            tbody.innerHTML = '';
+            db.groups.forEach(g => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${g.id.toString().slice(-4)}</td>
+                        <td>${g.name}</td>
+                        <td>${g.time}</td>
+                        <td><button class="btn btn-danger" onclick="deleteGroup(${g.id})">O'chirish</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteGroup(id) {
+            db.groups = db.groups.filter(g => g.id !== id);
+            saveData();
+            renderGroups();
+        }
+
+        // O'quvchi qo'shish
+        function updateGroupSelects() {
+            const select = document.getElementById('studentGroup');
+            select.innerHTML = '';
+            db.groups.forEach(g => {
+                select.innerHTML += `<option value="${g.name}">${g.name}</option>`;
+            });
+        }
+
+        function addStudent() {
+            const name = document.getElementById('studentName').value;
+            const phone = document.getElementById('studentPhone').value;
+            const group = document.getElementById('studentGroup').value;
+            if(!name || !phone || !group) return alert("Barcha maydonlarni to'ldiring!");
+
+            const studentId = Date.now();
+            db.students.push({ id: studentId, name, phone, group });
+            db.payments[studentId] = false; // Boshida to'lamagan
+            saveData();
+            renderStudents();
+            document.getElementById('studentName').value = '';
+            document.getElementById('studentPhone').value = '';
+        }
+
+        function renderStudents() {
+            const tbody = document.getElementById('studentsTable');
+            tbody.innerHTML = '';
+            db.students.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.phone}</td>
+                        <td>${s.group}</td>
+                        <td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">O'chirish</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteStudent(id) {
+            db.students = db.students.filter(s => s.id !== id);
+            delete db.payments[id];
+            saveData();
+            renderStudents();
+        }
+
+        // Davomat
+        function updateAttendanceGroupSelects() {
+            const select = document.getElementById('attGroupSelect');
+            select.innerHTML = '<option value="">Guruhni tanlang</option>';
+            db.groups.forEach(g => {
+                select.innerHTML += `<option value="${g.name}">${g.name}</option>`;
+            });
+        }
+
+        function loadAttendanceList() {
+            const groupName = document.getElementById('attGroupSelect').value;
+            const tbody = document.getElementById('attendanceTable');
+            tbody.innerHTML = '';
+
+            const filteredStudents = db.students.filter(s => s.group === groupName);
+            if(filteredStudents.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="2">Bu guruhda o'quvchilar yo'q</td></tr>`;
+                return;
+            }
+
+            filteredStudents.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>
+                            <button class="btn" style="background: ${db.attendance[s.id] === 'Keldi' ? '#10b981' : '#9ca3af'}" onclick="toggleAttendance(${s.id}, this)">
+                                ${db.attendance[s.id] || 'Belgilanmagan'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleAttendance(studentId, btn) {
+            if(!db.attendance[studentId] || db.attendance[studentId] === 'Belgilanmagan') {
+                db.attendance[studentId] = 'Keldi';
+                btn.style.background = '#10b981';
+                btn.innerText = 'Keldi';
+            } else {
+                db.attendance[studentId] = 'Keltmadi';
+                btn.style.background = '#ef4444';
+                btn.innerText = 'Keltmadi';
+            }
+            saveData();
+        }
+
+        // To'lovlar
+        function renderPayments() {
+            const tbody = document.getElementById('paymentsTable');
+            tbody.innerHTML = '';
+            db.students.forEach(s => {
+                const isPaid = db.payments[s.id];
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.name}</td>
+                        <td>${s.group}</td>
+                        <td><span class="badge ${isPaid ? 'badge-success' : 'badge-danger'}">${isPaid ? "To'lagan" : "Qarzdor"}</span></td>
+                        <td><button class="btn" onclick="togglePayment(${s.id})">${isPaid ? "Qarzga o'tkazish" : "To'ladi deb belgilash"}</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function togglePayment(studentId) {
+            db.payments[studentId] = !db.payments[studentId];
+            saveData();
+            renderPayments();
+        }
+
+        // Boshlang'ich yuklash
+        renderGroups();
+        renderStudents();
     </script>
 </body>
 </html>
