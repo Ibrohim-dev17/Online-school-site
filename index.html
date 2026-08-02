@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O'quv Markazi Boshqaruv Tizimi</title>
+    <title>O'quv Markazi - Mobil</title>
     <style>
         :root {
             --primary: #4f46e5;
             --primary-hover: #4338ca;
-            --bg-color: #f3f4f6;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #1f2937;
-            --border-color: #e5e7eb;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
             --success: #10b981;
             --danger: #ef4444;
         }
@@ -20,73 +20,35 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             display: flex;
+            flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* Sidebar */
-        sidebar {
-            width: 260px;
-            background-color: var(--card-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-area {
-            padding: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            padding: 20px 10px;
-        }
-
-        .nav-links li {
-            padding: 12px 15px;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            color: #4b5563;
-            transition: all 0.2s;
-        }
-
-        .nav-links li:hover, .nav-links li.active {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
+        /* Top Header */
         header {
-            padding: 20px 30px;
             background-color: var(--card-bg);
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: 700;
             border-bottom: 1px solid var(--border-color);
-            font-size: 22px;
-            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
+        /* Main Content Area */
         .content-body {
-            padding: 30px;
             flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            padding-bottom: 80px; /* Bottom menu uchun joy */
         }
 
         .tab-content {
@@ -97,216 +59,242 @@
             display: block;
         }
 
-        /* Cards & Tables */
+        /* Bottom App Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: #64748b;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-item span {
+            font-size: 20px;
+            margin-bottom: 2px;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        /* Cards & UI elements */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 12px;
+            background-color: #f8fafc;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            background-color: #fff;
         }
 
         .btn {
+            width: 100%;
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: 600;
-            transition: background 0.2s;
+            cursor: pointer;
         }
 
-        .btn:hover {
+        .btn:active {
             background-color: var(--primary-hover);
         }
 
         .btn-danger {
             background-color: var(--danger);
+            padding: 6px 12px;
+            font-size: 13px;
+            width: auto;
+            border-radius: 6px;
         }
 
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-
-        input, select {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        input:focus, select:focus {
-            border-color: var(--primary);
-        }
-
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
+            margin-top: 5px;
         }
 
         th, td {
-            padding: 12px 15px;
+            padding: 10px 8px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th {
-            background-color: #f9fafb;
+            color: #64748b;
             font-weight: 600;
         }
 
         .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .badge-success { background-color: #d1fae5; color: #065f46; }
         .badge-danger { background-color: #fee2e2; color: #991b1b; }
-
-        .flex-row {
-            display: flex;
-            gap: 15px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <sidebar>
-        <div class="logo-area">🎓 O'quv Markazi</div>
-        <ul class="nav-links">
-            <li class="active" onclick="switchTab('groups', this)">Guruhlar</li>
-            <li onclick="switchTab('students', this)">O'quvchilar</li>
-            <li onclick="switchTab('attendance', this)">Davomat</li>
-            <li onclick="switchTab('payments', this)">To'lovlar</li>
-        </ul>
-    </sidebar>
-
+    <!-- Header -->
+    <header id="page-title">Guruhlar</header>
+    
     <!-- Main Content -->
-    <div class="main-content">
-        <header id="page-title">Guruhlarni Boshqarish</header>
+    <div class="content-body">
         
-        <div class="content-body">
-            
-            <!-- GROUPS TAB -->
-            <div id="groups" class="tab-content active">
-                <div class="card">
-                    <h3>Yangi Guruh Qo'shish</h3>
-                    <br>
-                    <input type="text" id="groupName" placeholder="Guruh nomi (Masalan: English Kids)">
-                    <input type="text" id="groupTime" placeholder="Dars vaqti (Masalan: 14:00 - 15:30)">
-                    <button class="btn" onclick="addGroup()">Guruh Qo'shish</button>
-                </div>
-
-                <div class="card">
-                    <h3>Mavjud Guruhlar</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Guruh Nomi</th>
-                                <th>Dars Vaqti</th>
-                                <th>Amallar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="groupsTable">
-                            <!-- Dinamik qo'shiladi -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- GROUPS TAB -->
+        <div id="groups" class="tab-content active">
+            <div class="card">
+                <h3>Yangi Guruh Qo'shish</h3>
+                <input type="text" id="groupName" placeholder="Guruh nomi (Masalan: Ingliz tili)">
+                <input type="text" id="groupTime" placeholder="Dars vaqti (Masalan: 14:00)">
+                <button class="btn" onclick="addGroup()">Qo'shish</button>
             </div>
 
-            <!-- STUDENTS TAB -->
-            <div id="students" class="tab-content">
-                <div class="card">
-                    <h3>Yangi O'quvchi Qo'shish</h3>
-                    <br>
-                    <input type="text" id="studentName" placeholder="O'quvchining F.I.O">
-                    <input type="text" id="studentPhone" placeholder="Telefon raqami">
-                    <select id="studentGroup">
-                        <!-- Guruhlar ro'yxati -->
-                    </select>
-                    <button class="btn" onclick="addStudent()">O'quvchini Qo'shish</button>
-                </div>
+            <div class="card">
+                <h3>Mavjud Guruhlar</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nomi</th>
+                            <th>Vaqti</th>
+                            <th>Amal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupsTable"></tbody>
+                </table>
+            </div>
+        </div>
 
-                <div class="card">
-                    <h3>O'quvchilar Ro'yxati</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>F.I.O</th>
-                                <th>Telefon</th>
-                                <th>Guruh</th>
-                                <th>Amallar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentsTable">
-                            <!-- Dinamik qo'shiladi -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- STUDENTS TAB -->
+        <div id="students" class="tab-content">
+            <div class="card">
+                <h3>Yangi O'quvchi Qo'shish</h3>
+                <input type="text" id="studentName" placeholder="F.I.O">
+                <input type="tel" id="studentPhone" placeholder="Telefon raqam">
+                <select id="studentGroup"></select>
+                <button class="btn" onclick="addStudent()">O'quvchi qo'shish</button>
             </div>
 
-            <!-- ATTENDANCE TAB -->
-            <div id="attendance" class="tab-content">
-                <div class="card">
-                    <h3>Davomatni Tekshirish</h3>
-                    <br>
-                    <select id="attGroupSelect" onchange="loadAttendanceList()">
-                        <option value="">Guruhni tanlang</option>
-                    </select>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>O'quvchi</th>
-                                <th>Holat</th>
-                            </tr>
-                        </thead>
-                        <tbody id="attendanceTable">
-                            <tr><td colspan="2">Avval guruhni tanlang</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="card">
+                <h3>O'quvchilar</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ism / Guruh</th>
+                            <th>Telefon</th>
+                            <th>Amal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTable"></tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- PAYMENTS TAB -->
-            <div id="payments" class="tab-content">
-                <div class="card">
-                    <h3>Oylik To'lovlar Nazorati</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>O'quvchi</th>
-                                <th>Guruh</th>
-                                <th>Holat</th>
-                                <th>Amal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="paymentsTable">
-                            <!-- Dinamik qo'shiladi -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- ATTENDANCE TAB -->
+        <div id="attendance" class="tab-content">
+            <div class="card">
+                <h3>Davomat</h3>
+                <select id="attGroupSelect" onchange="loadAttendanceList()">
+                    <option value="">Guruhni tanlang</option>
+                </select>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>O'quvchi</th>
+                            <th>Holat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceTable">
+                        <tr><td colspan="2">Avval guruhni tanlang</td></tr>
+                    </tbody>
+                </table>
             </div>
+        </div>
 
+        <!-- PAYMENTS TAB -->
+        <div id="payments" class="tab-content">
+            <div class="card">
+                <h3>Oylik To'lovlar</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>O'quvchi</th>
+                            <th>Holat</th>
+                            <th>Amal</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentsTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bottom App Navigation Bar -->
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('groups', this)">
+            <span>👥</span>Guruhlar
+        </div>
+        <div class="nav-item" onclick="switchTab('students', this)">
+            <span>🎓</span>O'quvchilar
+        </div>
+        <div class="nav-item" onclick="switchTab('attendance', this)">
+            <span>📋</span>Davomat
+        </div>
+        <div class="nav-item" onclick="switchTab('payments', this)">
+            <span>💳</span>To'lovlar
         </div>
     </div>
 
     <script>
-        // Ma'lumotlar bazasi (LocalStorage orqali saqlanadi)
-        let db = JSON.parse(localStorage.getItem('edu_db')) || {
+        let db = JSON.parse(localStorage.getItem('edu_db_mob')) || {
             groups: [],
             students: [],
             attendance: {},
@@ -314,21 +302,21 @@
         };
 
         function saveData() {
-            localStorage.setItem('edu_db', JSON.stringify(db));
+            localStorage.setItem('edu_db_mob', JSON.stringify(db));
         }
 
         function switchTab(tabId, element) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-links li').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
             element.classList.add('active');
 
             const titles = {
-                'groups': 'Guruhlarni Boshqarish',
-                'students': "O'quvchilarni Boshqarish",
-                'attendance': 'Davomat Nazorati',
-                'payments': "O'ylik To'lovlar"
+                'groups': 'Guruhlar',
+                'students': "O'quvchilar",
+                'attendance': 'Davomat',
+                'payments': "To'lovlar"
             };
             document.getElementById('page-title').innerText = titles[tabId];
 
@@ -337,7 +325,6 @@
             if(tabId === 'payments') renderPayments();
         }
 
-        // Guruh qo'shish
         function addGroup() {
             const name = document.getElementById('groupName').value;
             const time = document.getElementById('groupTime').value;
@@ -356,10 +343,9 @@
             db.groups.forEach(g => {
                 tbody.innerHTML += `
                     <tr>
-                        <td>${g.id.toString().slice(-4)}</td>
-                        <td>${g.name}</td>
+                        <td><b>${g.name}</b><br><small style="color:#64748b">${g.time}</small></td>
                         <td>${g.time}</td>
-                        <td><button class="btn btn-danger" onclick="deleteGroup(${g.id})">O'chirish</button></td>
+                        <td><button class="btn btn-danger" onclick="deleteGroup(${g.id})">X</button></td>
                     </tr>
                 `;
             });
@@ -371,7 +357,6 @@
             renderGroups();
         }
 
-        // O'quvchi qo'shish
         function updateGroupSelects() {
             const select = document.getElementById('studentGroup');
             select.innerHTML = '';
@@ -388,7 +373,7 @@
 
             const studentId = Date.now();
             db.students.push({ id: studentId, name, phone, group });
-            db.payments[studentId] = false; // Boshida to'lamagan
+            db.payments[studentId] = false;
             saveData();
             renderStudents();
             document.getElementById('studentName').value = '';
@@ -401,10 +386,9 @@
             db.students.forEach(s => {
                 tbody.innerHTML += `
                     <tr>
-                        <td>${s.name}</td>
+                        <td><b>${s.name}</b><br><small style="color:var(--primary)">${s.group}</small></td>
                         <td>${s.phone}</td>
-                        <td>${s.group}</td>
-                        <td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">O'chirish</button></td>
+                        <td><button class="btn btn-danger" onclick="deleteStudent(${s.id})">X</button></td>
                     </tr>
                 `;
             });
@@ -417,7 +401,6 @@
             renderStudents();
         }
 
-        // Davomat
         function updateAttendanceGroupSelects() {
             const select = document.getElementById('attGroupSelect');
             select.innerHTML = '<option value="">Guruhni tanlang</option>';
@@ -433,17 +416,19 @@
 
             const filteredStudents = db.students.filter(s => s.group === groupName);
             if(filteredStudents.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="2">Bu guruhda o'quvchilar yo'q</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="2">O'quvchilar yo'q</td></tr>`;
                 return;
             }
 
             filteredStudents.forEach(s => {
+                const status = db.attendance[s.id] || 'Belgilanmagan';
+                const bg = status === 'Keldi' ? '#10b981' : (status === 'Kelmadi' ? '#ef4444' : '#9ca3af');
                 tbody.innerHTML += `
                     <tr>
                         <td>${s.name}</td>
                         <td>
-                            <button class="btn" style="background: ${db.attendance[s.id] === 'Keldi' ? '#10b981' : '#9ca3af'}" onclick="toggleAttendance(${s.id}, this)">
-                                ${db.attendance[s.id] || 'Belgilanmagan'}
+                            <button class="btn" style="padding: 6px 10px; font-size: 12px; background: ${bg}; width: auto;" onclick="toggleAttendance(${s.id}, this)">
+                                ${status}
                             </button>
                         </td>
                     </tr>
@@ -452,19 +437,23 @@
         }
 
         function toggleAttendance(studentId, btn) {
-            if(!db.attendance[studentId] || db.attendance[studentId] === 'Belgilanmagan') {
+            let current = db.attendance[studentId];
+            if(!current || current === 'Belgilanmagan') {
                 db.attendance[studentId] = 'Keldi';
                 btn.style.background = '#10b981';
                 btn.innerText = 'Keldi';
-            } else {
-                db.attendance[studentId] = 'Keltmadi';
+            } else if(current === 'Keldi') {
+                db.attendance[studentId] = 'Kelmadi';
                 btn.style.background = '#ef4444';
-                btn.innerText = 'Keltmadi';
+                btn.innerText = 'Kelmadi';
+            } else {
+                db.attendance[studentId] = 'Belgilanmagan';
+                btn.style.background = '#9ca3af';
+                btn.innerText = 'Belgilanmagan';
             }
             saveData();
         }
 
-        // To'lovlar
         function renderPayments() {
             const tbody = document.getElementById('paymentsTable');
             tbody.innerHTML = '';
@@ -472,10 +461,9 @@
                 const isPaid = db.payments[s.id];
                 tbody.innerHTML += `
                     <tr>
-                        <td>${s.name}</td>
-                        <td>${s.group}</td>
+                        <td><b>${s.name}</b><br><small>${s.group}</small></td>
                         <td><span class="badge ${isPaid ? 'badge-success' : 'badge-danger'}">${isPaid ? "To'lagan" : "Qarzdor"}</span></td>
-                        <td><button class="btn" onclick="togglePayment(${s.id})">${isPaid ? "Qarzga o'tkazish" : "To'ladi deb belgilash"}</button></td>
+                        <td><button class="btn" style="padding: 6px 10px; font-size: 12px; width: auto;" onclick="togglePayment(${s.id})">O'zgartirish</button></td>
                     </tr>
                 `;
             });
@@ -487,7 +475,6 @@
             renderPayments();
         }
 
-        // Boshlang'ich yuklash
         renderGroups();
         renderStudents();
     </script>
