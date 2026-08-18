@@ -9,21 +9,22 @@
         body { background-color: #0f1026; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         .app-container { width: 100%; max-width: 420px; height: 100vh; max-height: 900px; background-color: #0f1026; display: flex; flex-direction: column; position: relative; overflow: hidden; }
         .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; }
-        .logo-text { font-size: 22px; font-weight: 800; color: #a78bfa; }
-        .badges { display: flex; gap: 8px; }
+        .logo-wrapper { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 10px; display: flex; justify-content: center; align-items: center; }
+        .logo-icon svg { width: 20px; height: 20px; fill: #ffffff; }
+        .logo-text { font-size: 20px; font-weight: 800; color: #ffffff; }
         .badge { background: #1e204a; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 6px; }
         .badge svg { width: 16px; height: 16px; fill: #f59e0b; }
         .content { flex: 1; overflow-y: auto; padding: 0 24px 24px 24px; }
         .content::-webkit-scrollbar { display: none; }
-        .banner { background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 18px; border-radius: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
-        .banner svg { width: 28px; height: 28px; fill: #fff; }
-        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
-        .section-title span { font-size: 12px; color: #a78bfa; cursor: pointer; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
-        .level-card { background: #181938; border: 1px solid rgba(255,255,255,0.05); padding: 16px 10px; border-radius: 18px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .banner { background: linear-gradient(135deg, #3b82f6, #1d4ed8); padding: 16px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3); }
+        .banner svg { width: 26px; height: 26px; fill: #fff; }
+        .section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .level-card { background: #181938; border: 1px solid rgba(255,255,255,0.05); padding: 14px 8px; border-radius: 16px; text-align: center; cursor: pointer; transition: 0.2s; text-decoration: none; color: inherit; display: block; }
         .level-card:hover { border-color: #8b5cf6; background: #20224d; }
-        .level-card svg { width: 32px; height: 32px; fill: #8b5cf6; margin-bottom: 6px; }
-        .level-card p { font-size: 13px; font-weight: bold; color: #fff; }
+        .level-card svg { width: 28px; height: 28px; fill: #8b5cf6; margin-bottom: 6px; }
+        .level-card p { font-size: 12px; font-weight: bold; color: #fff; }
         .bottom-nav { display: flex; justify-content: space-around; background: #151632; padding: 12px 0 20px 0; border-top: 1px solid rgba(255,255,255,0.05); }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #6b7280; font-size: 11px; text-decoration: none; }
         .nav-item.active { color: #8b5cf6; }
@@ -33,9 +34,14 @@
 <body>
     <div class="app-container">
         <div class="header">
-            <div class="logo-text">BilimGo</div>
-            <div class="badges">
-                <div class="badge"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> 15/15</div>
+            <div class="logo-wrapper">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                </div>
+                <div class="logo-text">BilimGo</div>
+            </div>
+            <div class="badge">
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> 15/15
             </div>
         </div>
         
@@ -43,42 +49,66 @@
             <div class="banner">
                 <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
                 <div>
-                    <h4 style="font-size: 15px; font-weight: bold;">Energy full!</h4>
-                    <p style="font-size: 12px; opacity: 0.8; margin-top: 2px;">You have 15 lightning.</p>
+                    <h4 style="font-size: 14px; font-weight: bold;">Energy full!</h4>
+                    <p style="font-size: 11px; opacity: 0.8; margin-top: 2px;">You have 15 lightning.</p>
                 </div>
             </div>
 
-            <div class="section-title">Kids Levels <span>View all</span></div>
+            <!-- Kids Levels -->
+            <div class="section-title">Kids Levels</div>
             <div class="grid-3">
-                <div class="level-card" onclick="alert('Kids 1')">
+                <a href="kids1.html" class="level-card" style="border-color: #8b5cf6;">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    <p>Kids 1</p>
-                </div>
-                <div class="level-card" onclick="alert('Kids 2')">
+                    <p style="color: #a78bfa;">Kids 1</p>
+                </a>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                     <p>Kids 2</p>
                 </div>
-                <div class="level-card" onclick="alert('Kids 3')">
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
                     <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
                     <p>Kids 3</p>
                 </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <p>Kids 4</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <p>Kids 5</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <p>Kids 6</p>
+                </div>
             </div>
 
-            <div class="section-title">Adult Levels <span>View all</span></div>
+            <!-- Adult Levels -->
+            <div class="section-title">Adult Levels</div>
             <div class="grid-3">
-                <a href="categories.html" style="text-decoration: none;">
-                    <div class="level-card" style="border-color: #8b5cf6;">
-                        <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                        <p style="color: #a78bfa;">A1</p>
-                    </div>
-                </a>
-                <div class="level-card">
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <p>A1</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
                     <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                     <p>A2</p>
                 </div>
-                <div class="level-card">
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
                     <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                     <p>B1</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <p>B2</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <p>C1</p>
+                </div>
+                <div class="level-card" onclick="alert('Tez kunda ochiladi!')">
+                    <svg viewBox="0 0 24 24" style="fill:#3b82f6;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <p>C2</p>
                 </div>
             </div>
         </div>
@@ -88,7 +118,7 @@
                 <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
                 <span>Home</span>
             </a>
-            <a href="categories.html" class="nav-item">
+            <a href="home.html" class="nav-item">
                 <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
                 <span>Learn</span>
             </a>
@@ -102,11 +132,5 @@
             </a>
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("Home loaded");
-        });
-    </script>
 </body>
 </html>
