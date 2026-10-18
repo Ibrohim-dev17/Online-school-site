@@ -3,41 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BilimGo - Welcome</title>
+    <title>Kunlik Tartib - Daily Planner</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        body { background-color: #0f1026; color: #ffffff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 420px; height: 100vh; max-height: 900px; background-color: #0f1026; display: flex; flex-direction: column; justify-content: space-between; padding: 24px; position: relative; overflow-y: auto; }
-        .content { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; text-align: center; }
-        .logo-box { width: 100px; height: 100px; background: linear-gradient(135deg, #8b5cf6, #ec4899); border-radius: 30px; display: flex; justify-content: center; align-items: center; box-shadow: 0 15px 35px rgba(139, 92, 246, 0.4); margin-bottom: 24px; }
-        .logo-box svg { width: 50px; height: 50px; fill: #ffffff; }
-        h1 { font-size: 34px; font-weight: 800; margin-bottom: 8px; color: #ffffff; }
-        p { color: #9ca3af; font-size: 16px; line-height: 1.5; margin-bottom: 40px; }
-        .btn-primary { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); color: white; border: none; width: 100%; padding: 18px; border-radius: 20px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4); text-decoration: none; display: block; text-align: center; transition: transform 0.2s; }
-        .btn-primary:active { transform: scale(0.98); }
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-top: 10px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        #current-date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+        }
+
+        input[type="text"] {
+            flex: 1;
+        }
+
+        input[type="time"] {
+            width: 110px;
+        }
+
+        button.add-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button.add-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 50vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 10px;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .task-item.completed {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success);
+            cursor: pointer;
+        }
+
+        .task-details {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .task-text {
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        .task-time {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-light);
+            padding: 20px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div></div>
-        <div class="content">
-            <div class="logo-box">
-                <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            </div>
-            <h1>BilimGo</h1>
-            <p>Learn English.<br>Level up your future.</p>
-            <a href="home.html" class="btn-primary">Get Started</a>
+
+    <div class="container">
+        <header>
+            <h1>Kunlik Tartib</h1>
+            <div id="current-date">Sana yuklanmoqda...</div>
+        </header>
+
+        <div class="stats">
+            <span id="total-tasks">Jami rejalar: 0</span>
+            <span id="completed-tasks">Bajarildi: 0</span>
         </div>
-        <div></div>
+
+        <div class="input-group">
+            <div class="input-row">
+                <input type="text" id="task-input" placeholder="Yangi reja kiriting...">
+                <input type="time" id="task-time">
+            </div>
+            <button class="add-btn" id="add-btn">Reja qo'shish</button>
+        </div>
+
+        <ul class="task-list" id="task-list">
+            <!-- Rejalar shu yerga qo'shiladi -->
+        </ul>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-                window.Telegram.WebApp.expand();
+        // DOM elementlari
+        const taskInput = document.getElementById('task-input');
+        const taskTime = document.getElementById('task-time');
+        const addBtn = document.getElementById('add-btn');
+        const taskList = document.getElementById('task-list');
+        const totalTasksEl = document.getElementById('total-tasks');
+        const completedTasksEl = document.getElementById('completed-tasks');
+        const currentDateEl = document.getElementById('current-date');
+
+        // Sana chiqarish
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        currentDateEl.textContent = new Date().toLocaleDateString('uz-UZ', options);
+
+        // Rejalarni LocalStorage'dan olish
+        let tasks = JSON.parse(localStorage.getItem('daily_tasks')) || [];
+
+        // Ma'lumotlarni saqlash va yangilash
+        function saveAndRender() {
+            localStorage.setItem('daily_tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        // Reja qo'shish funksiyasi
+        function addTask() {
+            const text = taskInput.value.trim();
+            const time = taskTime.value;
+
+            if (text === '') {
+                alert('Iltimos, reja matnini kiriting!');
+                return;
             }
+
+            const newTask = {
+                id: Date.now(),
+                text: text,
+                time: time || '--:--',
+                completed: false
+            };
+
+            tasks.push(newTask);
+            taskInput.value = '';
+            taskTime.value = '';
+            saveAndRender();
+        }
+
+        // Rejani o'chirish
+        function deleteTask(id) {
+            tasks = tasks.filter(task => task.id !== id);
+            saveAndRender();
+        }
+
+        // Reja holatini o'zgartirish (Bajarildi/Bajarilmadi)
+        function toggleTask(id) {
+            tasks = tasks.map(task => {
+                if (task.id === id) {
+                    return { ...task, completed: !task.completed };
+                }
+                return task;
+            });
+            saveAndRender();
+        }
+
+        // Ekranga chiqarish (Render)
+        function renderTasks() {
+            taskList.innerHTML = '';
+
+            if (tasks.length === 0) {
+                taskList.innerHTML = `<li class="empty-state">Bugungi rejalar hali belgilanmagan 🚀</li>`;
+            }
+
+            let completedCount = 0;
+
+            // Vaqt bo'yicha saralash (agar vaqti ko'rsatilgan bo'lsa)
+            tasks.sort((a, b) => a.time.localeCompare(b.time));
+
+            tasks.forEach(task => {
+                if (task.completed) completedCount++;
+
+                const li = document.createElement('li');
+                li.className = `task-item ${task.completed ? 'completed' : ''}`;
+                
+                li.innerHTML = `
+                    <div class="task-info">
+                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} onclick="toggleTask(${task.id})">
+                        <div class="task-details">
+                            <span class="task-text">${escapeHtml(task.text)}</span>
+                            <span class="task-time">⏰ ${task.time}</span>
+                        </div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteTask(${task.id})" title="O'chirish">🗑️</button>
+                `;
+                taskList.appendChild(li);
+            });
+
+            // Statistikani yangilash
+            totalTasksEl.textContent = `Jami rejalar: ${tasks.length}`;
+            completedTasksEl.textContent = `Bajarildi: ${completedCount}`;
+        }
+
+        // Xavfsizlik uchun (XSS oldini olish)
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        // Hodisalar (Event Listeners)
+        addBtn.addEventListener('click', addTask);
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTask();
         });
+
+        // Ilk yuklanish
+        renderTasks();
     </script>
 </body>
 </html>
